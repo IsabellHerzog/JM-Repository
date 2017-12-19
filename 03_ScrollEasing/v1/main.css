@@ -1,0 +1,70 @@
+@font-face { font-family: FreigText; src: url('FreigTexProBook.otf'); }
+@font-face { font-family: L15; font-weight: normal; src: url('L15-Regular.ttf'); }
+@font-face { font-family: L15; font-weight: bold; src: url('L15-SemiBold.ttf');}
+
+.Header {
+  font-family: L15;
+  padding-top: 50px;
+  padding-left: 100px;
+  padding-right: 100px;
+  font-size: 20px;
+}
+.headderTitle {
+  font-family: L15;
+  font-size: 30px;
+  color: #F93D55;
+}
+.HeadderLinks {
+  text-align: right;
+}
+.HeadderLink {
+  margin: 10px;
+  color: #410D42;
+}
+
+.Info {
+  font-family: L15;
+  padding-top: 50px;
+  padding-left: 100px;
+  font-family: x;
+  color: #410D42
+}
+
+.InfoTitle {
+  font-family: L15;
+  padding-top: 40px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.InfoContent {
+  font-family: L15;
+  font-size: 16px;
+}
+
+#content {
+  font-family: FreigText;
+  padding: 100px;
+  padding-top: 50px;
+  font-size: 16px;
+  color: #410D42;
+  z-index: 1;
+  background-color: white;
+
+}
+.contentTitle{
+  font-family: L15;
+  padding-top: 50px;
+  font-size: 24px;
+  color: #F93D55;
+}
+
+.Image {
+  background-color: #F2F2F2;
+  MARGIN-top: 130px;
+  width: 720px;
+  height: 405px;
+}
+#webWrapper {
+  height: 100vh;
+overflow: scroll;
+}

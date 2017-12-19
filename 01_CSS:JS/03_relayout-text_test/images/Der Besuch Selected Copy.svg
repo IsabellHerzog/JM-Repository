@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1566px" height="839px" viewBox="0 0 1566 839" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48 (47235) - http://www.bohemiancoding.com/sketch -->
+    <title>Der Besuch</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Der-Besuch">
+            <g id="Menu/Der-Besuch" transform="translate(74.000000, 90.000000)">
+                <g id="Group">
+                    <path d="M0.655725541,618.768865 L1080.5,0.5" id="Path" stroke="#212121" stroke-width="16"></path>
+                    <path d="M523.152299,114.241006 L781.967481,679.343843" id="Path-2" stroke="#212121" stroke-width="16"></path>
+                    <path d="M655.152299,309.241006 L742.5,496.5" id="Path-2-Copy" stroke="#212121" stroke-width="9"></path>
+                    <path d="M1,531 L863.039975,531" id="Path-3" stroke="#212121" stroke-width="16"></path>
+                    <text id="JMB" font-family="L15-Regular, L15" font-size="90" font-weight="normal" letter-spacing="7.42000008" fill="#000000">
+                        <tspan x="421" y="475">JM</tspan>
+                        <tspan x="535.65" y="475">B</tspan>
+                    </text>
+                    <text id="Der-Besuch" font-family="L15-Regular, L15" font-size="150" font-weight="normal" letter-spacing="12.3699999" fill="#000000">
+                        <tspan x="863" y="284">Der </tspan>
+                        <tspan x="863" y="464">Besuc</tspan>
+                        <tspan x="1330.45" y="464">h</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

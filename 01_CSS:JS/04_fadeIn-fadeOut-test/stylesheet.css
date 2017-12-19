@@ -1,0 +1,27 @@
+
+body {
+  background-color:#222;
+}
+
+section {
+  margin: 40% auto 0 auto;
+  text-align: center;
+  vertical-align: middle;
+
+  font-size: 18pt;
+  color: #ffffff;
+  opacity: 1;
+
+  animation-name: opacityFadeIn;
+  animation-duration: 7s;
+}
+
+@keyframes opacityFadeIn {
+    /*0%   {opacity: 0.2;}
+    25%  {opacity: 0.4;}
+    50%  {opacity: 0.6;}
+    75%  {opacity: 0.8;}
+    100% {opacity: 1;}*/
+    from {opacity: 0;}
+    to {opacity: 1;}
+}

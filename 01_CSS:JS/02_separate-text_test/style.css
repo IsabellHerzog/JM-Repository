@@ -1,0 +1,96 @@
+@font-face {
+    font-family: 'DINOT-Regular';
+    src: url('./fonts/DINOT-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'DINOT-Light';
+  src: url('./fonts/DINOT-Light.otf') format('opentype');
+}
+
+@font-face {
+      font-family: 'DINOT-Bold';
+      src: url('./fonts/DINOT-Bold.otf') format('opentype');
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+h1{
+  font-family: 'DINOT-Bold', sans-serif;
+  font-size: 72px;
+}
+
+h2{
+  font-family: 'DINOT-Light', sans-serif;
+  font-size: 38px;
+}
+
+.text-wrapper {
+    display: flex;
+    /* margin-top: 20%; */
+}
+
+.text {
+    float: left;
+    font-family: 'DINOT-Regular', sans-serif;
+    height: 100px;
+    width: 50%;
+    position: absolute;
+    font-size: 18px;
+}
+
+.text-left {
+    /* border: 2px solid #000; */
+    left: 0;
+    transform: translateX(-50%);
+    margin-right: 40px;
+    margin-left: 210px;
+}
+
+.text-right {
+    /* border: 2px solid #999; */
+    right: 0;
+    margin-right: 210px;
+    transform: translateX(50%);
+}
+
+.shapeOutside{
+      shape-outside: circle(50%);
+}
+
+.balken {
+    background-color: black;
+    color: #fff;
+    font-family: 'DINOT-Regular';
+    height: 400px;
+    left: 50%;
+    position: absolute;
+    top: 99vh;
+    transform: translate(-50%, 0);
+    width: 50px;
+
+}
+
+.lane{
+  height: 100vh;
+  width: 100vw;
+  top: 400px;
+  transform: translate(0, -50%);
+  /* border: 2px solid black; */
+  position: absolute;
+}
+
+#indicator {
+    background-color: red;
+    height: 100vh;
+    left: 0;
+    position: absolute;
+    width: 1px;
+}

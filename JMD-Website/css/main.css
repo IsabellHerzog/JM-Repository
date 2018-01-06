@@ -2,6 +2,10 @@
 @font-face { font-family: L15; font-weight: normal; src: url('L15-Regular.ttf'); }
 @font-face { font-family: L15; font-weight: bold; src: url('L15-SemiBold.ttf');}
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 body{
   margin:0;
   padding: 0;

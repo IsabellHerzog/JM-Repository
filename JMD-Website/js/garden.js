@@ -24,12 +24,21 @@ var garden = {
 }
 // sets documents height to the gardens-size
 document.body.style.height = garden.size
-//make bodyheight (css) rekate to gardebsuze
+
+//Contains all colors and enables changes in the colorset
+var colorset = {
+	black: "#01000E",
+	softlyLit: "#404040",
+	concrete: "#BFBFBF",
+	concreteLit: "#DEDDD9",
+	beige: "#F3EEE8",
+	lightGrey: "#FBFBFB",
+}
 
 var pillar = {
 	active: false, //determines wheather the pillars
 	size: 300, //sets the size of the pillars
-	color: "black",
+	color: colorset.black,
 	points: [ //x,y coordinates for the pillars on the canvas
 		{x: 0, y: 0},
 		{x: 170, y: 500},
@@ -53,30 +62,31 @@ var lightShaft = {
 	y2: 0, //end of the shaft
 	middle: {
 		width: 1, //size of the shaft
-		color: "white"
+		color: colorset.lightGrey
 	},
 	border: {
 		width: 1, //size of the surrounding border
-		opacity: 1
+		opacity: 1,
+		color: colorset.softlyLit
 	}
 }
 
 var lightSpot = {
 	active: false, //determines whaether light spot is active (visually)
 	x: 0,
-	y: 0,
+	y: window.innerHeight,
 	opacity: 0,
-	width: 400,
-	height: 1000,
+	width: 582,
+	height: 635,
 	image: new Image()
 }
 
 var shadow = {
 	active: false,
 	background: "rgba(1, 0, 0, 0.3)", //color of the background
-	color: "black", //not linked with css yet
 	intersections: {
-		color: "rgba(100,100,100,0.1)", //color of the shadow overlays
+		opacity: 0.1,
+		color: colorset.softlyLit, //color of the shadow overlays
 		fuzzyness: 40 //spreading of the light, also relates to the lightshaft-size
 	}
 }
@@ -280,6 +290,45 @@ function drawPolygon(polygon,ctx,fillStyle){
 	ctx.fill();
 }
 
+//draws the lightSpot
+function drawSpot(image, x, y, width, height, opacity){
+	ctx.globalAlpha = opacity
+	ctx.drawImage(image, x, y, width, height);
+	ctx.globalAlpha = 1
+}
+
+//draw shaft line
+function drawShaft(x1,y1, x2, y2, shaftSize){
+	//draw shaft light (left)
+	ctx.strokeStyle = lightShaft.border.color
+	ctx.beginPath()
+	ctx.moveTo(x1-shaftSize/2, y1);
+	ctx.lineTo(x2-shaftSize/2, y2);
+	ctx.lineTo(x1-shaftSize/2, y1);
+	ctx.lineWidth = (shaftSize-1)*0.4;
+	ctx.stroke();
+
+	//draw shaft light (right)
+	ctx.beginPath()
+	ctx.moveTo(x1+shaftSize/2, y1);
+	ctx.lineTo(x2+shaftSize/2, y2);
+	ctx.lineTo(x1+shaftSize/2, y1);
+	ctx.lineWidth = (shaftSize-1)*0.4;
+	ctx.stroke();
+
+	//draw light
+	ctx.strokeStyle = lightShaft.middle.color
+	ctx.beginPath()
+	ctx.moveTo(x1,y1);
+	ctx.lineTo(x2, y2);
+	ctx.lineTo(x1, y1);
+	ctx.lineWidth = shaftSize;
+	ctx.stroke();
+
+	//adopt background
+
+}
+
 //Everything visible in the canvas
 function draw(){
 
@@ -301,20 +350,14 @@ function draw(){
 		drawPolygon(polygons[0],ctx,shadow.background);
 		// DRAW AS A GIANT POLYGON
 		for(var i=1;i<polygons.length;i++){
+			ctx.globalAlpha = shadow.intersections.opacity;
 			drawPolygon(polygons[i],ctx, shadow.intersections.color);
+			ctx.globalAlpha = 1
 		}
 	}
 
 	if(lightShaft.active){
 		drawShaft(lightShaft.x1, lightShaft.y1, lightShaft.x2, lightShaft.y2, lightShaft.width);
-	}
-
-	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
-	if(lightSpot.active){
-		lightSpot.x = canvas.width/2;
-		ctx.drawImage(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height);
-		// lightSpot.x = Mouse.x
-		// lightSpot.y = Mouse.y
 	}
 
 	if(pillar.active){
@@ -329,6 +372,15 @@ function draw(){
 			ctx.fill();
 		}
 	}
+
+	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
+	if(lightSpot.active){
+		lightSpot.x = canvas.width/2;
+		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
+		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
+		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
+	}
+
 }
 
 //everything triggered when input-changes are happening
@@ -348,18 +400,8 @@ function resizeCanvas(){
 	canvas.height = window.innerHeight;
 }
 
-//draw shaft line
-function drawShaft(x1,y1, x2, y2, shaftSize){
-	ctx.strokeStyle = "white"
-	ctx.beginPath()
-	ctx.moveTo(x1,y1);
-	ctx.lineTo(x2, y2);
-	ctx.lineTo(x1, y1);
-	ctx.lineWidth = shaftSize;
-	ctx.stroke();
-}
-
-function deavtivateStates(){
+//deactivates all states
+function deactivateStates(){
 	lightShaft.active = false;
 	pillar.active = false;
 	shadow.active = false;
@@ -387,8 +429,9 @@ function scrollLight(sectionAnkers){
 	lightShaft.y1 = 0;
 	lightShaft.y2 = window.innerHeight;
 
-	deavtivateStates()
+	deactivateStates()
 
+	console.log(garden.section);
 	switch (garden.section) {
 
 
@@ -411,9 +454,7 @@ function scrollLight(sectionAnkers){
 		case garden.sections[1]+"++":
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[1].e, sectionAnkers[2].s, window.innerWidth*0.75, window.innerWidth*0.5);
-
 		pillar.active = true
-		lightSpot.active = true
 		break;
 
 		case garden.sections[2]:
@@ -430,6 +471,7 @@ function scrollLight(sectionAnkers){
 
 		pillar.active = true
 		lightSpot.active = true
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[3]:
@@ -448,6 +490,7 @@ function scrollLight(sectionAnkers){
 
 		lightSpot.active = true
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[3].e, sectionAnkers[4].s, window.innerWidth*0.25, 2);
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, 1)
 		break;
 
 		case garden.sections[4]:
@@ -463,12 +506,17 @@ function scrollLight(sectionAnkers){
 		case garden.sections[4]+"++":
 		lightShaft.active = true;
 		lightShaft.width = 1
-		lightShaft.y2 = mapArea(windowOffset, sectionAnkers[4].e, sectionAnkers[5].s, window.innerHeight + lightSpot.width, -lightSpot.width);
+		lightShaft.y2 = mapArea(windowOffset, sectionAnkers[4].e, sectionAnkers[5].s, window.innerHeight, 0);
+		if(lightShaft.y2>window.innerHeight/2){
+			shadow.intersections.opacity = mapArea(lightShaft.y2, window.innerHeight, window.innerHeight - 300, 0, 1);
+		}else if (lightShaft.y2<window.innerHeight/2) {
+			shadow.intersections.opacity = mapArea(lightShaft.y2, 0, 300, 0, 1)
+		}
 
+		lightSpot.active = true
 		pillar.active = true
 		shadow.active = true
 
-		lightSpot.active = true
 		lightSpot.y = lightShaft.y2
 		break;
 
@@ -479,18 +527,23 @@ function scrollLight(sectionAnkers){
 		case garden.sections[5]+"++":
 		lightShaft.active = true;
 		lightShaft.width = 1
-		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight + lightSpot.width , -lightSpot.width);
-
+		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight, 0);
+		if(lightShaft.y1>window.innerHeight/2){
+			shadow.intersections.opacity = mapArea(lightShaft.y1, window.innerHeight, window.innerHeight - 150, 0, 1)
+		}else if (lightShaft.y1<window.innerHeight/2) {
+			shadow.intersections.opacity = mapArea(lightShaft.y1, 0, 300, 0, 1)
+		}
+		lightSpot.active = true
 		pillar.active = true
 		shadow.active = true
 
-		lightSpot.active = true
 		lightSpot.y = lightShaft.y1
 		break;
 
 		case garden.sections[6]:
 		lightShaft.active = true;
 		lightShaft.width = 1
+
 
 		pillar.active = true
 		shadow.active = true
@@ -557,54 +610,7 @@ function scrollLight(sectionAnkers){
 		default:
 
 	}
-
 }
-
-
-// lightSpot.active = (halfwhite_1< windowOffset && windowOffset<onpixel_1 || onepixel_2<windowOffset && windowOffset<halfwhite_2); //activates/deactivates the lightSpotImage
-// shadow.active = (quaterwhite_1<windowOffset && windowOffset<quaterwhite_2); //activates/deactivates shadows
-// pillar.active = (quaterwhite_1<windowOffset && windowOffset<quaterwhite_2); //activates/deactivates pillars
-
-
-// 	console.log(lightShaft.width);
-// }
-// }
-// function scrollLight(fullwhite_1,threequaterwhite_1, halfwhite_1, quaterwhite_1, onpixel_1, blackstart, blackend, onepixel_2, quaterwhite_2, halfwhite_2, threequaterwhite_2, fullwhite_2, loopend){
-// // 	var section = ''
-// // 	if(loopend<=windowOffset){
-// // 		return
-// // 	if(fullwhite_2<=windowOffset){
-// // 		section = 'fullwhite+'
-// // 	}else if (threequaterwhite_2<windowOffset) {
-// // 		section = '3/4white+'
-// // 	}else if (threequaterwhite_2<windowOffset) {
-// // 	section = '1/2white+'
-// // }else if (threequaterwhite_2<windowOffset) {
-// // 	section = '1/4white+'
-// // }else if (threequaterwhite_2<windowOffset) {
-// // 	section = '3/4white+'
-// // }
-//
-// 	lightShaft.active = (fullwhite_1<=windowOffset && windowOffset<blackstart || blackend<windowOffset && windowOffset<=fullwhite_2); //activates/deactivates the drawing of the lightshaft depending on the scrollposition
-// 	lightSpot.active = (halfwhite_1< windowOffset && windowOffset<onpixel_1 || onepixel_2<windowOffset && windowOffset<halfwhite_2); //activates/deactivates the lightSpotImage
-// 	shadow.active = (quaterwhite_1<windowOffset && windowOffset<quaterwhite_2); //activates/deactivates shadows
-// 	pillar.active = (quaterwhite_1<windowOffset && windowOffset<quaterwhite_2); //activates/deactivates pillars
-//
-//
-// 	// switch (windowOffset){
-// 	// 	case
-// 	// }
-// 	if(fullwhite_1<=windowOffset<onpixel_1){
-// 		lightShaft.x1 = window.innerWidth/2
-// 		lightShaft.x2 = lightShaft.x1
-// 		lightShaft.y1 = 0;
-// 		lightShaft.y2 = window.innerHeight;
-// 		// if(windowOffset<threequaterwhite_1){
-// 		lightShaft.width = mapArea(windowOffset, fullwhite_1, onpixel_1, window.innerWidth, 1);
-// 	// 	console.log(lightShaft.width);
-// 	// }
-// 	}
-// }
 
 
 //######################EVENTS##########################
@@ -613,6 +619,7 @@ function scrollLight(sectionAnkers){
 window.addEventListener('scroll', function(e){
 	updateCanvas = true;
 	windowOffset = window.pageYOffset;
+	// console.log(windowOffset);
 })
 
 //recalculates segments

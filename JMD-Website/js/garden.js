@@ -8,7 +8,7 @@ var garden = {
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
-			{s: 0, e: 4000}, //white_1
+			{s: 0, e: 4000}, //white_1 (start + end)
 			{s:8000, e: 8000}, //threequaterwhite_1
 			{s:10000, e: 10000}, //halfwhite_1
 			{s:14000,e: 14000}, //quaterwhite_1
@@ -35,6 +35,7 @@ var colorset = {
 	lightGrey: "#FBFBFB",
 }
 
+//POSITIONS OF pillars
 var pillar = {
 	active: false, //determines wheather the pillars
 	size: 300, //sets the size of the pillars
@@ -67,13 +68,13 @@ var lightShaft = {
 	border: {
 		width: 1, //size of the surrounding border
 		opacity: 1,
-		color: colorset.softlyLit
+		color: colorset.concrete
 	}
 }
 
 var lightSpot = {
 	active: false, //determines whaether light spot is active (visually)
-	x: 0,
+	x: window.innerWidth/2,
 	y: window.innerHeight,
 	opacity: 0,
 	width: 582,
@@ -91,10 +92,8 @@ var shadow = {
 	}
 }
 
-
 //BOOLEANS
 var updateCanvas = true;
-
 
 //VARS GENERIC (changed during the sketch)
 var windowOffset = 0;
@@ -242,38 +241,68 @@ function getSightPolygon(sightX,sightY){
 }
 
 //calculates dots for positioning relating to calc-segments
-function calcShift(dot,x,y){
+function calcShift(dot,sizeX,sizeY, positioner){
 	var point = {};
-	point.x = dot.x + x;
-	point.y = dot.y + y;
+	point.x = dot.x + sizeX;
+	point.y = dot.y + sizeY+positioner;
 	return point;
 }
 
-// calculates segments dots from x,y values of the pillars
-function calcSegments(i_min, i_max, rectSize){
+
+
+
+function reposition_shadowArea(width, height, windowOffset){
+
+	dot = jQuery.extend(true, {}, pillar.points[0])
+	var line = {};
+
+	//line1
+	line.a = calcShift(dot,0,0, windowOffset);
+	line.b = calcShift(dot,0,height, windowOffset);
+	segments.splice(0, 1, jQuery.extend(true, {}, line));
+
+	//line2
+	line.a = calcShift(dot,0,height,windowOffset);
+	line.b = calcShift(dot,width,height,windowOffset);
+	segments.splice(1, 1, jQuery.extend(true, {}, line));
+
+	// //line3
+	line.a = calcShift(dot,width,height,windowOffset);
+	line.b = calcShift(dot,width,0,windowOffset);
+	segments.splice(2, 1, jQuery.extend(true, {}, line));
+
+	// //line4
+	line.a = calcShift(dot,width,0,windowOffset);
+	line.b = calcShift(dot,0,0,windowOffset);
+	segments.splice(3, 1, jQuery.extend(true, {}, line));
+}
+
+
+function calcSegments(i_min, i_max, rectSize, c){
+
 	for(var i = i_min; i<i_max; i++){
 		const dot = jQuery.extend(true, {}, pillar.points[i]);
 		var line = {};
 
 
 		//line1
-		line.a = calcShift(dot,0,0);
-		line.b = calcShift(dot,0,rectSize);
+		line.a = calcShift(dot,0,0,c);
+		line.b = calcShift(dot,0,rectSize,c);
 		segments.push(jQuery.extend(true, {}, line));
 
 		//line2
-		line.a = calcShift(dot,0,rectSize);
-		line.b = calcShift(dot,rectSize,rectSize);
+		line.a = calcShift(dot,0,rectSize,c);
+		line.b = calcShift(dot,rectSize,rectSize,c);
 		segments.push(jQuery.extend(true, {}, line));
 
 		// //line3
-		line.a = calcShift(dot,rectSize,rectSize);
-		line.b = calcShift(dot,rectSize,0);
+		line.a = calcShift(dot,rectSize,rectSize,windowOffset);
+		line.b = calcShift(dot,rectSize,0,c);
 		segments.push(jQuery.extend(true, {}, line));
 
 		// //line4
-		line.a = calcShift(dot,rectSize,0);
-		line.b = calcShift(dot,0,0);
+		line.a = calcShift(dot,rectSize,0,c);
+		line.b = calcShift(dot,0,0,c);
 		segments.push(jQuery.extend(true, {}, line));
 	}
 }
@@ -360,6 +389,13 @@ function draw(){
 		drawShaft(lightShaft.x1, lightShaft.y1, lightShaft.x2, lightShaft.y2, lightShaft.width);
 	}
 
+	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
+	if(lightSpot.active){
+		lightSpot.x = canvas.width/2;
+		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
+		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
+		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
+}
 	if(pillar.active){
 		for(var i=0;i<pillar.points.length;i++){
 			ctx.fillStyle = pillar.color
@@ -371,14 +407,6 @@ function draw(){
 			ctx.lineTo(spot.x,spot.y+pillar.size -windowOffset);
 			ctx.fill();
 		}
-	}
-
-	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
-	if(lightSpot.active){
-		lightSpot.x = canvas.width/2;
-		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
-		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
-		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
 	}
 
 }
@@ -431,7 +459,6 @@ function scrollLight(sectionAnkers){
 
 	deactivateStates()
 
-	console.log(garden.section);
 	switch (garden.section) {
 
 
@@ -615,16 +642,22 @@ function scrollLight(sectionAnkers){
 
 //######################EVENTS##########################
 
+calcSegments(0,1, garden.size, 0)
+calcSegments(1, pillar.points.length-1, pillar.size, 18000);
+console.log(segments);
+// for (var i = 0; i < garden.size; i++) {
+// 		if(i%12000===0){
+// // calcSegments(1, pillar.points.length-1, pillar.size, i);
+// }
+// }
+
+
 //everything happening when scrolling
 window.addEventListener('scroll', function(e){
 	updateCanvas = true;
 	windowOffset = window.pageYOffset;
-	// console.log(windowOffset);
+	reposition_shadowArea(window.innerWidth, window.innerHeight, windowOffset)
 })
-
-//recalculates segments
-calcSegments(0,1, garden.size)
-calcSegments(1, pillar.points.length-1, pillar.size);
 
 // resize the canvas to fill browser window dynamically
 window.addEventListener('resize', resizeCanvas, false);

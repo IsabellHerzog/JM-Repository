@@ -50,7 +50,6 @@ p{
 
 #canvas{
   display: block;
-  background: rgb(23,23,23);
   position: fixed;
 }
 

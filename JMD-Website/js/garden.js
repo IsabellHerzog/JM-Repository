@@ -1,10 +1,14 @@
 //######################SETUP##########################
 
+// linking objects to the html
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+
 //VARS parametric influencing parameters
 var garden = {
 	size: 440000,
 	scaleW: 1680, //width for which was designed for (everything should be scaled down for smaller size - not done yet)
-	section: 'white_1',
+	section: 'white_1', //current section is saved here
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
@@ -13,12 +17,12 @@ var garden = {
 			{s:10000, e: 10000}, //halfwhite_1
 			{s:14000,e: 14000}, //quaterwhite_1
 			{s:18000, e: 18000}, //onpixel_1
-			{s:20000, e: 22000}, //blackend/start
-			{s:26000, e: 26000}, //onepixel_2
-			{s:30000, e: 30000}, //quaterwhite_2
-			{s:35000, e: 34000}, //halfwhite_2
-			{s:36000, e: 36000}, //threequaterwhite_2
-			{s:40000, e: 44000} //white_2
+			{s:24000, e: 26000}, //blackend/start
+			{s:30000, e: 30000}, //onepixel_2
+			{s:40000, e: 40000}, //quaterwhite_2
+			{s:45000, e: 45000}, //halfwhite_2
+			{s:50000, e: 50000}, //threequaterwhite_2
+			{s:60000, e: 90000} //white_2
 		]
 	}
 }
@@ -27,36 +31,38 @@ document.body.style.height = garden.size
 
 //Contains all colors and enables changes in the colorset
 var colorset = {
-	black: "#01000E",
-	softlyLit: "#404040",
-	concrete: "#BFBFBF",
-	concreteLit: "#DEDDD9",
+	black: "#010006",
+	softlyLit: "#2f2e2e",
+	concrete: "#404040",
+	concreteLit: "#BFBFBF",
 	beige: "#F3EEE8",
 	lightGrey: "#FBFBFB",
 }
 
+canvas.style.background = "#0e0d0d";
+
 //POSITIONS OF pillars
 var pillar = {
 	active: false, //determines wheather the pillars
-	size: 300, //sets the size of the pillars
+	size: 200, //sets the size of the pillars
 	color: colorset.black,
 	points: [ //x,y coordinates for the pillars on the canvas
 		{x: 0, y: 0},
-		{x: 170, y: 500},
-		{x: 170, y: 2450},
-		{x: 170, y: 5230},
-		{x: 476, y: 1218},
-		{x: 476, y: 3222},
-		{x: 476, y: 4610},
-		{x: 1088, y: 213},
-		{x: 1088, y: 2736},
-		{x: 1394, y: 1296},
-		{x: 1394, y: 3444},
+				{x: 170, y: 500},
+				{x: 170, y: 2450},
+				{x: 170, y: 5230},
+				{x: 476, y: 1218},
+				{x: 476, y: 3222},
+				{x: 476, y: 4610},
+				{x: 1088, y: 213},
+				{x: 1088, y: 2736},
+				{x: 1394, y: 1296},
+				{x: 1394, y: 3444},
 	]
 }
 
 var lightShaft = {
-	active: false, //determinates wheather the shaft is drawn
+	active: false, //determinates wheather the shaft is drawnd
 	x1: 0,
 	x2: 0,
 	y1: 0, //start of the shaft
@@ -84,9 +90,9 @@ var lightSpot = {
 
 var shadow = {
 	active: false,
-	background: "rgba(1, 0, 0, 0.3)", //color of the background
+	background: colorset.softlyLit, //color of the background
 	intersections: {
-		opacity: 0.1,
+		opacity: 0.6,
 		color: colorset.softlyLit, //color of the shadow overlays
 		fuzzyness: 40 //spreading of the light, also relates to the lightshaft-size
 	}
@@ -102,11 +108,6 @@ var Mouse = {
 	x: 0,
 	y: 0
 };
-
-
-// linking objects to the html
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
 
 
 // Necessary for storing the points of the pillars
@@ -144,10 +145,6 @@ function getIntersection(ray,segment){
 	}
 
 	// SOLVE FOR T1 & T2
-	// r_px+r_dx*T1 = s_px+s_dx*T2 && r_py+r_dy*T1 = s_py+s_dy*T2
-	// ==> T1 = (s_px+s_dx*T2-r_px)/r_dx = (s_py+s_dy*T2-r_py)/r_dy
-	// ==> s_px*r_dy + s_dx*T2*r_dy - r_px*r_dy = s_py*r_dx + s_dy*T2*r_dx - r_py*r_dx
-	// ==> T2 = (r_dx*(s_py-r_py) + r_dy*(r_px-s_px))/(s_dx*r_dy - s_dy*r_dx)
 	var T2 = (r_dx*(s_py-r_py) + r_dy*(r_px-s_px))/(s_dx*r_dy - s_dy*r_dx);
 	var T1 = (s_px+s_dx*T2-r_px)/r_dx;
 
@@ -249,35 +246,6 @@ function calcShift(dot,sizeX,sizeY, positioner){
 }
 
 
-
-
-function reposition_shadowArea(width, height, windowOffset){
-
-	dot = jQuery.extend(true, {}, pillar.points[0])
-	var line = {};
-
-	//line1
-	line.a = calcShift(dot,0,0, windowOffset);
-	line.b = calcShift(dot,0,height, windowOffset);
-	segments.splice(0, 1, jQuery.extend(true, {}, line));
-
-	//line2
-	line.a = calcShift(dot,0,height,windowOffset);
-	line.b = calcShift(dot,width,height,windowOffset);
-	segments.splice(1, 1, jQuery.extend(true, {}, line));
-
-	// //line3
-	line.a = calcShift(dot,width,height,windowOffset);
-	line.b = calcShift(dot,width,0,windowOffset);
-	segments.splice(2, 1, jQuery.extend(true, {}, line));
-
-	// //line4
-	line.a = calcShift(dot,width,0,windowOffset);
-	line.b = calcShift(dot,0,0,windowOffset);
-	segments.splice(3, 1, jQuery.extend(true, {}, line));
-}
-
-
 function calcSegments(i_min, i_max, rectSize, c){
 
 	for(var i = i_min; i<i_max; i++){
@@ -296,7 +264,7 @@ function calcSegments(i_min, i_max, rectSize, c){
 		segments.push(jQuery.extend(true, {}, line));
 
 		// //line3
-		line.a = calcShift(dot,rectSize,rectSize,windowOffset);
+		line.a = calcShift(dot,rectSize,rectSize,c);
 		line.b = calcShift(dot,rectSize,0,c);
 		segments.push(jQuery.extend(true, {}, line));
 
@@ -328,22 +296,22 @@ function drawSpot(image, x, y, width, height, opacity){
 
 //draw shaft line
 function drawShaft(x1,y1, x2, y2, shaftSize){
-	//draw shaft light (left)
-	ctx.strokeStyle = lightShaft.border.color
-	ctx.beginPath()
-	ctx.moveTo(x1-shaftSize/2, y1);
-	ctx.lineTo(x2-shaftSize/2, y2);
-	ctx.lineTo(x1-shaftSize/2, y1);
-	ctx.lineWidth = (shaftSize-1)*0.4;
-	ctx.stroke();
-
-	//draw shaft light (right)
-	ctx.beginPath()
-	ctx.moveTo(x1+shaftSize/2, y1);
-	ctx.lineTo(x2+shaftSize/2, y2);
-	ctx.lineTo(x1+shaftSize/2, y1);
-	ctx.lineWidth = (shaftSize-1)*0.4;
-	ctx.stroke();
+	// //draw shaft light (left)
+	// ctx.strokeStyle = lightShaft.border.color
+	// ctx.beginPath()
+	// ctx.moveTo(x1-shaftSize/2, y1);
+	// ctx.lineTo(x2-shaftSize/2, y2);
+	// ctx.lineTo(x1-shaftSize/2, y1);
+	// ctx.lineWidth = (shaftSize-1)*0.4;
+	// ctx.stroke();
+  //
+	// //draw shaft light (right)
+	// ctx.beginPath()
+	// ctx.moveTo(x1+shaftSize/2, y1);
+	// ctx.lineTo(x2+shaftSize/2, y2);
+	// ctx.lineTo(x1+shaftSize/2, y1);
+	// ctx.lineWidth = (shaftSize-1)*0.4;
+	// ctx.stroke();
 
 	//draw light
 	ctx.strokeStyle = lightShaft.middle.color
@@ -367,6 +335,7 @@ function draw(){
 	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
 	scrollLight(garden.sectionPoints.a);
 
+
 	if(shadow.active){
 		// Sight Polygons
 		var polygons = [getSightPolygon(lightSpot.x,lightSpot.y+windowOffset)];
@@ -381,7 +350,7 @@ function draw(){
 		for(var i=1;i<polygons.length;i++){
 			ctx.globalAlpha = shadow.intersections.opacity;
 			drawPolygon(polygons[i],ctx, shadow.intersections.color);
-			ctx.globalAlpha = 1
+			ctx.globalAlpha = 1;
 		}
 	}
 
@@ -401,14 +370,13 @@ function draw(){
 			ctx.fillStyle = pillar.color
 			var spot = pillar.points[i];
 			ctx.beginPath();
-			ctx.moveTo(spot.x ,spot.y -windowOffset);
-			ctx.lineTo(spot.x+pillar.size,spot.y -windowOffset);
-			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size -windowOffset);
-			ctx.lineTo(spot.x,spot.y+pillar.size -windowOffset);
+			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);
+			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);
+			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);
+			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);
 			ctx.fill();
 		}
 	}
-
 }
 
 //everything triggered when input-changes are happening
@@ -490,6 +458,7 @@ function scrollLight(sectionAnkers){
 
 		pillar.active = true
 		lightSpot.active = true
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[2]+"++":
@@ -508,6 +477,7 @@ function scrollLight(sectionAnkers){
 		pillar.active = true
 
 		lightSpot.active = true
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[3]+"++":
@@ -541,6 +511,7 @@ function scrollLight(sectionAnkers){
 		}
 
 		lightSpot.active = true
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		pillar.active = true
 		shadow.active = true
 
@@ -561,6 +532,7 @@ function scrollLight(sectionAnkers){
 			shadow.intersections.opacity = mapArea(lightShaft.y1, 0, 300, 0, 1)
 		}
 		lightSpot.active = true
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		pillar.active = true
 		shadow.active = true
 
@@ -576,6 +548,7 @@ function scrollLight(sectionAnkers){
 		shadow.active = true
 
 		lightSpot.active = true
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[6]+"++":
@@ -584,6 +557,7 @@ function scrollLight(sectionAnkers){
 		pillar.active = true
 
 		lightSpot.active = true
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[6].e, sectionAnkers[7].s, 2, window.innerWidth*0.25);
 		break;
 
@@ -594,6 +568,7 @@ function scrollLight(sectionAnkers){
 		pillar.active = true
 
 		lightSpot.active = true
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[7]+"++":
@@ -602,6 +577,7 @@ function scrollLight(sectionAnkers){
 
 		pillar.active = true
 		lightSpot.active = true
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[8]:
@@ -610,6 +586,7 @@ function scrollLight(sectionAnkers){
 
 		pillar.active = true
 		lightSpot.active = true
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[8]+"++":
@@ -618,6 +595,7 @@ function scrollLight(sectionAnkers){
 
 		pillar.active = true
 		lightSpot.active = true
+		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[9]:
@@ -641,22 +619,14 @@ function scrollLight(sectionAnkers){
 
 
 //######################EVENTS##########################
-
-calcSegments(0,1, garden.size, 0)
-calcSegments(1, pillar.points.length-1, pillar.size, 18000);
-console.log(segments);
-// for (var i = 0; i < garden.size; i++) {
-// 		if(i%12000===0){
-// // calcSegments(1, pillar.points.length-1, pillar.size, i);
-// }
-// }
-
+calcSegments(0,1, garden.sectionPoints.a[7].s - garden.sectionPoints.a[4].e, garden.sectionPoints.a[4].e)
+calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
 
 //everything happening when scrolling
 window.addEventListener('scroll', function(e){
 	updateCanvas = true;
 	windowOffset = window.pageYOffset;
-	reposition_shadowArea(window.innerWidth, window.innerHeight, windowOffset)
+	// reposition_shadowArea(window.innerWidth, window.innerHeight, windowOffset)
 })
 
 // resize the canvas to fill browser window dynamically

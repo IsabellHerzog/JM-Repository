@@ -12,8 +12,8 @@ var garden = {
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
-			{s: 0, e: 4000}, //white_1 (start + end)
-			{s:8000, e: 8000}, //threequaterwhite_1
+			{s: 0, e: 200}, //white_1 (start + end)
+			{s:400, e: 400}, //threequaterwhite_1
 			{s:10000, e: 10000}, //halfwhite_1
 			{s:14000,e: 14000}, //quaterwhite_1
 			{s:18000, e: 18000}, //onpixel_1
@@ -26,6 +26,7 @@ var garden = {
 		]
 	}
 }
+
 // sets documents height to the gardens-size
 document.body.style.height = garden.size
 
@@ -404,6 +405,8 @@ function deactivateStates(){
 	lightSpot.active = false;
 }
 
+
+
 //a function to map a number from one area to another (S = Source, T = Target)
 function mapArea(x, min_S, max_S, min_T, max_T){
 	var y = (max_T-min_T)*(x-min_S)/(max_S-min_S) + min_T
@@ -622,11 +625,15 @@ function scrollLight(sectionAnkers){
 calcSegments(0,1, garden.sectionPoints.a[7].s - garden.sectionPoints.a[4].e, garden.sectionPoints.a[4].e)
 calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
 
+}
 //everything happening when scrolling
 window.addEventListener('scroll', function(e){
 	updateCanvas = true;
 	windowOffset = window.pageYOffset;
-	// reposition_shadowArea(window.innerWidth, window.innerHeight, windowOffset)
+	textWidth = lightShaft.width+"px"
+	textLeftMargin = $(window).width()/2 - lightShaft.width/2 + 1
+	$('#text1').css({"width":textWidth, "margin-left": textLeftMargin+"px"})
+	//y = mapArea(windowOffset, 0, 1000, 3, 6)
 })
 
 // resize the canvas to fill browser window dynamically

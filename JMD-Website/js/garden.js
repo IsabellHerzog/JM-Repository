@@ -1,8 +1,21 @@
 //######################SETUP##########################
 
-// linking objects to the html
+//importing Data from googleSpreadsheets
+document.addEventListener('DOMContentLoaded', function() {
+	var URL = "https://docs.google.com/spreadsheets/d/1iQRd7IAZk4n-SYmRO-Jsu1A1Mh6p75HUbq-Jfg-q1nA/edit?usp=sharing"
+	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
+})
+
+document.addEventListener('DOMContentLoaded', function() {
+	var URL = "https://docs.google.com/spreadsheets/d/112kX1SjyxW9D7rQ69ovMpJBAJluQoIbhlhMxlSrfSBw/edit?usp=sharing"
+	Tabletop.init( { key: URL, callback: infoData, simpleSheet: true } )
+})
+
+// linking & importing objects to the html
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
+
+// var data = require
 
 //VARS parametric influencing parameters
 var garden = {
@@ -49,16 +62,16 @@ var pillar = {
 	color: colorset.black,
 	points: [ //x,y coordinates for the pillars on the canvas
 		{x: 0, y: 0},
-				{x: 170, y: 500},
-				{x: 170, y: 2450},
-				{x: 170, y: 5230},
-				{x: 476, y: 1218},
-				{x: 476, y: 3222},
-				{x: 476, y: 4610},
-				{x: 1088, y: 213},
-				{x: 1088, y: 2736},
-				{x: 1394, y: 1296},
-				{x: 1394, y: 3444},
+		{x: 170, y: 500},
+		{x: 170, y: 2450},
+		{x: 170, y: 5230},
+		{x: 476, y: 1218},
+		{x: 476, y: 3222},
+		{x: 476, y: 4610},
+		{x: 1088, y: 213},
+		{x: 1088, y: 2736},
+		{x: 1394, y: 1296},
+		{x: 1394, y: 3444},
 	]
 }
 
@@ -305,7 +318,7 @@ function drawShaft(x1,y1, x2, y2, shaftSize){
 	// ctx.lineTo(x1-shaftSize/2, y1);
 	// ctx.lineWidth = (shaftSize-1)*0.4;
 	// ctx.stroke();
-  //
+	//
 	// //draw shaft light (right)
 	// ctx.beginPath()
 	// ctx.moveTo(x1+shaftSize/2, y1);
@@ -327,67 +340,11 @@ function drawShaft(x1,y1, x2, y2, shaftSize){
 
 }
 
-//Everything visible in the canvas
-function draw(){
-
-	// Clear canvas
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-
-	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
-	scrollLight(garden.sectionPoints.a);
-
-
-	if(shadow.active){
-		// Sight Polygons
-		var polygons = [getSightPolygon(lightSpot.x,lightSpot.y+windowOffset)];
-		for(var angle=0;angle<Math.PI*2; angle+=(Math.PI*2)/10){
-			var dx = Math.sin(angle)*shadow.intersections.fuzzyness;
-			var dy = Math.cos(angle)*shadow.intersections.fuzzyness;
-			polygons.push(getSightPolygon((lightSpot.x+dx) ,(lightSpot.y+dy+windowOffset)));
-		};
-
-		drawPolygon(polygons[0],ctx,shadow.background);
-		// DRAW AS A GIANT POLYGON
-		for(var i=1;i<polygons.length;i++){
-			ctx.globalAlpha = shadow.intersections.opacity;
-			drawPolygon(polygons[i],ctx, shadow.intersections.color);
-			ctx.globalAlpha = 1;
-		}
-	}
-
-	if(lightShaft.active){
-		drawShaft(lightShaft.x1, lightShaft.y1, lightShaft.x2, lightShaft.y2, lightShaft.width);
-	}
-
-	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
-	if(lightSpot.active){
-		lightSpot.x = canvas.width/2;
-		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
-		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
-		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
-}
-	if(pillar.active){
-		for(var i=0;i<pillar.points.length;i++){
-			ctx.fillStyle = pillar.color
-			var spot = pillar.points[i];
-			ctx.beginPath();
-			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);
-			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);
-			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);
-			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);
-			ctx.fill();
-		}
-	}
-}
-
-//everything triggered when input-changes are happening
-function drawLoop(){
-	requestAnimationFrame(drawLoop);
-	if(updateCanvas){
-		resizeCanvas();
-		draw();
-		updateCanvas = false;
-	}
+//
+function shaftText(textID){
+	textWidth = lightShaft.width+"px"
+	textLeftMargin = $(window).width()/2 - lightShaft.width/2 + 1
+	$(textID).css({"width":textWidth, "margin-left": textLeftMargin+"px"})
 }
 
 //everything related to the canvas size
@@ -404,8 +361,6 @@ function deactivateStates(){
 	shadow.active = false;
 	lightSpot.active = false;
 }
-
-
 
 //a function to map a number from one area to another (S = Source, T = Target)
 function mapArea(x, min_S, max_S, min_T, max_T){
@@ -620,19 +575,115 @@ function scrollLight(sectionAnkers){
 	}
 }
 
+//Everything visible in the canvas
+function draw(){
 
+	// Clear canvas
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+
+	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
+	scrollLight(garden.sectionPoints.a);
+
+
+	if(shadow.active){
+		// Sight Polygons
+		var polygons = [getSightPolygon(lightSpot.x,lightSpot.y+windowOffset)];
+		for(var angle=0;angle<Math.PI*2; angle+=(Math.PI*2)/10){
+			var dx = Math.sin(angle)*shadow.intersections.fuzzyness;
+			var dy = Math.cos(angle)*shadow.intersections.fuzzyness;
+			polygons.push(getSightPolygon((lightSpot.x+dx) ,(lightSpot.y+dy+windowOffset)));
+		};
+
+		drawPolygon(polygons[0],ctx,shadow.background);
+		// DRAW AS A GIANT POLYGON
+		for(var i=1;i<polygons.length;i++){
+			ctx.globalAlpha = shadow.intersections.opacity;
+			drawPolygon(polygons[i],ctx, shadow.intersections.color);
+			ctx.globalAlpha = 1;
+		}
+	}
+
+	if(lightShaft.active){
+		drawShaft(lightShaft.x1, lightShaft.y1, lightShaft.x2, lightShaft.y2, lightShaft.width);
+	}
+
+	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
+	if(lightSpot.active){
+		lightSpot.x = canvas.width/2;
+		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
+		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
+		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
+	}
+	if(pillar.active){
+		for(var i=0;i<pillar.points.length;i++){
+			ctx.fillStyle = pillar.color
+			var spot = pillar.points[i];
+			ctx.beginPath();
+			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);
+			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);
+			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);
+			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);
+			ctx.fill();
+		}
+	}
+}
+
+function infoData(data){
+
+	for(i=0; i<data.length; i++){
+		var div = document.createElement("div");
+		var h2 = document.createElement("h2")
+		var p = document.createElement("p");
+		h2.innerHTML = data[i].name
+		p.innerHTML = data[i].text
+
+		div.append(h2)
+		div.append(p)
+
+		document.getElementById("dark-content-wrapper").appendChild(div);
+	}
+}
+
+function contentData(data){
+
+	for(i=0; i<data.length; i++){
+		var div = document.createElement("div");
+		var h2 = document.createElement("h2")
+		var p = document.createElement("p");
+		h2.innerHTML = data[i].name
+		p.innerHTML = data[i].text
+
+		div.append(h2)
+		div.append(p)
+
+		document.getElementById("dark-content-wrapper").appendChild(div);
+	}
+}
+
+//everything that changes HTML or CSS Properties
+function manipulateHTML(){
+	shaftText('#text1')
+}
+
+//everything triggered when input-changes are happening
+function drawLoop(){
+	requestAnimationFrame(drawLoop);
+	if(updateCanvas){
+		resizeCanvas();
+		draw();
+		manipulateHTML();
+		updateCanvas = false;
+	}
+}
 //######################EVENTS##########################
 calcSegments(0,1, garden.sectionPoints.a[7].s - garden.sectionPoints.a[4].e, garden.sectionPoints.a[4].e)
 calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
 
-}
+
 //everything happening when scrolling
 window.addEventListener('scroll', function(e){
 	updateCanvas = true;
 	windowOffset = window.pageYOffset;
-	textWidth = lightShaft.width+"px"
-	textLeftMargin = $(window).width()/2 - lightShaft.width/2 + 1
-	$('#text1').css({"width":textWidth, "margin-left": textLeftMargin+"px"})
 	//y = mapArea(windowOffset, 0, 1000, 3, 6)
 })
 

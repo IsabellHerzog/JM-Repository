@@ -25,8 +25,8 @@ var garden = {
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
-			{s: 0, e: 200}, //white_1 (start + end)
-			{s:400, e: 400}, //threequaterwhite_1
+			{s: 0, e: 3000}, //white_1 (start + end)
+			{s:6000, e: 6000}, //threequaterwhite_1
 			{s:10000, e: 10000}, //halfwhite_1
 			{s:14000,e: 14000}, //quaterwhite_1
 			{s:18000, e: 18000}, //onpixel_1
@@ -630,15 +630,20 @@ function draw(){
 
 function infoData(data){
 
+	//assigns the content to new divs
 	for(i=0; i<data.length; i++){
-		var div = document.createElement("div");
-		var h2 = document.createElement("h2")
-		var p = document.createElement("p");
-		h2.innerHTML = data[i].name
-		p.innerHTML = data[i].text
+		var this_content = data[i];
 
-		div.append(h2)
-		div.append(p)
+		var div = document.createElement("div");
+		var h2 = document.createElement("h2");
+		var p = document.createElement("p");
+		
+		h2.innerHTML = this_content.name;
+		p.innerHTML = this_content.text;
+
+		div.className += this_content.class;
+		div.append(h2);
+		div.append(p);
 
 		document.getElementById("dark-content-wrapper").appendChild(div);
 	}

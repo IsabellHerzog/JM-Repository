@@ -18,8 +18,8 @@ body{
 }
 
 h1{
+  margin-top: 26;
   font-size: 30;
-  text-align: right;
   width: 512;
   margin-left: 700;
   margin-bottom: 86;
@@ -28,17 +28,32 @@ h1{
 h2{
   font-size: 15;
   line: 28;
-  text-align: right;
+  width: 512;
+}
+
+
+.info-text-left{
+  margin-left: 168;
+  text-align: left;
+  column-count: 2;
+  column-gap: 80;
+}
+
+.info-text-right{
   margin-left: 168;
   width: 512;
+  text-align: left;
+}
+
+.info-text-quote{
+  text-align: center;
+  width: 1100;
+  font-size: 30;
 }
 
 p{
   font-size: : 15;
   line: 28;
-  margin-left: 168;
-  width: 512;
-  text-align: right;
 }
 
 

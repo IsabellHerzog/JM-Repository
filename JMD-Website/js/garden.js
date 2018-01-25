@@ -1,11 +1,11 @@
 //######################SETUP##########################
 
-//importing Data from googleSpreadsheets
+//importing Data from googleSpreadsheets CONTENT
 document.addEventListener('DOMContentLoaded', function() {
 	var URL = "https://docs.google.com/spreadsheets/d/1iQRd7IAZk4n-SYmRO-Jsu1A1Mh6p75HUbq-Jfg-q1nA/edit?usp=sharing"
 	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
 })
-
+//importing Data from googleSpreadsheets INFORMATIONAL DATA
 document.addEventListener('DOMContentLoaded', function() {
 	var URL = "https://docs.google.com/spreadsheets/d/112kX1SjyxW9D7rQ69ovMpJBAJluQoIbhlhMxlSrfSBw/edit?usp=sharing"
 	Tabletop.init( { key: URL, callback: infoData, simpleSheet: true } )
@@ -25,28 +25,29 @@ var garden = {
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
-			{s: 0, e: 3000}, //white_1 (start + end)
-			{s:6000, e: 6000}, //threequaterwhite_1
-			{s:10000, e: 10000}, //halfwhite_1
-			{s:14000,e: 14000}, //quaterwhite_1
-			{s:18000, e: 18000}, //onpixel_1
-			{s:24000, e: 26000}, //blackend/start
-			{s:30000, e: 30000}, //onepixel_2
-			{s:40000, e: 40000}, //quaterwhite_2
-			{s:45000, e: 45000}, //halfwhite_2
-			{s:50000, e: 50000}, //threequaterwhite_2
-			{s:60000, e: 90000} //white_2
+			{s: 0, e: 400}, //white_1 (start + end)
+			{s: 800, e: 800}, //threequaterwhite_1
+			{s:1200, e: 1200}, //halfwhite_1
+			{s:1600,e: 1600}, //quaterwhite_1
+			{s:3100, e: 3100}, //onpixel_1
+			{s:14000, e: 16000}, //blackend/start
+			{s:20000, e: 20000}, //onepixel_2
+			{s:21000, e: 21000}, //quaterwhite_2
+			{s:22000, e: 22000}, //halfwhite_2
+			{s:23000, e: 23000}, //threequaterwhite_2
+			{s:24000, e: 26000} //white_2
 		]
 	}
 }
 
 // sets documents height to the gardens-size
+garden.size = garden.sectionPoints.a[10].e
 document.body.style.height = garden.size
 
 //Contains all colors and enables changes in the colorset
 var colorset = {
 	black: "#010006",
-	softlyLit: "#2f2e2e",
+	softlyLit: "#BFBFBF",
 	concrete: "#404040",
 	concreteLit: "#BFBFBF",
 	beige: "#F3EEE8",
@@ -104,10 +105,10 @@ var lightSpot = {
 
 var shadow = {
 	active: false,
-	background: colorset.softlyLit, //color of the background
+	background: colorset.concrete, //color of the background
 	intersections: {
 		opacity: 0.6,
-		color: colorset.softlyLit, //color of the shadow overlays
+		color: colorset.concrete, //color of the shadow overlays
 		fuzzyness: 40 //spreading of the light, also relates to the lightshaft-size
 	}
 }
@@ -310,22 +311,6 @@ function drawSpot(image, x, y, width, height, opacity){
 
 //draw shaft line
 function drawShaft(x1,y1, x2, y2, shaftSize){
-	// //draw shaft light (left)
-	// ctx.strokeStyle = lightShaft.border.color
-	// ctx.beginPath()
-	// ctx.moveTo(x1-shaftSize/2, y1);
-	// ctx.lineTo(x2-shaftSize/2, y2);
-	// ctx.lineTo(x1-shaftSize/2, y1);
-	// ctx.lineWidth = (shaftSize-1)*0.4;
-	// ctx.stroke();
-	//
-	// //draw shaft light (right)
-	// ctx.beginPath()
-	// ctx.moveTo(x1+shaftSize/2, y1);
-	// ctx.lineTo(x2+shaftSize/2, y2);
-	// ctx.lineTo(x1+shaftSize/2, y1);
-	// ctx.lineWidth = (shaftSize-1)*0.4;
-	// ctx.stroke();
 
 	//draw light
 	ctx.strokeStyle = lightShaft.middle.color
@@ -335,12 +320,14 @@ function drawShaft(x1,y1, x2, y2, shaftSize){
 	ctx.lineTo(x1, y1);
 	ctx.lineWidth = shaftSize;
 	ctx.stroke();
+}
 
-	//adopt background
+//Scrollindicator
+function moveJMB(){
 
 }
 
-//
+//makes Text of an ID align to the shaft
 function shaftText(textID){
 	textWidth = lightShaft.width+"px"
 	textLeftMargin = $(window).width()/2 - lightShaft.width/2 + 1
@@ -632,34 +619,65 @@ function infoData(data){
 
 	//assigns the content to new divs
 	for(i=0; i<data.length; i++){
-		var this_content = data[i];
 
+		var this_content = data[i];
 		var div = document.createElement("div");
-		var h2 = document.createElement("h2");
+		var h3 = document.createElement("h3");
 		var p = document.createElement("p");
-		
-		h2.innerHTML = this_content.name;
+
+		h3.innerHTML = this_content.name;
 		p.innerHTML = this_content.text;
 
 		div.className += this_content.class;
-		div.append(h2);
+		div.append(h3);
 		div.append(p);
 
-		document.getElementById("dark-content-wrapper").appendChild(div);
+		document.getElementById("light-content-wrapper").appendChild(div);
 	}
 }
 
 function contentData(data){
 
 	for(i=0; i<data.length; i++){
-		var div = document.createElement("div");
-		var h2 = document.createElement("h2")
-		var p = document.createElement("p");
-		h2.innerHTML = data[i].name
-		p.innerHTML = data[i].text
 
-		div.append(h2)
-		div.append(p)
+		var this_content = data[i];
+
+		var div = document.createElement("div");
+		div.className += "content-block";
+
+		var innerDiv = document.createElement("div");
+		innerDiv.className += this_content.class
+
+		var imageDiv = document.createElement("div");
+		if(this_content.class === "content-block-left"){
+			imageDiv.className += "image-left"
+		}else if(this_content.class === "content-block-right"){
+			imageDiv.className += "image-right"
+		}else{
+			imageDiv.className += "image-middle"
+		}
+
+
+		var h2 = document.createElement("h2")
+		h2.innerHTML = this_content.name
+
+		var p = document.createElement("p");
+		p.innerHTML = this_content.text
+
+		var img = document.createElement("img")
+		img.src = this_content.imgLink
+
+
+
+
+
+
+		innerDiv.append(h2)
+		innerDiv.append(p)
+		imageDiv.append(img)
+
+		div.append(innerDiv)
+		div.append(imageDiv)
 
 		document.getElementById("dark-content-wrapper").appendChild(div);
 	}
@@ -678,6 +696,7 @@ function drawLoop(){
 		draw();
 		manipulateHTML();
 		updateCanvas = false;
+		console.log(windowOffset);
 	}
 }
 //######################EVENTS##########################

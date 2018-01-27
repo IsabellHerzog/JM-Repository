@@ -2,7 +2,7 @@
 
 //importing Data from googleSpreadsheets CONTENT
 document.addEventListener('DOMContentLoaded', function() {
-	var URL = "https://docs.google.com/spreadsheets/d/1iQRd7IAZk4n-SYmRO-Jsu1A1Mh6p75HUbq-Jfg-q1nA/edit?usp=sharing"
+	var URL = "https://docs.google.com/spreadsheets/d/1gOexCcBm8hd-o1hEjzHu0bcVQMbBkhWvmRo8ATCH9qc/edit?usp=sharing"
 	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
 })
 //importing Data from googleSpreadsheets INFORMATIONAL DATA
@@ -381,6 +381,7 @@ function scrollLight(sectionAnkers){
 
 
 		case garden.sections[0]:
+		shaftGrowing = true;
 		lightShaft.active = true
 		lightShaft.width = window.innerWidth;
 
@@ -587,7 +588,9 @@ function draw(){
 			color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 64, 255))
 		}
 
-		drawBackground("rgb("+color+","+color+","+color+")");
+		ctx.fillStyle = "rgb("+color+","+color+","+color+")";
+		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
+		ctx.fill();
 
 		//console.log( lightShaft.width);
 		//(S = Source, T = Target)
@@ -647,11 +650,6 @@ function draw(){
 	}
 }
 
-function drawBackground(color){
-	ctx.fillStyle = color;
-	ctx.rect(0, 0, window.innerWidth,window.innerHeight);
-	ctx.fill();
-}
 
 function infoData(data){
 
@@ -686,15 +684,23 @@ function contentData(data){
 		var innerDiv = document.createElement("div");
 		innerDiv.className += this_content.class
 
+		var metadataDiv = document.createElement("div");
+		var subtitleDiv = document.createElement("div");
+
 		var imageDiv = document.createElement("div");
 		if(this_content.class === "content-block-left"){
 			imageDiv.className += "image-left"
+			metadataDiv.className += "metadata-left";
+			subtitleDiv.className += "subtitle-left";
 		}else if(this_content.class === "content-block-right"){
 			imageDiv.className += "image-right"
+			metadataDiv.className += "metadata-right";
+			subtitleDiv.className += "subtitle-right";
 		}else{
 			imageDiv.className += "image-middle"
+			metadataDiv.className += "metadata-middle";
+			subtitleDiv.className += "subtitle-middle";
 		}
-
 
 		var h2 = document.createElement("h2")
 		h2.innerHTML = this_content.name
@@ -705,14 +711,19 @@ function contentData(data){
 		var img = document.createElement("img")
 		img.src = this_content.imgLink
 
+		var metaP = document.createElement("p");
+		metaP.innerHTML = this_content.metadata
 
-
-
-
+		var subtitleP = document.createElement("p");
+		subtitleP.innerHTML = this_content.subtitle
 
 		innerDiv.append(h2)
 		innerDiv.append(p)
+		subtitleDiv.append(subtitleP)
+		innerDiv.append(subtitleDiv)
+		metadataDiv.append(metaP)
 		imageDiv.append(img)
+		imageDiv.append(metadataDiv)
 
 		div.append(innerDiv)
 		div.append(imageDiv)

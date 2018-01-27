@@ -1,8 +1,21 @@
 //######################SETUP##########################
 
-// linking objects to the html
+//importing Data from googleSpreadsheets CONTENT
+document.addEventListener('DOMContentLoaded', function() {
+	var URL = "https://docs.google.com/spreadsheets/d/1iQRd7IAZk4n-SYmRO-Jsu1A1Mh6p75HUbq-Jfg-q1nA/edit?usp=sharing"
+	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
+})
+//importing Data from googleSpreadsheets INFORMATIONAL DATA
+document.addEventListener('DOMContentLoaded', function() {
+	var URL = "https://docs.google.com/spreadsheets/d/112kX1SjyxW9D7rQ69ovMpJBAJluQoIbhlhMxlSrfSBw/edit?usp=sharing"
+	Tabletop.init( { key: URL, callback: infoData, simpleSheet: true } )
+})
+
+// linking & importing objects to the html
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
+
+// var data = require
 
 //VARS parametric influencing parameters
 var garden = {
@@ -12,27 +25,29 @@ var garden = {
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
-			{s: 0, e: 4000}, //white_1 (start + end)
-			{s:8000, e: 8000}, //threequaterwhite_1
-			{s:10000, e: 10000}, //halfwhite_1
-			{s:14000,e: 14000}, //quaterwhite_1
-			{s:18000, e: 18000}, //onpixel_1
-			{s:24000, e: 26000}, //blackend/start
-			{s:30000, e: 30000}, //onepixel_2
-			{s:40000, e: 40000}, //quaterwhite_2
-			{s:45000, e: 45000}, //halfwhite_2
-			{s:50000, e: 50000}, //threequaterwhite_2
-			{s:60000, e: 90000} //white_2
+			{s: 0, e: 400}, //white_1 (start + end)
+			{s: 800, e: 800}, //threequaterwhite_1
+			{s:1200, e: 1200}, //halfwhite_1
+			{s:1600,e: 1600}, //quaterwhite_1
+			{s:3100, e: 3100}, //onpixel_1
+			{s:14000, e: 16000}, //blackend/start
+			{s:20000, e: 20000}, //onepixel_2
+			{s:21000, e: 21000}, //quaterwhite_2
+			{s:22000, e: 22000}, //halfwhite_2
+			{s:23000, e: 23000}, //threequaterwhite_2
+			{s:24000, e: 26000} //white_2
 		]
 	}
 }
+
 // sets documents height to the gardens-size
+garden.size = garden.sectionPoints.a[10].e
 document.body.style.height = garden.size
 
 //Contains all colors and enables changes in the colorset
 var colorset = {
 	black: "#010006",
-	softlyLit: "#2f2e2e",
+	softlyLit: "#BFBFBF",
 	concrete: "#404040",
 	concreteLit: "#BFBFBF",
 	beige: "#F3EEE8",
@@ -48,16 +63,16 @@ var pillar = {
 	color: colorset.black,
 	points: [ //x,y coordinates for the pillars on the canvas
 		{x: 0, y: 0},
-				{x: 170, y: 500},
-				{x: 170, y: 2450},
-				{x: 170, y: 5230},
-				{x: 476, y: 1218},
-				{x: 476, y: 3222},
-				{x: 476, y: 4610},
-				{x: 1088, y: 213},
-				{x: 1088, y: 2736},
-				{x: 1394, y: 1296},
-				{x: 1394, y: 3444},
+		{x: 170, y: 500},
+		{x: 170, y: 2450},
+		{x: 170, y: 5230},
+		{x: 476, y: 1218},
+		{x: 476, y: 3222},
+		{x: 476, y: 4610},
+		{x: 1088, y: 213},
+		{x: 1088, y: 2736},
+		{x: 1394, y: 1296},
+		{x: 1394, y: 3444},
 	]
 }
 
@@ -90,10 +105,10 @@ var lightSpot = {
 
 var shadow = {
 	active: false,
-	background: colorset.softlyLit, //color of the background
+	background: colorset.concrete, //color of the background
 	intersections: {
 		opacity: 0.6,
-		color: colorset.softlyLit, //color of the shadow overlays
+		color: colorset.concrete, //color of the shadow overlays
 		fuzzyness: 40 //spreading of the light, also relates to the lightshaft-size
 	}
 }
@@ -296,22 +311,6 @@ function drawSpot(image, x, y, width, height, opacity){
 
 //draw shaft line
 function drawShaft(x1,y1, x2, y2, shaftSize){
-	// //draw shaft light (left)
-	// ctx.strokeStyle = lightShaft.border.color
-	// ctx.beginPath()
-	// ctx.moveTo(x1-shaftSize/2, y1);
-	// ctx.lineTo(x2-shaftSize/2, y2);
-	// ctx.lineTo(x1-shaftSize/2, y1);
-	// ctx.lineWidth = (shaftSize-1)*0.4;
-	// ctx.stroke();
-  //
-	// //draw shaft light (right)
-	// ctx.beginPath()
-	// ctx.moveTo(x1+shaftSize/2, y1);
-	// ctx.lineTo(x2+shaftSize/2, y2);
-	// ctx.lineTo(x1+shaftSize/2, y1);
-	// ctx.lineWidth = (shaftSize-1)*0.4;
-	// ctx.stroke();
 
 	//draw light
 	ctx.strokeStyle = lightShaft.middle.color
@@ -321,72 +320,18 @@ function drawShaft(x1,y1, x2, y2, shaftSize){
 	ctx.lineTo(x1, y1);
 	ctx.lineWidth = shaftSize;
 	ctx.stroke();
+}
 
-	//adopt background
+//Scrollindicator
+function moveJMB(){
 
 }
 
-//Everything visible in the canvas
-function draw(){
-
-	// Clear canvas
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-
-	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
-	scrollLight(garden.sectionPoints.a);
-
-
-	if(shadow.active){
-		// Sight Polygons
-		var polygons = [getSightPolygon(lightSpot.x,lightSpot.y+windowOffset)];
-		for(var angle=0;angle<Math.PI*2; angle+=(Math.PI*2)/10){
-			var dx = Math.sin(angle)*shadow.intersections.fuzzyness;
-			var dy = Math.cos(angle)*shadow.intersections.fuzzyness;
-			polygons.push(getSightPolygon((lightSpot.x+dx) ,(lightSpot.y+dy+windowOffset)));
-		};
-
-		drawPolygon(polygons[0],ctx,shadow.background);
-		// DRAW AS A GIANT POLYGON
-		for(var i=1;i<polygons.length;i++){
-			ctx.globalAlpha = shadow.intersections.opacity;
-			drawPolygon(polygons[i],ctx, shadow.intersections.color);
-			ctx.globalAlpha = 1;
-		}
-	}
-
-	if(lightShaft.active){
-		drawShaft(lightShaft.x1, lightShaft.y1, lightShaft.x2, lightShaft.y2, lightShaft.width);
-	}
-
-	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
-	if(lightSpot.active){
-		lightSpot.x = canvas.width/2;
-		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
-		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
-		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
-}
-	if(pillar.active){
-		for(var i=0;i<pillar.points.length;i++){
-			ctx.fillStyle = pillar.color
-			var spot = pillar.points[i];
-			ctx.beginPath();
-			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);
-			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);
-			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);
-			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);
-			ctx.fill();
-		}
-	}
-}
-
-//everything triggered when input-changes are happening
-function drawLoop(){
-	requestAnimationFrame(drawLoop);
-	if(updateCanvas){
-		resizeCanvas();
-		draw();
-		updateCanvas = false;
-	}
+//makes Text of an ID align to the shaft
+function shaftText(textID){
+	textWidth = lightShaft.width+"px"
+	textLeftMargin = $(window).width()/2 - lightShaft.width/2 + 1
+	$(textID).css({"width":textWidth, "margin-left": textLeftMargin+"px"})
 }
 
 //everything related to the canvas size
@@ -617,16 +562,153 @@ function scrollLight(sectionAnkers){
 	}
 }
 
+//Everything visible in the canvas
+function draw(){
 
+	// Clear canvas
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+
+	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
+	scrollLight(garden.sectionPoints.a);
+
+
+	if(shadow.active){
+		// Sight Polygons
+		var polygons = [getSightPolygon(lightSpot.x,lightSpot.y+windowOffset)];
+		for(var angle=0;angle<Math.PI*2; angle+=(Math.PI*2)/10){
+			var dx = Math.sin(angle)*shadow.intersections.fuzzyness;
+			var dy = Math.cos(angle)*shadow.intersections.fuzzyness;
+			polygons.push(getSightPolygon((lightSpot.x+dx) ,(lightSpot.y+dy+windowOffset)));
+		};
+
+		drawPolygon(polygons[0],ctx,shadow.background);
+		// DRAW AS A GIANT POLYGON
+		for(var i=1;i<polygons.length;i++){
+			ctx.globalAlpha = shadow.intersections.opacity;
+			drawPolygon(polygons[i],ctx, shadow.intersections.color);
+			ctx.globalAlpha = 1;
+		}
+	}
+
+	if(lightShaft.active){
+		drawShaft(lightShaft.x1, lightShaft.y1, lightShaft.x2, lightShaft.y2, lightShaft.width);
+	}
+
+	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
+	if(lightSpot.active){
+		lightSpot.x = canvas.width/2;
+		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
+		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
+		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
+	}
+	if(pillar.active){
+		for(var i=0;i<pillar.points.length;i++){
+			ctx.fillStyle = pillar.color
+			var spot = pillar.points[i];
+			ctx.beginPath();
+			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);
+			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);
+			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);
+			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);
+			ctx.fill();
+		}
+	}
+}
+
+function infoData(data){
+
+	//assigns the content to new divs
+	for(i=0; i<data.length; i++){
+
+		var this_content = data[i];
+		var div = document.createElement("div");
+		var h3 = document.createElement("h3");
+		var p = document.createElement("p");
+
+		h3.innerHTML = this_content.name;
+		p.innerHTML = this_content.text;
+
+		div.className += this_content.class;
+		div.append(h3);
+		div.append(p);
+
+		document.getElementById("light-content-wrapper").appendChild(div);
+	}
+}
+
+function contentData(data){
+
+	for(i=0; i<data.length; i++){
+
+		var this_content = data[i];
+
+		var div = document.createElement("div");
+		div.className += "content-block";
+
+		var innerDiv = document.createElement("div");
+		innerDiv.className += this_content.class
+
+		var imageDiv = document.createElement("div");
+		if(this_content.class === "content-block-left"){
+			imageDiv.className += "image-left"
+		}else if(this_content.class === "content-block-right"){
+			imageDiv.className += "image-right"
+		}else{
+			imageDiv.className += "image-middle"
+		}
+
+
+		var h2 = document.createElement("h2")
+		h2.innerHTML = this_content.name
+
+		var p = document.createElement("p");
+		p.innerHTML = this_content.text
+
+		var img = document.createElement("img")
+		img.src = this_content.imgLink
+
+
+
+
+
+
+		innerDiv.append(h2)
+		innerDiv.append(p)
+		imageDiv.append(img)
+
+		div.append(innerDiv)
+		div.append(imageDiv)
+
+		document.getElementById("dark-content-wrapper").appendChild(div);
+	}
+}
+
+//everything that changes HTML or CSS Properties
+function manipulateHTML(){
+	shaftText('#text1')
+}
+
+//everything triggered when input-changes are happening
+function drawLoop(){
+	requestAnimationFrame(drawLoop);
+	if(updateCanvas){
+		resizeCanvas();
+		draw();
+		manipulateHTML();
+		updateCanvas = false;
+		console.log(windowOffset);
+	}
+}
 //######################EVENTS##########################
 calcSegments(0,1, garden.sectionPoints.a[7].s - garden.sectionPoints.a[4].e, garden.sectionPoints.a[4].e)
 calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
+
 
 //everything happening when scrolling
 window.addEventListener('scroll', function(e){
 	updateCanvas = true;
 	windowOffset = window.pageYOffset;
-	// reposition_shadowArea(window.innerWidth, window.innerHeight, windowOffset)
+	//y = mapArea(windowOffset, 0, 1000, 3, 6)
 })
 
 // resize the canvas to fill browser window dynamically

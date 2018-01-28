@@ -25,11 +25,11 @@ var garden = {
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
-			{s: 0, e: 400}, //white_1 (start + end)
-			{s: 800, e: 800}, //threequaterwhite_1
-			{s:1200, e: 1200}, //halfwhite_1
-			{s:1600,e: 1600}, //quaterwhite_1
-			{s:3100, e: 3100}, //onpixel_1
+			{s: 0, e: 5000}, //white_1 (start + end)
+			{s: 5000, e: 5000}, //threequaterwhite_1
+			{s:5000, e: 5000}, //halfwhite_1
+			{s:5000,e: 5000}, //quaterwhite_1
+			{s:5000, e: 5000}, //onpixel_1
 			{s:14000, e: 16000}, //blackend/start
 			{s:20000, e: 20000}, //onepixel_2
 			{s:21000, e: 21000}, //quaterwhite_2
@@ -618,9 +618,29 @@ function draw(){
 function infoData(data){
 
 	//assigns the content to new divs
+	// for(i=0; i<data.length; i++){
+  //
+	// 	var this_content = data[i];
+  //
+	// 	var div = document.createElement("div");
+	// 	var h3 = document.createElement("h3");
+	// 	var p = document.createElement("p");
+  //
+	// 	h3.innerHTML = this_content.name;
+	// 	p.innerHTML = this_content.text;
+  //
+	// 	div.className += this_content.class;
+	// 	div.append(h3);
+	// 	div.append(p);
+  //
+	// 	document.getElementById("light-content-wrapper").appendChild(div);
+	// }
+
 	for(i=0; i<data.length; i++){
 
+
 		var this_content = data[i];
+
 		var div = document.createElement("div");
 		var h3 = document.createElement("h3");
 		var p = document.createElement("p");
@@ -629,9 +649,14 @@ function infoData(data){
 		p.innerHTML = this_content.text;
 
 		div.className += this_content.class;
+
+		if(div.className ==="info-text-quote"){
+			div.append(p);
+			div.append(h3);
+		}else{
 		div.append(h3);
 		div.append(p);
-
+		}
 		document.getElementById("light-content-wrapper").appendChild(div);
 	}
 }

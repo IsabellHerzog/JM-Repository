@@ -8,6 +8,11 @@ src: url(/assets/fonts/UniversLTPro-45Light.otf);
 }
 
 @font-face {
+font-family: UniversLTPro-45LightOblique;
+src: url(/assets/fonts/UniversLTPro-45LightOblique.otf);
+}
+
+@font-face {
 font-family: UniversLTPro-55Roman;
 src: url(/assets/fonts/UniversLTPro-55Roman.otf);
 }
@@ -16,6 +21,13 @@ src: url(/assets/fonts/UniversLTPro-55Roman.otf);
 font-family: UniversLTPro-65Bold;
 src: url(/assets/fonts/UniversLTPro-65Bold.otf);
 }
+
+@font-face {
+font-family: UniversLTPro-75Black;
+src: url(/assets/fonts/UniversLTPro-75Black.otf);
+}
+
+
 
 
 ::-webkit-scrollbar {
@@ -45,6 +57,7 @@ body{
   padding-left: 11%;
   padding-right: 11%;
   justify-content: center;
+  align-items: baseline;
   color: #FAFAFA;
 }
 
@@ -57,18 +70,15 @@ body{
   padding-right: 4%;
   justify-content: center;
   display: grid;
-  grid-template-rows: auto;
-
-  grid-template-columns:  41% 8% 41% ;
-  grid-column-gap: 80px;
+  grid-template-rows: none;
+  grid-template-columns:  40% 10% 40%;
 }
 
 h1{
-  font-family: 'UniversLTPro-55Roman', sans-serif;
-  margin-left: 670;
-  margin-top: 10;
+  font-family: 'UniversLTPro-65Bold', sans-serif;
+  margin-top: 40;
   font-size: 30;
-  margin-bottom: 86;
+  margin-bottom: 140px;
 }
 
 h2{
@@ -79,10 +89,16 @@ h2{
 }
 
 h3{
-  font-family: 'UniversLTPro-65Bold', sans-serif;
+  font-family: 'UniversLTPro-75Black', sans-serif;
   font-size: 15;
   line-height: 28px;
-  width: 512;
+  margin-bottom: 140px;
+}
+
+h4{
+  font-family: 'UniversLTPro-45LightOblique', sans-serif;
+  font-size: 15;
+  line-height: 28px;
 }
 
 p{
@@ -99,26 +115,24 @@ p{
   margin-bottom: 40;
   margin-top: 40;
   text-align: left;
-  grid-area: 1/1/1/2;
+  grid-column: 1/2;
 }
 
 .info-text-right{
-  border: 40;
-  margin: 0 auto;
   margin-bottom: 40;
   margin-top: 40;
   text-align: left;
-  column-count: 2;
-  -webkit-column-gap: 3em;
-  width: 1100;
+  grid-column: 3/4;
 }
 
 .info-text-quote{
-  padding-top: 50;
-  padding-bottom: 20;
+  font-family: 'UniversLTPro-65Bold', sans-serif;
+  grid-column: 1/4;
+  padding-top: 50px;
+  line-height: 54px;
+  padding-bottom: 20px;
   text-align: center;
   vertical-align: middle;
-  width: 1100;
   font-size: 30;
   margin: 0 auto;
 }

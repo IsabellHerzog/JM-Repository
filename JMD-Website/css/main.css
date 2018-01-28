@@ -34,25 +34,56 @@ body{
   padding-top: 34
 }
 
-h1{
+.content-block h1{
   margin-left: 670;
   margin-top: 10;
   font-size: 30;
   margin-bottom: 86;
 }
 
-h3{
+.content-block h3{
   font-size: 15;
   line-height: 28px;
   width: 512;
 }
 
-p{
+.content-block p{
   font-size: 15;
   line-height: 28px;
 }
 
-h2{
+
+.metadata-middle p{
+  font-size: 12;
+  text-align: right;
+}
+
+.metadata-right p{
+  font-size: 12;
+  text-align: right;
+}
+
+.metadata-left p{
+  font-size: 12;
+  text-align: left;
+}
+
+.subtitle-middle p{
+  font-size: 10;
+  text-align: right;
+}
+
+.subtitle-right p{
+  font-size: 10;
+  text-align: right;
+}
+
+.subtitle-left p{
+  font-size: 10;
+  text-align: left;
+}
+
+.content-block h2{
   margin-top: 0px;
   font-family: 'UniversLTPro-45Light', sans-serif;
   font-size: 25;
@@ -130,7 +161,6 @@ text-align: right;
 .image-middle{
   grid-area: 1/4/1/5;
 }
-
 
 img{
   width: 100%

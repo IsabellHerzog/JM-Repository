@@ -692,10 +692,14 @@ function contentData(data){
 			imageDiv.className += "image-right"
 			metadataDiv.className += "metadata-right";
 			subtitleDiv.className += "subtitle-right";
-		}else{
-			imageDiv.className += "image-middle"
-			metadataDiv.className += "metadata-middle";
-			subtitleDiv.className += "subtitle-middle";
+		}else if (this_content.class === "content-block-middle-left"){
+			imageDiv.className += "image-middle-left"
+			metadataDiv.className += "metadata-middle-left";
+			subtitleDiv.className += "subtitle-middle-left";
+		}else {
+			imageDiv.className += "image-middle-right"
+			metadataDiv.className += "metadata-middle-right";
+			subtitleDiv.className += "subtitle-middle-right";
 		}
 
 		var h2 = document.createElement("h2")

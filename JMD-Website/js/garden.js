@@ -34,10 +34,10 @@ var garden = {
 			{s:3100, e: 3100}, //onpixel_1
 			{s:14000, e: 16000}, //blackend/start
 			{s:20000, e: 20000}, //onepixel_2
-			{s:21000, e: 21000}, //quaterwhite_2
-			{s:22000, e: 22000}, //halfwhite_2
-			{s:23000, e: 23000}, //threequaterwhite_2
-			{s:24000, e: 26000} //white_2
+			{s:50000, e: 50000}, //quaterwhite_2
+			{s:50000, e: 50000}, //halfwhite_2
+			{s:50000, e: 50000}, //threequaterwhite_2
+			{s:50000, e: 50000} //white_2
 		]
 	}
 }
@@ -594,15 +594,11 @@ function draw(){
 
 		//console.log( lightShaft.width);
 		//(S = Source, T = Target)
-		console.log("lightshaft:"+lightShaft.width);
-		console.log("window.width:"+window.innerWidth);
-		console.log("rgb("+color+","+color+","+color+")");
 	}
 
 
 
 
-	console.log();
 	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
 	scrollLight(garden.sectionPoints.a);
 
@@ -709,7 +705,8 @@ function contentData(data){
 		p.innerHTML = this_content.text
 
 		var img = document.createElement("img")
-		img.src = this_content.imgLink
+		console.log(this_content.imgName);
+		img.src = "./assets/images/" + this_content.imgName
 
 		var metaP = document.createElement("p");
 		metaP.innerHTML = this_content.metadata
@@ -745,7 +742,6 @@ function drawLoop(){
 		draw();
 		manipulateHTML();
 		updateCanvas = false;
-		console.log(windowOffset);
 	}
 }
 //######################EVENTS##########################

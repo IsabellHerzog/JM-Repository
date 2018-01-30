@@ -759,9 +759,9 @@ function contentData(data){
 }
 
 //everything that changes HTML or CSS Properties
-function manipulateHTML(){
-	shaftText('#text1')
-}
+// function manipulateHTML(){
+// 	 shaftText('.info-text-quote:first')
+// }
 
 //everything triggered when input-changes are happening
 function drawLoop(){

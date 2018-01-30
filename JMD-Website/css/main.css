@@ -5,6 +5,8 @@
 @font-face {
 font-family: UniversLTPro-45Light;
 src: url(../assets/fonts/UniversLTPro-45Light.otf);
+font-style: normal;
+font-weight: lighter;
 }
 
 @font-face {
@@ -58,6 +60,8 @@ h1{
 
 h2{
   font-family: 'UniversLTPro-45Light', sans-serif;
+  font-style: normal;
+  font-weight: normal;
   margin-top: 0px;
   font-size: 25;
   line-height: 35px;
@@ -106,7 +110,7 @@ h4{
   padding-left: 4%;
   padding-right: 4%;
   justify-content: center;
-  color: #FAFAFA;
+  color: #D8D8D8;
 }
 
 /* .header{
@@ -114,39 +118,71 @@ h4{
 } */
 
 .content-block p{
+  font-family: 'UniversLTPro-45Light', sans-serif;
+  font-style: normal;
+  font-weight: normal;
   font-size: 15;
-  line-height: 28px;
+  line-height: 29px;
 }
 
 
 .metadata-middle-right p{
+  padding-top: 10px;
   font-size: 12;
   text-align: right;
+  color: #626262;
+  line-height: 18px;
+}
+
+.metadata-middle-left p{
+  padding-top: 10px;
+  font-size: 12;
+  text-align: left;
+  color: #626262;
+  line-height: 18px;
 }
 
 .metadata-right p{
+  padding-top: 10px;
   font-size: 12;
   text-align: right;
+  color: #626262;
+  line-height: 18px;
 }
 
 .metadata-left p{
+  padding-top: 10px;
   font-size: 12;
   text-align: left;
+  color: #626262;
+  line-height: 18px;
 }
 
 .subtitle-middle-right p{
+  padding-top: 10px;
+  font-size: 10;
+  text-align: left;
+  line-height: 20px;
+}
+.subtitle-middle-left p{
+  padding-top: 10px;
   font-size: 10;
   text-align: right;
+  line-height: 20px;
 }
 
 .subtitle-right p{
+  padding-top: 10px;
   font-size: 10;
-  text-align: right;
+  text-align: left;
+  line-height: 20px;
 }
 
 .subtitle-left p{
+  padding-top: 10px;
   font-size: 10;
-  text-align: left;
+  text-align: right;
+  line-height: 20px;
 }
 
 .yearDivision {
@@ -159,6 +195,7 @@ h4{
   font-family: 'UniversLTPro-45Light', sans-serif;
   font-size: 25;
   line-height: 35px;
+  font-weight: normal;
 }
 
 .timeline{
@@ -248,7 +285,6 @@ h4{
   margin-top: 400;
   display: grid;
   grid-template-rows: auto;
-
   grid-template-columns: 20% 20% 10% 20% 20%;
   grid-column-gap: 2%
 }

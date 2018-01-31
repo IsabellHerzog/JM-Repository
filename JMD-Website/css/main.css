@@ -279,7 +279,6 @@ h4{
   margin-bottom: 250;
   display: grid;
   grid-template-rows: auto;
-
   grid-template-columns: 20% 20% 10% 20% 20%;
   grid-column-gap: 2%
 }

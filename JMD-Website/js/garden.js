@@ -22,7 +22,7 @@ ctx.fillRect(0, 0, 150, 100);
 var t_years = {
 	positions: [],
 	tens: [],
-	hundreds: [""]
+	hundreds: []
 }
 
 //VARS parametric influencing parameters

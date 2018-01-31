@@ -105,7 +105,7 @@ h4{
 }
 
 #light-content-wrapper{
-  padding-top: 34
+  margin-top: 34;
   max-width: 1080px;
   margin: 0 auto;
   padding-left: 11%;
@@ -115,6 +115,7 @@ h4{
 }
 
 #dark-content-wrapper{
+  padding-top: 500;
   max-width: 1280px;
   margin: 0 auto;
   padding-left: 4%;
@@ -123,32 +124,42 @@ h4{
   color: #FAFAFA;
 }
 
-#timeline{
+.timeline{
   position: fixed;
   font-family: 'UniversLTPro-55Roman', sans-serif;
-  /* text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); */
   color: white;
   font-size: 15;
   letter-spacing: 10;
-  margin: 0 auto;
-  padding-top: 50vh;
   padding-left: 10;
 }
 
 #timeline-hundred{
   font-family: 'UniversLTPro-55Roman', sans-serif;
   transform: rotate(-90deg);
-  position: relative;
-  text-align: center;
-  top: 15px;
+  position: fixed;
+  z-index: 3;
+  top: 50vh;
+  left: 10
 }
 
-#timeline-ten{
+#t-moving{
+  transform: rotate(-90deg);
+  position: fixed;
+  z-index: 4;
+  top: 50;
+  left: 28;
+}
+
+#t-fixed{
   transform: rotate(-90deg);
   position: fixed;
   z-index: 5;
-  top: 50;
+  top: 47vh;;
   left: 28;
+}
+
+.tnumber{
+  position: relative;
 }
 
 .content-block p{
@@ -264,7 +275,8 @@ h4{
 }
 
 .content-block{
-  margin-top: 400;
+  margin-top: 100;
+  margin-bottom: 250;
   display: grid;
   grid-template-rows: auto;
 

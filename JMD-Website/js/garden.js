@@ -19,6 +19,12 @@ var ctx = canvas.getContext("2d");
 ctx.fillRect(0, 0, 150, 100);
 // var data = require
 
+var t_years = {
+	positions: [],
+	tens: [],
+	hundreds: []
+}
+
 //VARS parametric influencing parameters
 var garden = {
 	size: 440000,
@@ -42,21 +48,15 @@ var garden = {
 	}
 }
 
-// sets documents height to the gardens-size
-garden.size = garden.sectionPoints.a[10].e
-document.body.style.height = garden.size
-
 //Contains all colors and enables changes in the colorset
 var colorset = {
 	black: "#010006",
-	softlyLit: "#BFBFBF",
-	concrete: "#404040",
+	softlyLit: "#404040",
+	concrete: "#0e0d0d",
 	concreteLit: "#BFBFBF",
 	beige: "#F3EEE8",
-	lightGrey: "#FBFBFB",
+	lightGrey: "#BFBFBF",
 }
-
-canvas.style.background = "#0e0d0d";
 
 //POSITIONS OF pillars
 var pillar = {
@@ -78,6 +78,7 @@ var pillar = {
 	]
 }
 
+//settings of the lightShaft
 var lightShaft = {
 	active: false, //determinates wheather the shaft is drawnd
 	x1: 0,
@@ -95,6 +96,7 @@ var lightShaft = {
 	}
 }
 
+//settings of the lightSpot
 var lightSpot = {
 	active: false, //determines whaether light spot is active (visually)
 	x: window.innerWidth/2,
@@ -105,12 +107,13 @@ var lightSpot = {
 	image: new Image()
 }
 
+//settings of the shadows
 var shadow = {
 	active: false,
-	background: colorset.concrete, //color of the background
+	background: colorset.softlyLit, //color of the background
 	intersections: {
-		opacity: 0.6,
-		color: colorset.concrete, //color of the shadow overlays
+		opacity: 0.3,
+		color: colorset.concreteLit, //color of the shadow overlays
 		fuzzyness: 40 //spreading of the light, also relates to the lightshaft-size
 	}
 }
@@ -126,15 +129,19 @@ var Mouse = {
 	y: 0
 };
 
-
 // Necessary for storing the points of the pillars
 var segments = [];
-
 var shaftGrowing = true;
 
 //relations
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
 
+//sets the background color
+canvas.style.background = colorset.concrete;
+
+// sets documents height to the gardens-size
+garden.size = garden.sectionPoints.a[10].e
+document.body.style.height = garden.size
 
 //#####################FUNCTIONS#######################
 
@@ -563,7 +570,6 @@ function scrollLight(sectionAnkers){
 
 //Everything visible in the canvas
 function draw(){
-
 	segments = []
 
 	calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
@@ -664,6 +670,7 @@ function contentData(data){
 
 		var this_content = data[i];
 
+		//fills in the html content
 		var div = document.createElement("div");
 		div.className += "content-block";
 
@@ -700,6 +707,8 @@ function contentData(data){
 
 		var img = document.createElement("img")
 		img.src = "./assets/images/" + this_content.imgName
+		img.style.opacity = "0.9"
+		// img.style.backgroundBlendMode = "multiply";
 
 		var metaP = document.createElement("p");
 		metaP.innerHTML = this_content.metadata
@@ -719,7 +728,23 @@ function contentData(data){
 		div.append(imageDiv)
 
 		document.getElementById("dark-content-wrapper").appendChild(div);
+
+
+
+		//defines/pulls year-infos into the t_years object
+		if(4===this_content.year.length){
+
+		//tens
+		t_years.hundreds[i] = this_content.year.substring(0, 2);
+
+		//hundreds
+		t_years.tens.push(this_content.year.substring(2, 4));
+
+		//POSITIONS
+		t_years.positions[i] = div.getBoundingClientRect().y;
 	}
+	}
+	drawLoop();
 }
 
 //makes Text of an ID align to the shaft
@@ -729,20 +754,24 @@ function shaftText(textID){
 	$(textID).css({"width":textWidth, "margin-left": textLeftMargin+"px"})
 }
 
-function timeline(time_stamp_position, element){
-	var time_position = time_stamp_position-windowOffset-15
-	if((time_position)>=window.innerHeight/2){
+//draws the tmeline
+function timeline(element, i){
+
+	var time_position = t_years.positions[i]-windowOffset
+	if(time_position>=window.innerHeight*0.47){
 	$(element).css({"top": time_position});
-	console.log("do");
-}else {
-	$(element).css({"top": window.innerHeight/2-15});
+}else if((time_position<window.innerHeight*0.47)){
+	$(element).css({"top": window.innerHeight});
+	timeline(element, i+1)
 }
 }
 
 //everything that changes HTML or CSS Properties
 function manipulateHTML(){
 	shaftText('#text1');
-	timeline(5300, '#timeline-ten');
+
+	//move timeline
+	timeline('#t-moving',0);
 }
 
 //everything triggered when input-changes are happening
@@ -771,7 +800,6 @@ window.addEventListener('resize', resizeCanvas, false);
 //everything happening on pageload
 window.onload = function(){
 	lightSpot.image.onload = function(){
-		drawLoop();
 	};
 	lightSpot.image.src = "assets/garden_lightShaftSpot.png";
 };

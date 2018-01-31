@@ -4,32 +4,49 @@
 
 @font-face {
 font-family: UniversLTPro-45Light;
-src: url(../assets/fonts/UniversLTPro-45Light.otf);
+src: url(../assets/fonts/UniversLTPro-45Light.otf) format("opentype"),
+     url(../assets/fonts/UniversLTPro-45Light.woff2) format("woff"),
+     url(../assets/fonts/UniversLTPro-45Light.woff) format("woff");
 }
 
 @font-face {
 font-family: UniversLTPro-45LightOblique;
-src: url(../assets/fonts/UniversLTPro-45LightOblique.otf);
+src: url(../assets/fonts/UniversLTPro-45LightOblique.otf) format("opentype"),
+     url(../assets/fonts/UniversLTPro-45LightOblique.woff2) format("woff"),
+     url(../assets/fonts/UniversLTPro-45LightOblique.woff) format("woff");
 }
 
 @font-face {
 font-family: UniversLTPro-55Roman;
-src: url(../assets/fonts/UniversLTPro-55Roman.otf);
+src: url(../assets/fonts/UniversLTPro-55Roman.otf) format("opentype"),
+     url(../assets/fonts/UniversLTPro-55Roman.woff2) format("woff"),
+     url(../assets/fonts/UniversLTPro-55Roman.woff) format("woff");
 }
 
 @font-face {
 font-family: UniversLTPro-65Bold;
-src: url(../assets/fonts/UniversLTPro-65Bold.otf);
+src: url(../assets/fonts/UniversLTPro-65Bold.otf) format("opentype"),
+     url(../assets/fonts/UniversLTPro-65Bold.woff2) format("woff"),
+     url(../assets/fonts/UniversLTPro-65Bold.woff) format("woff");
 }
 
 @font-face {
 font-family: UniversLTPro-75Black;
-src: url(../assets/fonts/UniversLTPro-75Black.otf);
+src: url(../assets/fonts/UniversLTPro-75Black.otf) format("opentype"),
+     url(../assets/fonts/UniversLTPro-75Black.woff2) format("woff"),
+     url(../assets/fonts/UniversLTPro-75Black.woff) format("woff");
+}
+
+@font-face {
+font-family: UniversLTPro-75Black;
+src: url(../assets/fonts/UniversLTPro-75Black.otf) format("opentype"),
+     url(../assets/fonts/UniversLTPro-75Black.woff2) format("woff"),
+     url(../assets/fonts/UniversLTPro-75Black.woff) format("woff");
 }
 
 @font-face {
 font-family: Carmela;
-src: url(../assets/fonts/carmela.ttf);
+src: url(../assets/fonts/carmela.ttf) format("opentype");
 }
 
 
@@ -68,6 +85,7 @@ h3{
   font-size: 15;
   line-height: 28px;
   margin-bottom: 140px;
+  text-transform: uppercase;
 }
 
 h4{
@@ -87,20 +105,17 @@ h4{
 }
 
 #light-content-wrapper{
-  padding-top: 34
+  margin-top: 34;
   max-width: 1080px;
   margin: 0 auto;
   padding-left: 11%;
   padding-right: 11%;
   justify-content: center;
   display: table;
-  /* display: flex;
-  flex-direction: row; */
-  /* display: grid;
-  grid-template-columns: 40% 10% 40%; */
 }
 
 #dark-content-wrapper{
+  padding-top: 500;
   max-width: 1280px;
   margin: 0 auto;
   padding-left: 4%;
@@ -109,15 +124,48 @@ h4{
   color: #FAFAFA;
 }
 
-/* .header{
-  margin-top: 5;
-} */
+.timeline{
+  position: fixed;
+  font-family: 'UniversLTPro-55Roman', sans-serif;
+  color: white;
+  font-size: 15;
+  letter-spacing: 10;
+  padding-left: 10;
+}
+
+#h-fixed{
+  font-family: 'UniversLTPro-55Roman', sans-serif;
+  transform: rotate(-90deg);
+  position: fixed;
+  z-index: 3;
+  top: 50vh;
+  left: 10
+}
+
+#t-moving{
+  transform: rotate(-90deg);
+  position: fixed;
+  z-index: 4;
+  top: 50;
+  left: 28;
+}
+
+#t-fixed{
+  transform: rotate(-90deg);
+  position: fixed;
+  z-index: 5;
+  top: 47vh;;
+  left: 28;
+}
+
+.tnumber{
+  position: relative;
+}
 
 .content-block p{
   font-size: 15;
   line-height: 28px;
 }
-
 
 .metadata-middle-right p{
   font-size: 12;
@@ -160,24 +208,6 @@ h4{
   font-size: 25;
   line-height: 35px;
 }
-
-.timeline{
-  position: fixed;
-  font-family: 'UniversLTPro-55Roman', sans-serif;
-  font-size: 15;
-  letter-spacing: 9.7;
-  align-content: center;
-  height: 100vh;
-  margin: 0 auto;
-  padding-top: 50vh;
-  padding-left: 1%;
-}
-
-.timeline-hundred{
-  transform: rotate(-90deg);
-}
-
-
 
 .info-text-left{
   margin-bottom: 32;
@@ -245,7 +275,8 @@ h4{
 }
 
 .content-block{
-  margin-top: 400;
+  margin-top: 100;
+  margin-bottom: 250;
   display: grid;
   grid-template-rows: auto;
 

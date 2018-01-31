@@ -19,6 +19,8 @@ var ctx = canvas.getContext("2d");
 ctx.fillRect(0, 0, 150, 100);
 // var data = require
 
+
+
 //VARS parametric influencing parameters
 var garden = {
 	size: 440000,
@@ -325,6 +327,25 @@ function drawShaft(x1,y1, x2, y2, shaftSize){
 	ctx.lineWidth = shaftSize;
 	ctx.stroke();
 }
+
+//separates emphazised (<em> </em>) from string
+
+// function splitEm(fullText) {
+// 	if (fullText.split("<em>")[0] != ""){
+// 		if (fullText.split("<em>").length <= 1){
+// 			return ""
+// 		}
+// 		var next = fullText.split("<em>")[1]
+// 		if (next[0] != ""){
+// 			return next.split("</em>")[0]
+// 		}
+// 	}else {
+// 		var next = fullText.split("<em>")[1]
+// 		if (next[0] != ""){
+// 			return next.split("</em>")[0]
+// 		}
+// 	}
+// }
 
 //Scrollindicator
 function moveJMB(){
@@ -708,24 +729,38 @@ function contentData(data){
 		var metadataDiv = document.createElement("div");
 		var subtitleDiv = document.createElement("div");
 
+		var emBlock = document.createElement("div")
+		emBlock.className += "emBlock"
+
+		var emDiv = document.createElement("div")
+		emDiv.className += "em "
+
 		var imageDiv = document.createElement("div");
+
 		if(this_content.class === "content-block-left"){
+			emDiv.className += "em-left"
 			imageDiv.className += "image-left"
 			metadataDiv.className += "metadata-left";
 			subtitleDiv.className += "subtitle-left";
 		}else if(this_content.class === "content-block-right"){
+			emDiv.className += "em-right"
 			imageDiv.className += "image-right"
 			metadataDiv.className += "metadata-right";
 			subtitleDiv.className += "subtitle-right";
 		}else if (this_content.class === "content-block-middle-left"){
+			emDiv.className += "em-middle-left"
 			imageDiv.className += "image-middle-left"
 			metadataDiv.className += "metadata-middle-left";
 			subtitleDiv.className += "subtitle-middle-left";
 		}else {
 			imageDiv.className += "image-middle-right"
+			emDiv.className += "em-middle-right"
 			metadataDiv.className += "metadata-middle-right";
 			subtitleDiv.className += "subtitle-middle-right";
 		}
+
+		var em = document.createElement("p");
+		em.innerHTML = this_content.em
 
 		var h2 = document.createElement("h2")
 		h2.innerHTML = this_content.name
@@ -734,7 +769,7 @@ function contentData(data){
 		p.innerHTML = this_content.text
 
 		var img = document.createElement("img")
-		console.log(this_content.imgName);
+		//console.log(this_content.imgName);
 		img.src = "./assets/images/" + this_content.imgName
 
 		var metaP = document.createElement("p");
@@ -753,7 +788,11 @@ function contentData(data){
 
 		div.append(innerDiv)
 		div.append(imageDiv)
-
+		if (this_content.em != ""){
+			emDiv.append(em)
+			emBlock.append(emDiv)
+			document.getElementById("dark-content-wrapper").appendChild(emBlock);
+		}
 		document.getElementById("dark-content-wrapper").appendChild(div);
 	}
 }
@@ -769,7 +808,7 @@ function drawLoop(){
 	if(updateCanvas){
 		resizeCanvas();
 		draw();
-		manipulateHTML();
+		//manipulateHTML();
 		updateCanvas = false;
 	}
 }

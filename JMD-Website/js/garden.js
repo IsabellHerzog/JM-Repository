@@ -22,7 +22,7 @@ ctx.fillRect(0, 0, 150, 100);
 var t_years = {
 	positions: [],
 	tens: [],
-	hundreds: []
+	hundreds: [""]
 }
 
 //VARS parametric influencing parameters
@@ -741,7 +741,7 @@ function contentData(data){
 		t_years.tens.push(this_content.year.substring(2, 4));
 
 		//POSITIONS
-		t_years.positions[i] = div.getBoundingClientRect().y;
+		t_years.positions[i] = div.getBoundingClientRect().y+windowOffset;
 	}
 	}
 	drawLoop();
@@ -755,14 +755,31 @@ function shaftText(textID){
 }
 
 //draws the tmeline
-function timeline(element, i){
+function timeline(tens_moving, i){
 
 	var time_position = t_years.positions[i]-windowOffset
+
 	if(time_position>=window.innerHeight*0.47){
-	$(element).css({"top": time_position});
+
+	$('#t-fixed').text(t_years.tens[i-1]);
+
+
+	$('#h-fixed').text(t_years.hundreds[i-1]);
+
+	$(tens_moving).text(t_years.tens[i]);
+	var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
+	if(0<=opacitator && opacitator<=1){
+	$(tens_moving).css({"opacity": opacitator});
+	$(tens_moving).css({"top": time_position});
+
+	$('#t-fixed').css({"top": 47 - opacitator*2 + "vh"});
+	$('#t-fixed').css({"opacity": 1-opacitator});
+}
 }else if((time_position<window.innerHeight*0.47)){
-	$(element).css({"top": window.innerHeight});
-	timeline(element, i+1)
+	$('#t-fixed').css({"top": 47 + "vh"});
+	$('#t-fixed').css({"opacity": 1});
+	$(tens_moving).css({"top": window.innerHeight});
+	timeline(tens_moving, i+1)
 }
 }
 
@@ -791,7 +808,6 @@ function drawLoop(){
 window.addEventListener('scroll', function(e){
 	updateCanvas = true;
 	windowOffset = window.pageYOffset;
-	//y = mapArea(windowOffset, 0, 1000, 3, 6)
 })
 
 // resize the canvas to fill browser window dynamically

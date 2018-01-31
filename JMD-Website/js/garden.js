@@ -19,6 +19,12 @@ var ctx = canvas.getContext("2d");
 ctx.fillRect(0, 0, 150, 100);
 // var data = require
 
+var t_years = {
+	positions: [],
+	tens: [],
+	hundreds: []
+}
+
 //VARS parametric influencing parameters
 var garden = {
 	size: 440000,
@@ -27,36 +33,30 @@ var garden = {
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
-			{s: 0, e: 400}, //white_1 (start + end)
-			{s: 800, e: 800}, //threequaterwhite_1
-			{s:1200, e: 1200}, //halfwhite_1
-			{s:1600,e: 1600}, //quaterwhite_1
-			{s:3100, e: 3100}, //onpixel_1
+			{s: 0, e: 300}, //white_1 (start + end)
+			{s: 1500, e: 1500}, //threequaterwhite_1
+			{s:3000, e: 3000}, //halfwhite_1
+			{s:4000,e: 4000}, //quaterwhite_1
+			{s:5000, e: 5000}, //onpixel_1
 			{s:14000, e: 16000}, //blackend/start
 			{s:20000, e: 20000}, //onepixel_2
-			{s:21000, e: 21000}, //quaterwhite_2
-			{s:22000, e: 22000}, //halfwhite_2
-			{s:23000, e: 23000}, //threequaterwhite_2
-			{s:24000, e: 26000} //white_2
+			{s:50000, e: 50000}, //quaterwhite_2
+			{s:50000, e: 50000}, //halfwhite_2
+			{s:50000, e: 50000}, //threequaterwhite_2
+			{s:50000, e: 50000} //white_2
 		]
 	}
 }
 
-// sets documents height to the gardens-size
-garden.size = garden.sectionPoints.a[10].e
-document.body.style.height = garden.size
-
 //Contains all colors and enables changes in the colorset
 var colorset = {
 	black: "#010006",
-	softlyLit: "#BFBFBF",
-	concrete: "#404040",
+	softlyLit: "#404040",
+	concrete: "#0e0d0d",
 	concreteLit: "#BFBFBF",
 	beige: "#F3EEE8",
-	lightGrey: "#FBFBFB",
+	lightGrey: "#BFBFBF",
 }
-
-canvas.style.background = "#0e0d0d";
 
 //POSITIONS OF pillars
 var pillar = {
@@ -64,7 +64,7 @@ var pillar = {
 	size: 200, //sets the size of the pillars
 	color: colorset.black,
 	points: [ //x,y coordinates for the pillars on the canvas
-		{x: 0, y: 0},
+		{x: -10, y: 0},
 		{x: 170, y: 500},
 		{x: 170, y: 2450},
 		{x: 170, y: 5230},
@@ -78,6 +78,7 @@ var pillar = {
 	]
 }
 
+//settings of the lightShaft
 var lightShaft = {
 	active: false, //determinates wheather the shaft is drawnd
 	x1: 0,
@@ -86,7 +87,7 @@ var lightShaft = {
 	y2: 0, //end of the shaft
 	middle: {
 		width: 1, //size of the shaft
-		color: colorset.lightGrey
+		color: "white"
 	},
 	border: {
 		width: 1, //size of the surrounding border
@@ -95,6 +96,7 @@ var lightShaft = {
 	}
 }
 
+//settings of the lightSpot
 var lightSpot = {
 	active: false, //determines whaether light spot is active (visually)
 	x: window.innerWidth/2,
@@ -105,12 +107,13 @@ var lightSpot = {
 	image: new Image()
 }
 
+//settings of the shadows
 var shadow = {
 	active: false,
-	background: colorset.concrete, //color of the background
+	background: colorset.softlyLit, //color of the background
 	intersections: {
-		opacity: 0.6,
-		color: colorset.concrete, //color of the shadow overlays
+		opacity: 0.3,
+		color: colorset.concreteLit, //color of the shadow overlays
 		fuzzyness: 40 //spreading of the light, also relates to the lightshaft-size
 	}
 }
@@ -126,15 +129,19 @@ var Mouse = {
 	y: 0
 };
 
-
 // Necessary for storing the points of the pillars
 var segments = [];
-
 var shaftGrowing = true;
 
 //relations
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
 
+//sets the background color
+canvas.style.background = colorset.concrete;
+
+// sets documents height to the gardens-size
+garden.size = garden.sectionPoints.a[10].e
+document.body.style.height = garden.size
 
 //#####################FUNCTIONS#######################
 
@@ -207,8 +214,7 @@ function getSightPolygon(sightX,sightY){
 	var uniqueAngles = [];
 	for(var j=0;j<uniquePoints.length;j++){
 		var uniquePoint = uniquePoints[j];
-		var angle = Math.atan2(uniquePoint.y-sightY,uniquePoint.x-sightX);
-		uniquePoint.angle = angle;
+		var angle = Math.atan2(uniquePoint.y-sightY,uniquePoint.x-sightX);//tried
 		uniqueAngles.push(angle-0.00001,angle,angle+0.00001);
 	}
 
@@ -264,7 +270,6 @@ function calcShift(dot,sizeX,sizeY, positioner){
 	return point;
 }
 
-
 function calcSegments(i_min, i_max, rectSize, c){
 
 	for(var i = i_min; i<i_max; i++){
@@ -298,10 +303,10 @@ function calcSegments(i_min, i_max, rectSize, c){
 function drawPolygon(polygon,ctx,fillStyle){
 	ctx.fillStyle = fillStyle;
 	ctx.beginPath();
-	ctx.moveTo(polygon[0].x ,polygon[0].y -windowOffset);
+	ctx.moveTo(polygon[0].x ,polygon[0].y -windowOffset); //maybe needed
 	for(var i=1;i<polygon.length;i++){
 		var intersect = polygon[i];
-		ctx.lineTo(intersect.x ,intersect.y -windowOffset);
+		ctx.lineTo(intersect.x ,intersect.y -windowOffset); //maybe needed
 	}
 	ctx.fill();
 }
@@ -324,18 +329,6 @@ function drawShaft(x1,y1, x2, y2, shaftSize){
 	ctx.lineTo(x1, y1);
 	ctx.lineWidth = shaftSize;
 	ctx.stroke();
-}
-
-//Scrollindicator
-function moveJMB(){
-
-}
-
-//makes Text of an ID align to the shaft
-function shaftText(textID){
-	textWidth = lightShaft.width+"px"
-	textLeftMargin = $(window).width()/2 - lightShaft.width/2 + 1
-	$(textID).css({"width":textWidth, "margin-left": textLeftMargin+"px"})
 }
 
 //everything related to the canvas size
@@ -577,14 +570,16 @@ function scrollLight(sectionAnkers){
 
 //Everything visible in the canvas
 function draw(){
+	segments = []
 
+	calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
+	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
 	// Clear canvas
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 
 	if (shaftGrowing) {
 		var color = 255
 		if (lightShaft.width != null){
-			//console.log("Hello");
 			color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 64, 255))
 		}
 
@@ -592,28 +587,19 @@ function draw(){
 		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
 		ctx.fill();
 
-		//console.log( lightShaft.width);
-		//(S = Source, T = Target)
-		console.log("lightshaft:"+lightShaft.width);
-		console.log("window.width:"+window.innerWidth);
-		console.log("rgb("+color+","+color+","+color+")");
 	}
 
-
-
-
-	console.log();
 	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
 	scrollLight(garden.sectionPoints.a);
 
 
 	if(shadow.active){
 		// Sight Polygons
-		var polygons = [getSightPolygon(lightSpot.x,lightSpot.y+windowOffset)];
-		for(var angle=0;angle<Math.PI*2; angle+=(Math.PI*2)/10){
+		var polygons = [getSightPolygon(lightSpot.x,lightSpot.y+windowOffset)];//needed
+		for(var angle=0;angle<Math.PI*2; angle+=(Math.PI*2)/20){
 			var dx = Math.sin(angle)*shadow.intersections.fuzzyness;
 			var dy = Math.cos(angle)*shadow.intersections.fuzzyness;
-			polygons.push(getSightPolygon((lightSpot.x+dx) ,(lightSpot.y+dy+windowOffset)));
+			polygons.push(getSightPolygon((lightSpot.x+dx) ,(lightSpot.y+dy)));//needed
 		};
 
 		drawPolygon(polygons[0],ctx,shadow.background);
@@ -641,22 +627,22 @@ function draw(){
 			ctx.fillStyle = pillar.color
 			var spot = pillar.points[i];
 			ctx.beginPath();
-			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);
-			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);
-			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);
-			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);
+			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
+			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
+			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
+			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
 			ctx.fill();
 		}
 	}
 }
 
-
+//fills the content in the white info-area from a spreadsheet
 function infoData(data){
 
-	//assigns the content to new divs
 	for(i=0; i<data.length; i++){
 
 		var this_content = data[i];
+
 		var div = document.createElement("div");
 		var h3 = document.createElement("h3");
 		var p = document.createElement("p");
@@ -665,19 +651,26 @@ function infoData(data){
 		p.innerHTML = this_content.text;
 
 		div.className += this_content.class;
+
+		if(div.className ==="info-text-quote"){
+			div.append(p);
+			div.append(h3);
+		}else{
 		div.append(h3);
 		div.append(p);
-
+		}
 		document.getElementById("light-content-wrapper").appendChild(div);
 	}
 }
 
+//fills the content in the dark content-area from a spreadsheet
 function contentData(data){
 
 	for(i=0; i<data.length; i++){
 
 		var this_content = data[i];
 
+		//fills in the html content
 		var div = document.createElement("div");
 		div.className += "content-block";
 
@@ -713,7 +706,9 @@ function contentData(data){
 		p.innerHTML = this_content.text
 
 		var img = document.createElement("img")
-		img.src = this_content.imgLink
+		img.src = "./assets/images/" + this_content.imgName
+		img.style.opacity = "0.9"
+		// img.style.backgroundBlendMode = "multiply";
 
 		var metaP = document.createElement("p");
 		metaP.innerHTML = this_content.metadata
@@ -733,12 +728,67 @@ function contentData(data){
 		div.append(imageDiv)
 
 		document.getElementById("dark-content-wrapper").appendChild(div);
+
+
+
+		//defines/pulls year-infos into the t_years object
+		if(4===this_content.year.length){
+
+		//tens
+		t_years.hundreds[i] = this_content.year.substring(0, 2);
+
+		//hundreds
+		t_years.tens.push(this_content.year.substring(2, 4));
+
+		//POSITIONS
+		t_years.positions[i] = div.getBoundingClientRect().y+windowOffset;
 	}
+	}
+	drawLoop();
+}
+
+//makes Text of an ID align to the shaft
+function shaftText(textID){
+	textWidth = lightShaft.width+"px"
+	textLeftMargin = $(window).width()/2 - lightShaft.width/2 + 1
+	$(textID).css({"width":textWidth, "margin-left": textLeftMargin+"px"})
+}
+
+//draws the tmeline
+function timeline(tens_moving, i){
+
+	var time_position = t_years.positions[i]-windowOffset
+
+	if(time_position>=window.innerHeight*0.47){
+
+	$('#t-fixed').text(t_years.tens[i-1]);
+
+
+	$('#h-fixed').text(t_years.hundreds[i-1]);
+
+	$(tens_moving).text(t_years.tens[i]);
+	var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
+	if(0<=opacitator && opacitator<=1){
+	$(tens_moving).css({"opacity": opacitator});
+	$(tens_moving).css({"top": time_position});
+
+	$('#t-fixed').css({"top": 47 - opacitator*2 + "vh"});
+	$('#t-fixed').css({"opacity": 1-opacitator});
+}
+}else if((time_position<window.innerHeight*0.47)){
+	$('#t-fixed').css({"top": 47 + "vh"});
+	$('#t-fixed').css({"opacity": 1});
+	$(tens_moving).css({"top": window.innerHeight});
+	timeline(tens_moving, i+1)
+}
 }
 
 //everything that changes HTML or CSS Properties
 function manipulateHTML(){
-	shaftText('#text1')
+	shaftText('#text1');
+
+	//move timeline
+	timeline('#t-moving',0);
 }
 
 //everything triggered when input-changes are happening
@@ -749,19 +799,15 @@ function drawLoop(){
 		draw();
 		manipulateHTML();
 		updateCanvas = false;
-		console.log(windowOffset);
 	}
 }
-//######################EVENTS##########################
-calcSegments(0,1, garden.sectionPoints.a[7].s - garden.sectionPoints.a[4].e, garden.sectionPoints.a[4].e)
-calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
 
+//######################EVENTS##########################
 
 //everything happening when scrolling
 window.addEventListener('scroll', function(e){
 	updateCanvas = true;
 	windowOffset = window.pageYOffset;
-	//y = mapArea(windowOffset, 0, 1000, 3, 6)
 })
 
 // resize the canvas to fill browser window dynamically
@@ -770,12 +816,11 @@ window.addEventListener('resize', resizeCanvas, false);
 //everything happening on pageload
 window.onload = function(){
 	lightSpot.image.onload = function(){
-		drawLoop();
 	};
 	lightSpot.image.src = "assets/garden_lightShaftSpot.png";
 };
 
-//everything happening when mouse is moved
+//everything happening when mouse is moved (reassign canvasto the top one if you wanna use again)
 canvas.onmousemove = function(event){
 	Mouse.x = event.clientX;
 	Mouse.y = event.clientY;

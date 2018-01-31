@@ -20,9 +20,9 @@ ctx.fillRect(0, 0, 150, 100);
 // var data = require
 
 var t_years = {
-	positions: [],
-	tens: [],
-	hundreds: []
+    positions: [],
+    tens: [],
+    hundreds: []
 }
 
 //VARS parametric influencing parameters
@@ -64,17 +64,26 @@ var pillar = {
 	size: 200, //sets the size of the pillars
 	color: colorset.black,
 	points: [ //x,y coordinates for the pillars on the canvas
-		{x: -10, y: 0},
-		{x: 170, y: 500},
-		{x: 170, y: 2450},
-		{x: 170, y: 5230},
-		{x: 476, y: 1218},
-		{x: 476, y: 3222},
-		{x: 476, y: 4610},
-		{x: 1088, y: 213},
-		{x: 1088, y: 2736},
-		{x: 1394, y: 1296},
-		{x: 1394, y: 3444},
+		{x: -200, y: -200}, //first one is hidden
+        {x: 1092, y: 500},
+        {x: 400, y: 965},
+        {x: 1092, y: 1325},
+        {x: 300, y: 1670},
+        {x: 1320, y: 2020},
+        {x: 725, y: 2720},
+        {x: 1092, y: 3000},
+        {x: 400, y: 3370},
+        {x: 610, y: 3940},
+        {x: 1100, y: 3940},
+        {x: 1320, y: 4435},
+        {x: 400, y: 4840},
+        //{x: 1088, y: 2736},
+        //{x: 1088, y: 2736},
+        //{x: 476, y: 3222},
+        //{x: 476, y: 4610},
+        //{x: 1394, y: 3444},
+        //{x: 170, y: 5230},
+        {x: 476, y: 1000000000099909877788}
 	]
 }
 
@@ -352,6 +361,25 @@ function mapArea(x, min_S, max_S, min_T, max_T){
 	var y = (max_T-min_T)*(x-min_S)/(max_S-min_S) + min_T
 	return y
 }
+
+//separates emphazised (<em> </em>) from string
+
+// function splitEm(fullText) {
+// 	if (fullText.split("<em>")[0] != ""){
+// 		if (fullText.split("<em>").length <= 1){
+// 			return ""
+// 		}
+// 		var next = fullText.split("<em>")[1]
+// 		if (next[0] != ""){
+// 			return next.split("</em>")[0]
+// 		}
+// 	}else {
+// 		var next = fullText.split("<em>")[1]
+// 		if (next[0] != ""){
+// 			return next.split("</em>")[0]
+// 		}
+// 	}
+// }
 
 //goes through the stages of one lightloop mapping the states on the scrollingposition. For more information take the relating sketch file from the folder 04_wireframes/02_juli folder
 function scrollLight(sectionAnkers){
@@ -680,24 +708,38 @@ function contentData(data){
 		var metadataDiv = document.createElement("div");
 		var subtitleDiv = document.createElement("div");
 
+		var emBlock = document.createElement("div")
+		emBlock.className += "emBlock"
+
+		var emDiv = document.createElement("div")
+		emDiv.className += "em "
+
 		var imageDiv = document.createElement("div");
+
 		if(this_content.class === "content-block-left"){
+			emDiv.className += "em-left"
 			imageDiv.className += "image-left"
 			metadataDiv.className += "metadata-left";
 			subtitleDiv.className += "subtitle-left";
 		}else if(this_content.class === "content-block-right"){
+			emDiv.className += "em-right"
 			imageDiv.className += "image-right"
 			metadataDiv.className += "metadata-right";
 			subtitleDiv.className += "subtitle-right";
 		}else if (this_content.class === "content-block-middle-left"){
+			emDiv.className += "em-middle-left"
 			imageDiv.className += "image-middle-left"
 			metadataDiv.className += "metadata-middle-left";
 			subtitleDiv.className += "subtitle-middle-left";
 		}else {
 			imageDiv.className += "image-middle-right"
+			emDiv.className += "em-middle-right"
 			metadataDiv.className += "metadata-middle-right";
 			subtitleDiv.className += "subtitle-middle-right";
 		}
+
+		var em = document.createElement("p");
+		em.innerHTML = this_content.em
 
 		var h2 = document.createElement("h2")
 		h2.innerHTML = this_content.name
@@ -726,7 +768,11 @@ function contentData(data){
 
 		div.append(innerDiv)
 		div.append(imageDiv)
-
+		if (this_content.em != ""){
+			emDiv.append(em)
+			emBlock.append(emDiv)
+			document.getElementById("dark-content-wrapper").appendChild(emBlock);
+		}
 		document.getElementById("dark-content-wrapper").appendChild(div);
 
 

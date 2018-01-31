@@ -1,61 +1,47 @@
-
-
-
-
 @font-face {
 font-family: UniversLTPro-45Light;
-src: url(../assets/fonts/UniversLTPro-45Light.otf) format("opentype"),
-     url(../assets/fonts/UniversLTPro-45Light.woff2) format("woff"),
-     url(../assets/fonts/UniversLTPro-45Light.woff) format("woff");
+src: url(../assets/fonts/UniversLTPro-45Light.otf);
+font-style: normal;
+font-weight: lighter;
 }
 
 @font-face {
 font-family: UniversLTPro-45LightOblique;
-src: url(../assets/fonts/UniversLTPro-45LightOblique.otf) format("opentype"),
-     url(../assets/fonts/UniversLTPro-45LightOblique.woff2) format("woff"),
-     url(../assets/fonts/UniversLTPro-45LightOblique.woff) format("woff");
+src: url(../assets/fonts/UniversLTPro-45LightOblique.otf);
+font-style: oblique;
+font-weight: normal;
 }
 
 @font-face {
 font-family: UniversLTPro-55Roman;
-src: url(../assets/fonts/UniversLTPro-55Roman.otf) format("opentype"),
-     url(../assets/fonts/UniversLTPro-55Roman.woff2) format("woff"),
-     url(../assets/fonts/UniversLTPro-55Roman.woff) format("woff");
+src: url(../assets/fonts/UniversLTPro-55Roman.otf);
+font-style: normal;
+font-weight: normal;
 }
 
 @font-face {
 font-family: UniversLTPro-65Bold;
-src: url(../assets/fonts/UniversLTPro-65Bold.otf) format("opentype"),
-     url(../assets/fonts/UniversLTPro-65Bold.woff2) format("woff"),
-     url(../assets/fonts/UniversLTPro-65Bold.woff) format("woff");
+src: url(../assets/fonts/UniversLTPro-65Bold.otf);
+font-style: normal;
+font-weight: bold;
 }
 
 @font-face {
 font-family: UniversLTPro-75Black;
-src: url(../assets/fonts/UniversLTPro-75Black.otf) format("opentype"),
-     url(../assets/fonts/UniversLTPro-75Black.woff2) format("woff"),
-     url(../assets/fonts/UniversLTPro-75Black.woff) format("woff");
-}
-
-@font-face {
-font-family: UniversLTPro-75Black;
-src: url(../assets/fonts/UniversLTPro-75Black.otf) format("opentype"),
-     url(../assets/fonts/UniversLTPro-75Black.woff2) format("woff"),
-     url(../assets/fonts/UniversLTPro-75Black.woff) format("woff");
+src: url(../assets/fonts/UniversLTPro-75Black.otf);
+font-style: normal;
+font-weight: bolder;
 }
 
 @font-face {
 font-family: Carmela;
-src: url(../assets/fonts/carmela.ttf) format("opentype");
+src: url(../assets/fonts/carmela.ttf);
 }
-
-
-
-
 
 ::-webkit-scrollbar {
     /* display: none; */
 }
+
 
 
 body{
@@ -70,7 +56,6 @@ body{
 h1{
   font-family: 'UniversLTPro-65Bold', sans-serif;
   font-size: 30;
-
 }
 
 h2{
@@ -121,7 +106,7 @@ h4{
   padding-left: 4%;
   padding-right: 4%;
   justify-content: center;
-  color: #FAFAFA;
+  color: #D8D8D8;
 }
 
 .timeline{
@@ -162,40 +147,103 @@ h4{
   position: relative;
 }
 
+.emBlock {
+  padding-top: 300px;
+  padding-bottom: 80px;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 30% 10% 12% 10% 30%;
+  grid-column-gap: 2%
+}
+
+.em {
+  font-family: 'UniversLTPro-45Light', sans-serif;
+  font-size: 12;
+  line-height: 33px;
+  letter-spacing: 10px;
+  max-width: 400px;
+  text-align: center;
+
+}
+
+.em-left {
+  grid-area: 1/1/2/1;
+}
+
+.em-right {
+  grid-area: 1/5/2/5;
+}
+
 .content-block p{
+  font-family: 'UniversLTPro-45Light', sans-serif;
   font-size: 15;
-  line-height: 28px;
+  line-height: 29px;
+}
+
+.content-block p em {
+  font-style: normal;
 }
 
 .metadata-middle-right p{
+  padding-top: 10px;
   font-size: 12;
   text-align: right;
+  color: #626262;
+  line-height: 18px;
+}
+
+.metadata-middle-left p{
+  padding-top: 10px;
+  font-size: 12;
+  text-align: left;
+  color: #626262;
+  line-height: 18px;
 }
 
 .metadata-right p{
+  padding-top: 10px;
   font-size: 12;
   text-align: right;
+  color: #626262;
+  line-height: 18px;
 }
 
 .metadata-left p{
+  padding-top: 10px;
   font-size: 12;
   text-align: left;
+  color: #626262;
+  line-height: 18px;
 }
 
 .subtitle-middle-right p{
+  padding-top: 10px;
+  font-size: 10;
+  text-align: left;
+  line-height: 20px;
+}
+.subtitle-middle-left p{
+  padding-top: 10px;
   font-size: 10;
   text-align: right;
+  line-height: 20px;
 }
 
 .subtitle-right p{
+  padding-top: 10px;
   font-size: 10;
-  text-align: right;
+  text-align: left;
+  line-height: 20px;
 }
 
 .subtitle-left p{
+  padding-top: 10px;
   font-size: 10;
-  text-align: left;
+  text-align: right;
+  line-height: 20px;
 }
+
+
 
 .yearDivision {
   padding-left: 20px;
@@ -205,6 +253,9 @@ h4{
 .content-block h2{
   margin-top: 0px;
   font-family: 'UniversLTPro-45Light', sans-serif;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: lighter;
   font-size: 25;
   line-height: 35px;
 }
@@ -275,11 +326,11 @@ h4{
 }
 
 .content-block{
-  margin-top: 100;
-  margin-bottom: 250;
+  padding-top: 150px;
+  padding-bottom: 100px;
   display: grid;
   grid-template-rows: auto;
-  grid-template-columns: 20% 20% 10% 20% 20%;
+  grid-template-columns: 20% 20% 12% 20% 20%;
   grid-column-gap: 2%
 }
 

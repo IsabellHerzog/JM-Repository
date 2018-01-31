@@ -16,13 +16,16 @@ var canvas = document.getElementById("canvas");
 
 var ctx = canvas.getContext("2d");
 
+var perspective_X = 0
+var perspective_Y = 0
+
 ctx.fillRect(0, 0, 150, 100);
 // var data = require
 
 var t_years = {
-    positions: [],
-    tens: [],
-    hundreds: []
+	positions: [],
+	tens: [],
+	hundreds: []
 }
 
 //VARS parametric influencing parameters
@@ -65,25 +68,25 @@ var pillar = {
 	color: colorset.black,
 	points: [ //x,y coordinates for the pillars on the canvas
 		{x: -200, y: -200}, //first one is hidden
-        {x: 1092, y: 500},
-        {x: 400, y: 965},
-        {x: 1092, y: 1325},
-        {x: 300, y: 1670},
-        {x: 1320, y: 2020},
-        {x: 725, y: 2720},
-        {x: 1092, y: 3000},
-        {x: 400, y: 3370},
-        {x: 610, y: 3940},
-        {x: 1100, y: 3940},
-        {x: 1320, y: 4435},
-        {x: 400, y: 4840},
-        //{x: 1088, y: 2736},
-        //{x: 1088, y: 2736},
-        //{x: 476, y: 3222},
-        //{x: 476, y: 4610},
-        //{x: 1394, y: 3444},
-        //{x: 170, y: 5230},
-        {x: 476, y: 1000000000099909877788}
+		{x: 1092, y: 500},
+		{x: 400, y: 965},
+		{x: 1092, y: 1325},
+		{x: 300, y: 1670},
+		{x: 1320, y: 2020},
+		{x: 725, y: 2720},
+		{x: 1092, y: 3000},
+		{x: 400, y: 3370},
+		{x: 610, y: 3940},
+		{x: 1100, y: 3940},
+		{x: 1320, y: 4435},
+		{x: 400, y: 4840},
+		//{x: 1088, y: 2736},
+		//{x: 1088, y: 2736},
+		//{x: 476, y: 3222},
+		//{x: 476, y: 4610},
+		//{x: 1394, y: 3444},
+		//{x: 170, y: 5230},
+		{x: 476, y: 1000000000099909877788}
 	]
 }
 
@@ -363,7 +366,6 @@ function mapArea(x, min_S, max_S, min_T, max_T){
 }
 
 //separates emphazised (<em> </em>) from string
-
 // function splitEm(fullText) {
 // 	if (fullText.split("<em>")[0] != ""){
 // 		if (fullText.split("<em>").length <= 1){
@@ -390,8 +392,12 @@ function scrollLight(sectionAnkers){
 			garden.section = garden.sections[i] + "++"
 		}
 	}
+
+	perspective_X = Mouse.x*0.05
+	perspective_Y = Mouse.y*0.05
+
 	//default settings for lightShaft
-	lightShaft.x1 = window.innerWidth/2
+	lightShaft.x1 = window.innerWidth/2+perspective_X
 	lightShaft.x2 = lightShaft.x1
 	lightShaft.y1 = 0;
 	lightShaft.y2 = window.innerHeight;
@@ -411,7 +417,7 @@ function scrollLight(sectionAnkers){
 		case garden.sections[0]+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
-			lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, window.innerWidth, window.innerWidth*0.75);
+		lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, window.innerWidth, window.innerWidth*0.75);
 		break;
 
 		case garden.sections[1]:
@@ -645,7 +651,7 @@ function draw(){
 
 	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
 	if(lightSpot.active){
-		lightSpot.x = canvas.width/2;
+		lightSpot.x = lightShaft.x1;
 		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
 		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
 		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
@@ -684,8 +690,8 @@ function infoData(data){
 			div.append(p);
 			div.append(h3);
 		}else{
-		div.append(h3);
-		div.append(p);
+			div.append(h3);
+			div.append(p);
 		}
 		document.getElementById("light-content-wrapper").appendChild(div);
 	}
@@ -780,15 +786,15 @@ function contentData(data){
 		//defines/pulls year-infos into the t_years object
 		if(4===this_content.year.length){
 
-		//tens
-		t_years.hundreds[i] = this_content.year.substring(0, 2);
+			//tens
+			t_years.hundreds[i] = this_content.year.substring(0, 2);
 
-		//hundreds
-		t_years.tens.push(this_content.year.substring(2, 4));
+			//hundreds
+			t_years.tens.push(this_content.year.substring(2, 4));
 
-		//POSITIONS
-		t_years.positions[i] = div.getBoundingClientRect().y+windowOffset;
-	}
+			//POSITIONS
+			t_years.positions[i] = div.getBoundingClientRect().y+windowOffset;
+		}
 	}
 	drawLoop();
 }
@@ -807,26 +813,26 @@ function timeline(tens_moving, i){
 
 	if(time_position>=window.innerHeight*0.47){
 
-	$('#t-fixed').text(t_years.tens[i-1]);
+		$('#t-fixed').text(t_years.tens[i-1]);
 
 
-	$('#h-fixed').text(t_years.hundreds[i-1]);
+		$('#h-fixed').text(t_years.hundreds[i-1]);
 
-	$(tens_moving).text(t_years.tens[i]);
-	var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
-	if(0<=opacitator && opacitator<=1){
-	$(tens_moving).css({"opacity": opacitator});
-	$(tens_moving).css({"top": time_position});
+		$(tens_moving).text(t_years.tens[i]);
+		var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
+		if(0<=opacitator && opacitator<=1){
+			$(tens_moving).css({"opacity": opacitator});
+			$(tens_moving).css({"top": time_position});
 
-	$('#t-fixed').css({"top": 47 - opacitator*2 + "vh"});
-	$('#t-fixed').css({"opacity": 1-opacitator});
-}
-}else if((time_position<window.innerHeight*0.47)){
-	$('#t-fixed').css({"top": 47 + "vh"});
-	$('#t-fixed').css({"opacity": 1});
-	$(tens_moving).css({"top": window.innerHeight});
-	timeline(tens_moving, i+1)
-}
+			$('#t-fixed').css({"top": 47 - opacitator*2 + "vh"});
+			$('#t-fixed').css({"opacity": 1-opacitator});
+		}
+	}else if((time_position<window.innerHeight*0.47)){
+		$('#t-fixed').css({"top": 47 + "vh"});
+		$('#t-fixed').css({"opacity": 1});
+		$(tens_moving).css({"top": window.innerHeight});
+		timeline(tens_moving, i+1)
+	}
 }
 
 //everything that changes HTML or CSS Properties
@@ -867,8 +873,8 @@ window.onload = function(){
 };
 
 //everything happening when mouse is moved (reassign canvasto the top one if you wanna use again)
-canvas.onmousemove = function(event){
+$( "body" ).mousemove(function( event ) {
 	Mouse.x = event.clientX;
 	Mouse.y = event.clientY;
 	updateCanvas = true;
-};
+});

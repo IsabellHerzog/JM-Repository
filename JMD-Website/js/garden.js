@@ -64,17 +64,27 @@ var pillar = {
 	size: 200, //sets the size of the pillars
 	color: colorset.black,
 	points: [ //x,y coordinates for the pillars on the canvas
-		{x: -10, y: 0},
-		{x: 170, y: 500},
-		{x: 170, y: 2450},
-		{x: 170, y: 5230},
-		{x: 476, y: 1218},
-		{x: 476, y: 3222},
-		{x: 476, y: 4610},
-		{x: 1088, y: 213},
-		{x: 1088, y: 2736},
-		{x: 1394, y: 1296},
-		{x: 1394, y: 3444},
+		{x: 0, y: 0}, //first one is hidden
+		{x: 1092, y: 500},
+		{x: 400, y: 965},
+		{x: 1092, y: 1325},
+		{x: 300, y: 1670},
+		{x: 1320, y: 2020},
+		{x: 725, y: 2720},
+		{x: 1092, y: 3000},
+		{x: 400, y: 3370},
+		{x: 610, y: 3940},
+		{x: 1100, y: 3940},
+		{x: 1320, y: 4435},
+		{x: 400, y: 4840},
+		//{x: 1088, y: 2736},
+		//{x: 1088, y: 2736},
+		//{x: 476, y: 3222},
+		//{x: 476, y: 4610},
+		//{x: 1394, y: 3444},
+		//{x: 170, y: 5230},
+		{x: 476, y: 1000000000099909877788},
+
 	]
 }
 
@@ -623,7 +633,7 @@ function draw(){
 		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
 	}
 	if(pillar.active){
-		for(var i=0;i<pillar.points.length;i++){
+		for(var i=1;i<=pillar.points.length;i++){
 			ctx.fillStyle = pillar.color
 			var spot = pillar.points[i];
 			ctx.beginPath();

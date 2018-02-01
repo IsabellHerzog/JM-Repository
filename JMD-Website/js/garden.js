@@ -826,15 +826,14 @@ function contentData(data){
 
 		//defines/pulls year-infos into the t_years object
 		if(4===this_content.year.length){
-
 		//tens
-		t_years.hundreds[i] = this_content.year.substring(0, 2);
+		t_years.hundreds.push(this_content.year.substring(0, 2));
 
 		//hundreds
 		t_years.tens.push(this_content.year.substring(2, 4));
 
 		//POSITIONS
-		t_years.positions[i] = div.getBoundingClientRect().y+windowOffset;
+		t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 	}
 	}
 	drawLoop();
@@ -849,17 +848,16 @@ function shaftText(textID){
 
 //draws the tmeline
 function timeline(tens_moving, i){
-
-	var time_position = t_years.positions[i]-windowOffset
+	var time_position = t_years.positions[i+1]-windowOffset
 
 	if(time_position>=window.innerHeight*0.47){
 
-	$('#t-fixed').text(t_years.tens[i-1]);
+	$('#t-fixed').text(t_years.tens[i]);
 
 
-	$('#h-fixed').text(t_years.hundreds[i-1]);
+	$('#h-fixed').text(t_years.hundreds[i]);
 
-	$(tens_moving).text(t_years.tens[i]);
+	$(tens_moving).text(t_years.tens[i+1]);
 	var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
 	if(0<=opacitator && opacitator<=1){
 	$(tens_moving).css({"opacity": opacitator});

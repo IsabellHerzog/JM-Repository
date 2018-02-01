@@ -93,6 +93,25 @@ h2{
   justify-content: center;
 }
 
+#light-content-wrapper2{
+  margin-top: 1000px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-column-gap: 10%;
+  grid-template-areas: "main_l1 main_r1"
+                       "quote1 quote1"
+                       "main_l2 main_r2"
+                       "quote2 quote2"
+                       "main_l3 main_r3";
+  margin-top: 34;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: 11%;
+  padding-right: 11%;
+  justify-content: center;
+}
+
 #dark-content-wrapper{
   padding-top: 500;
   max-width: 1280px;
@@ -142,11 +161,9 @@ h2{
 }
 
 .emBlock {
-  padding-top: 300px;
-  padding-bottom: 80px;
   display: grid;
   grid-template-rows: auto;
-  grid-template-columns: 30% 10% 12% 10% 30%;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 2%
 }
 
@@ -155,19 +172,32 @@ h2{
   font-size: 12;
   line-height: 33px;
   letter-spacing: 10px;
-  max-width: 400px;
+  /* max-width: 400px; */
   text-align: center;
-
 }
 
 .em-left {
-  grid-area: 1/1/2/1;
+  padding-top: 250px;
+  padding-bottom: 60px;
+  grid-area: 1/4/2/6;
 }
 
+.em-middle-left {
+  padding-top: 250px;
+  padding-bottom: 80px;
+  grid-area: 1/5/2/7;
+}
 .em-right {
-  grid-area: 1/5/2/5;
+  padding-top: 250px;
+  padding-bottom: 60px;
+  grid-area: 1/2/2/4;
+  /* grid-area: 1/5/2/5; */
 }
-
+.em-middle-right {
+  padding-top: 250px;
+  padding-bottom: 80px;
+  grid-area: 1/1/2/3;
+}
 .content-block p{
   font-family: 'UniversLTPro-45Light', sans-serif;
   font-size: 15;
@@ -182,7 +212,7 @@ h2{
   padding-top: 10px;
   font-size: 12;
   text-align: right;
-  color: #626262;
+  color: #6C6C6C;
   line-height: 18px;
 }
 
@@ -190,7 +220,7 @@ h2{
   padding-top: 10px;
   font-size: 12;
   text-align: left;
-  color: #626262;
+  color: #6C6C6C;
   line-height: 18px;
 }
 
@@ -198,7 +228,7 @@ h2{
   padding-top: 10px;
   font-size: 12;
   text-align: right;
-  color: #626262;
+  color: #6C6C6C;
   line-height: 18px;
 }
 
@@ -206,7 +236,7 @@ h2{
   padding-top: 10px;
   font-size: 12;
   text-align: left;
-  color: #626262;
+  color: #6C6C6C;
   line-height: 18px;
 }
 

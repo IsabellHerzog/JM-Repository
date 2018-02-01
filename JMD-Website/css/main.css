@@ -65,22 +65,6 @@ h2{
   line-height: 35px;
 }
 
-h3{
-  font-family: 'UniversLTPro-65Bold', sans-serif;
-  font-size: 15;
-  line-height: 28px;
-  margin-bottom: 140px;
-  text-transform: uppercase;
-}
-
-h4{
-  margin-top: 0;
-  font-family: 'UniversLTPro-45LightOblique', sans-serif;
-  font-size: 15;
-  line-height: 28px;
-  margin-bottom: 28px;
-}
-
 #canvas{
   display: block;
   position: fixed;
@@ -341,39 +325,75 @@ h4{
 
   grid-area: main_r3;
 }
-/* ------- */
+/* --- style white area --- */
 .info-text-hebrew{
   font-family: 'Carmela', sans-serif;
   font-size: 39;
   -webkit-text-stroke: .5px;
-  margin-bottom: 32;
   margin-top: 22;
+  margin-bottom: 32;
   width: 100%;
   margin-right: 0;
   grid-area: head1;
 }
 
 .info-text-german{
+  font-family: 'UniversLTPro-65Bold', sans-serif;
+  font-size: 30px;
   margin-top: 32;
+  margin-bottom: 32;
   width: 100%;
   grid-area: head2;
 }
 
 .info-text-adress-right p{
   font-family: 'UniversLTPro-65Bold', sans-serif;
+  font-size: 15px;
   line-height: 30px;
   margin-top: 30;
   text-align: left;
 }
 
 .info-text-adress-right p span {
-
+  display: block;
+  margin-top: 20;
 }
 
+/* ---start grid ---*/
 .info-text-adress-right{
+  margin-bottom: 150px;
   grid-area: adress;
 }
+/* -----------------*/
 
+.info-text-left1, .info-text-left2, .info-text-left3{
+  font-family: 'UniversLTPro-45Light', sans-serif;
+  font-size: 15px;
+  line-height: 28px;
+}
+
+.info-text-right1, .info-text-right2, .info-text-right3{
+  font-family: 'UniversLTPro-45Light', sans-serif;
+  font-size: 15px;
+  line-height: 28px;
+}
+
+
+h3{
+  font-family: 'UniversLTPro-65Bold', sans-serif;
+  font-size: 15px;
+  line-height: 28px;
+  margin-bottom: 140px;
+  text-transform: uppercase;
+}
+
+h4{
+  margin-top: 0;
+  font-family: 'UniversLTPro-45LightOblique', sans-serif;
+  font-size: 15;
+  line-height: 28px;
+  margin-bottom: 28px;
+}
 
 .info-text-quote1{
   text-align: center;
@@ -388,39 +408,28 @@ h4{
   grid-area: quote2;
 }
 
-.info-text-quote1 h3{
-  font-family: 'UniversLTPro-45Light', sans-serif;
+.info-text-quote1 span{
+  display: block;
+  font-family: 'UniversLTPro-45LightOblique', sans-serif;
   font-size: 30;
-  margin-bottom: 98;
-}
-.info-text-quote2 h3{
-  font-family: 'UniversLTPro-45Light', sans-serif;
-  font-size: 30;
-  margin-bottom: 98;
 }
 
 .info-text-quote1 p{
   font-family: 'UniversLTPro-65Bold', sans-serif;
   font-size: 30;
   line-height: 56px;
-  margin-bottom: 41;
+  margin-top: 50px;
+  margin-bottom: 125px;
 }
 .info-text-quote2 p{
   font-family: 'UniversLTPro-65Bold', sans-serif;
   font-size: 30;
   line-height: 56px;
-  margin-bottom: 41;
+  margin-top: 90px;
+  margin-bottom: 95px;
 }
-
-
-
-
-
-
-
-
-
-/* dark-area*/
+/* -------------------- */
+/* -- grid dark-area --*/
 .content-block{
   padding-top: 150px;
   padding-bottom: 100px;
@@ -468,3 +477,4 @@ text-align: right;
 img{
   width: 100%
 }
+/* -------------------- */

@@ -682,9 +682,7 @@ function infoData(data){
 
 		if(div.className ==="info-text-quote1" || div.className ==="info-text-quote2"){
 			div.append(p);
-			div.append(h3);
 		}else{
-		div.append(h3);
 		div.append(p);
 		}
 		document.getElementById("light-content-wrapper").appendChild(div);

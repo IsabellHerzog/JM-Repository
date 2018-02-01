@@ -34,10 +34,10 @@ var garden = {
 	sectionPoints: { //s: start, e: end
 		a:[
 			{s: 0, e: 300}, //white_1 (start + end)
-			{s: 1500, e: 1500}, //threequaterwhite_1
+			{s: 1300, e: 1300}, //threequaterwhite_1
 			{s:3000, e: 3000}, //halfwhite_1
 			{s:4000,e: 4000}, //quaterwhite_1
-			{s:5000, e: 5000}, //onpixel_1
+			{s:4500, e: 4500}, //onpixel_1
 			{s:14000, e: 16000}, //blackend/start
 			{s:20000, e: 20000}, //onepixel_2
 			{s:50000, e: 50000}, //quaterwhite_2

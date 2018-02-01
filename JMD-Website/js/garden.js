@@ -680,7 +680,7 @@ function infoData(data){
 
 		div.className += this_content.class;
 
-		if(div.className ==="info-text-quote"){
+		if(div.className ==="info-text-quote1" || div.className ==="info-text-quote2"){
 			div.append(p);
 			div.append(h3);
 		}else{

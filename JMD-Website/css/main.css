@@ -109,6 +109,25 @@ h4{
   justify-content: center;
 }
 
+#light-content-wrapper2{
+  margin-top: 1000px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-column-gap: 10%;
+  grid-template-areas: "main_l1 main_r1"
+                       "quote1 quote1"
+                       "main_l2 main_r2"
+                       "quote2 quote2"
+                       "main_l3 main_r3";
+  margin-top: 34;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: 11%;
+  padding-right: 11%;
+  justify-content: center;
+}
+
 #dark-content-wrapper{
   padding-top: 500;
   max-width: 1280px;
@@ -178,6 +197,7 @@ h4{
   padding-bottom: 60px;
   grid-area: 1/4/2/6;
 }
+
 .em-middle-left {
   padding-top: 250px;
   padding-bottom: 80px;

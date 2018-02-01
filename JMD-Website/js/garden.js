@@ -33,17 +33,17 @@ var garden = {
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
-			{s: 0, e: 300}, //white_1 (start + end)
-			{s: 1300, e: 1300}, //threequaterwhite_1
-			{s:3000, e: 3000}, //halfwhite_1
-			{s:4000,e: 4000}, //quaterwhite_1
-			{s:4500, e: 4500}, //onpixel_1
-			{s:14000, e: 16000}, //blackend/start
-			{s:20000, e: 20000}, //onepixel_2
-			{s:50000, e: 50000}, //quaterwhite_2
-			{s:50000, e: 50000}, //halfwhite_2
-			{s:50000, e: 50000}, //threequaterwhite_2
-			{s:50000, e: 50000} //white_2
+			{s: 0, e: 600}, //white_1 (start + end)
+			{s: 1000, e: 1000}, //threequaterwhite_1
+			{s:1400, e: 1400}, //halfwhite_1
+			{s:2300,e: 2300}, //quaterwhite_1
+			{s:3300, e: 3300}, //onpixel_1
+			{s:24000, e: 31700}, //blackend/start
+			{s:36000, e: 36000}, //onepixel_2
+			{s:36500, e: 36500}, //quaterwhite_2
+			{s:37000, e: 37000}, //halfwhite_2
+			{s:37500, e: 37500}, //threequaterwhite_2
+			{s:38000, e: 39200} //white_2
 		]
 	}
 }
@@ -141,7 +141,7 @@ var Mouse = {
 // Necessary for storing the points of the pillars
 var segments = [];
 var shaftGrowing = true;
-
+var shaftShrinking = false;
 //relations
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
 
@@ -354,6 +354,7 @@ function deactivateStates(){
 	shadow.active = false;
 	lightSpot.active = false;
 	shaftGrowing = false;
+	shaftShrinking = false;
 }
 
 //a function to map a number from one area to another (S = Source, T = Target)
@@ -480,6 +481,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case garden.sections[4]+"++":
+		lightShaft.middle.color = "rgb(255, 255, 255)"
 		lightShaft.active = true;
 		lightShaft.width = 1
 		lightShaft.y2 = mapArea(windowOffset, sectionAnkers[4].e, sectionAnkers[5].s, window.innerHeight, 0);
@@ -495,13 +497,19 @@ function scrollLight(sectionAnkers){
 		shadow.active = true
 
 		lightSpot.y = lightShaft.y2
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 13, 64))
+		shadow.background = "rgb("+color+","+color+","+color+")";
 		break;
 
 		case garden.sections[5]:
+
 		pillar.active = true
 		break;
 
 		case garden.sections[5]+"++":
+		lightShaft.middle.color = "rgb(200, 200, 200)"
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
+		shadow.background = "rgb("+color+","+color+","+color+")";
 		lightShaft.active = true;
 		lightShaft.width = 1
 		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight, 0);
@@ -522,20 +530,20 @@ function scrollLight(sectionAnkers){
 		lightShaft.active = true;
 		lightShaft.width = 1
 
-
 		pillar.active = true
 		shadow.active = true
 
-		lightSpot.active = true
+		////lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[6]+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 
 		pillar.active = true
 
-		lightSpot.active = true
+		//lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[6].e, sectionAnkers[7].s, 2, window.innerWidth*0.25);
 		break;
@@ -546,16 +554,17 @@ function scrollLight(sectionAnkers){
 
 		pillar.active = true
 
-		lightSpot.active = true
+		//lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[7]+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[7].e, sectionAnkers[8].s, window.innerWidth*0.25, window.innerWidth*0.5);
 
 		pillar.active = true
-		lightSpot.active = true
+		//lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
@@ -564,16 +573,16 @@ function scrollLight(sectionAnkers){
 		lightShaft.width = window.innerWidth*0.5
 
 		pillar.active = true
-		lightSpot.active = true
+		lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[8]+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[8].e, sectionAnkers[9].s, window.innerWidth*0.5, window.innerWidth*0.75);
 
 		pillar.active = true
-		lightSpot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
@@ -583,6 +592,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case garden.sections[9]+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[9].e, sectionAnkers[10].s, window.innerWidth*0.75, window.innerWidth);
 		break;
@@ -615,6 +625,14 @@ function draw(){
 		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
 		ctx.fill();
 
+	}
+
+	if (shaftShrinking) {
+		var color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 50, 200))
+		lightShaft.middle.color = "rgb(200, 200, 200)"
+		ctx.fillStyle = "rgb("+color+","+color+","+color+")";
+		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
+		ctx.fill();
 	}
 
 	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
@@ -682,9 +700,7 @@ function infoData(data){
 
 		if(div.className ==="info-text-quote1" || div.className ==="info-text-quote2"){
 			div.append(p);
-			div.append(h3);
 		}else{
-		div.append(h3);
 		div.append(p);
 		}
 		document.getElementById("light-content-wrapper").appendChild(div);
@@ -739,7 +755,7 @@ function contentData(data){
 		}
 
 		var em = document.createElement("p");
-		em.innerHTML = this_content.em
+		em.innerHTML = "»"+this_content.em+"«"
 
 		var h2 = document.createElement("h2")
 		h2.innerHTML = this_content.name

@@ -20,9 +20,9 @@ ctx.fillRect(0, 0, 150, 100);
 // var data = require
 
 var t_years = {
-	positions: [],
-	tens: [],
-	hundreds: [""]
+    positions: [],
+    tens: [],
+    hundreds: []
 }
 
 //VARS parametric influencing parameters
@@ -33,17 +33,17 @@ var garden = {
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
-			{s: 0, e: 300}, //white_1 (start + end)
-			{s: 1500, e: 1500}, //threequaterwhite_1
-			{s:3000, e: 3000}, //halfwhite_1
-			{s:4000,e: 4000}, //quaterwhite_1
-			{s:5000, e: 5000}, //onpixel_1
-			{s:14000, e: 16000}, //blackend/start
-			{s:20000, e: 20000}, //onepixel_2
-			{s:50000, e: 50000}, //quaterwhite_2
-			{s:50000, e: 50000}, //halfwhite_2
-			{s:50000, e: 50000}, //threequaterwhite_2
-			{s:50000, e: 50000} //white_2
+			{s: 0, e: 600}, //white_1 (start + end)
+			{s: 1000, e: 1000}, //threequaterwhite_1
+			{s:1400, e: 1400}, //halfwhite_1
+			{s:2300,e: 2300}, //quaterwhite_1
+			{s:3300, e: 3300}, //onpixel_1
+			{s:24000, e: 31700}, //blackend/start
+			{s:36000, e: 36000}, //onepixel_2
+			{s:36500, e: 36500}, //quaterwhite_2
+			{s:37000, e: 37000}, //halfwhite_2
+			{s:37500, e: 37500}, //threequaterwhite_2
+			{s:38000, e: 39200} //white_2
 		]
 	}
 }
@@ -64,17 +64,57 @@ var pillar = {
 	size: 200, //sets the size of the pillars
 	color: colorset.black,
 	points: [ //x,y coordinates for the pillars on the canvas
-		{x: -10, y: 0},
-		{x: 170, y: 500},
-		{x: 170, y: 2450},
-		{x: 170, y: 5230},
-		{x: 476, y: 1218},
-		{x: 476, y: 3222},
-		{x: 476, y: 4610},
-		{x: 1088, y: 213},
-		{x: 1088, y: 2736},
-		{x: 1394, y: 1296},
-		{x: 1394, y: 3444},
+		{x: -200, y: -200}, //first one is hidden
+        {x: 1092, y: 2700},
+				{x: 1310, y: 3200},
+				{x: 285, y: 3665},
+				{x: 730, y: 4067},
+				{x: 1310, y: 4475},
+				{x: 1095, y: 5070},
+				{x: 370, y: 5500},
+				{x:1095, y: 6200},
+				{x:1095, y: 6950},
+				{x:370, y: 7400},
+				{x:1000, y: 8300},
+				{x:1095, y: 9100},
+				{x:370, y: 9100},
+				{x:565, y: 9800},
+				{x:1095, y: 10130},
+				{x:565, y: 10400},
+				{x:370, y: 11000},
+				{x:1095, y: 11800},
+				{x:565, y: 11800},
+				{x:370, y: 12300},
+
+				{x:1200, y: 12900},
+				{x:750, y: 13500},
+				{x:370, y: 14400},
+				{x:255, y: 15800},
+				{x:1405, y: 16200},
+				{x:1205, y: 16800},
+				{x:370, y: 17000},
+
+
+
+				//{x:370, y: 11000},
+        //{x: 400, y: 1965},
+        //{x: 1092, y: 1325},
+        //{x: 300, y: 1670},
+        //{x: 1320, y: 2020},
+        //{x: 725, y: 2720},
+        //{x: 1092, y: 3000},
+        //{x: 400, y: 3370},
+        //{x: 610, y: 3940},
+        //{x: 1100, y: 3940},
+        //{x: 1320, y: 4435},
+        //{x: 400, y: 4840},
+        //{x: 1088, y: 2736},
+        //{x: 1088, y: 2736},
+        //{x: 476, y: 3222},
+        //{x: 476, y: 4610},
+        //{x: 1394, y: 3444},
+        //{x: 170, y: 5230},
+        {x: 476, y: 1000000000099909877788}
 	]
 }
 
@@ -132,7 +172,7 @@ var Mouse = {
 // Necessary for storing the points of the pillars
 var segments = [];
 var shaftGrowing = true;
-
+var shaftShrinking = false;
 //relations
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
 
@@ -276,6 +316,9 @@ function calcSegments(i_min, i_max, rectSize, c){
 		const dot = jQuery.extend(true, {}, pillar.points[i]);
 		var line = {};
 
+var this_pillar_Y =  pillar.points[i].y + c
+
+if(windowOffset-200 < this_pillar_Y && this_pillar_Y<=windowOffset+window.innerHeight || i===0){
 
 		//line1
 		line.a = calcShift(dot,0,0,c);
@@ -297,6 +340,7 @@ function calcSegments(i_min, i_max, rectSize, c){
 		line.b = calcShift(dot,0,0,c);
 		segments.push(jQuery.extend(true, {}, line));
 	}
+}
 }
 
 //draws the shadows
@@ -345,6 +389,7 @@ function deactivateStates(){
 	shadow.active = false;
 	lightSpot.active = false;
 	shaftGrowing = false;
+	shaftShrinking = false;
 }
 
 //a function to map a number from one area to another (S = Source, T = Target)
@@ -352,6 +397,25 @@ function mapArea(x, min_S, max_S, min_T, max_T){
 	var y = (max_T-min_T)*(x-min_S)/(max_S-min_S) + min_T
 	return y
 }
+
+//separates emphazised (<em> </em>) from string
+
+// function splitEm(fullText) {
+// 	if (fullText.split("<em>")[0] != ""){
+// 		if (fullText.split("<em>").length <= 1){
+// 			return ""
+// 		}
+// 		var next = fullText.split("<em>")[1]
+// 		if (next[0] != ""){
+// 			return next.split("</em>")[0]
+// 		}
+// 	}else {
+// 		var next = fullText.split("<em>")[1]
+// 		if (next[0] != ""){
+// 			return next.split("</em>")[0]
+// 		}
+// 	}
+// }
 
 //goes through the stages of one lightloop mapping the states on the scrollingposition. For more information take the relating sketch file from the folder 04_wireframes/02_juli folder
 function scrollLight(sectionAnkers){
@@ -452,6 +516,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case garden.sections[4]+"++":
+		lightShaft.middle.color = "rgb(255, 255, 255)"
 		lightShaft.active = true;
 		lightShaft.width = 1
 		lightShaft.y2 = mapArea(windowOffset, sectionAnkers[4].e, sectionAnkers[5].s, window.innerHeight, 0);
@@ -467,13 +532,19 @@ function scrollLight(sectionAnkers){
 		shadow.active = true
 
 		lightSpot.y = lightShaft.y2
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 13, 64))
+		shadow.background = "rgb("+color+","+color+","+color+")";
 		break;
 
 		case garden.sections[5]:
+
 		pillar.active = true
 		break;
 
 		case garden.sections[5]+"++":
+		lightShaft.middle.color = "rgb(200, 200, 200)"
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
+		shadow.background = "rgb("+color+","+color+","+color+")";
 		lightShaft.active = true;
 		lightShaft.width = 1
 		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight, 0);
@@ -494,20 +565,20 @@ function scrollLight(sectionAnkers){
 		lightShaft.active = true;
 		lightShaft.width = 1
 
-
 		pillar.active = true
 		shadow.active = true
 
-		lightSpot.active = true
+		////lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[6]+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 
 		pillar.active = true
 
-		lightSpot.active = true
+		//lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[6].e, sectionAnkers[7].s, 2, window.innerWidth*0.25);
 		break;
@@ -518,16 +589,17 @@ function scrollLight(sectionAnkers){
 
 		pillar.active = true
 
-		lightSpot.active = true
+		//lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[7]+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[7].e, sectionAnkers[8].s, window.innerWidth*0.25, window.innerWidth*0.5);
 
 		pillar.active = true
-		lightSpot.active = true
+		//lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
@@ -536,16 +608,16 @@ function scrollLight(sectionAnkers){
 		lightShaft.width = window.innerWidth*0.5
 
 		pillar.active = true
-		lightSpot.active = true
+		lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
 		case garden.sections[8]+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[8].e, sectionAnkers[9].s, window.innerWidth*0.5, window.innerWidth*0.75);
 
 		pillar.active = true
-		lightSpot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
@@ -555,6 +627,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case garden.sections[9]+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[9].e, sectionAnkers[10].s, window.innerWidth*0.75, window.innerWidth);
 		break;
@@ -574,6 +647,7 @@ function draw(){
 
 	calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
 	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
+	console.log(segments.length/4-1);
 	// Clear canvas
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -587,6 +661,14 @@ function draw(){
 		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
 		ctx.fill();
 
+	}
+
+	if (shaftShrinking) {
+		var color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 50, 200))
+		lightShaft.middle.color = "rgb(200, 200, 200)"
+		ctx.fillStyle = "rgb("+color+","+color+","+color+")";
+		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
+		ctx.fill();
 	}
 
 	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
@@ -626,6 +708,7 @@ function draw(){
 		for(var i=0;i<pillar.points.length;i++){
 			ctx.fillStyle = pillar.color
 			var spot = pillar.points[i];
+			if(windowOffset-200 < spot.y <=windowOffset+window.innerHeight){
 			ctx.beginPath();
 			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
 			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
@@ -633,6 +716,7 @@ function draw(){
 			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
 			ctx.fill();
 		}
+	}
 	}
 }
 
@@ -652,11 +736,9 @@ function infoData(data){
 
 		div.className += this_content.class;
 
-		if(div.className ==="info-text-quote"){
+		if(div.className ==="info-text-quote1" || div.className ==="info-text-quote2"){
 			div.append(p);
-			div.append(h3);
 		}else{
-		div.append(h3);
 		div.append(p);
 		}
 		document.getElementById("light-content-wrapper").appendChild(div);
@@ -680,24 +762,38 @@ function contentData(data){
 		var metadataDiv = document.createElement("div");
 		var subtitleDiv = document.createElement("div");
 
+		var emBlock = document.createElement("div")
+		emBlock.className += "emBlock"
+
+		var emDiv = document.createElement("div")
+		emDiv.className += "em "
+
 		var imageDiv = document.createElement("div");
+
 		if(this_content.class === "content-block-left"){
+			emDiv.className += "em-left"
 			imageDiv.className += "image-left"
 			metadataDiv.className += "metadata-left";
 			subtitleDiv.className += "subtitle-left";
 		}else if(this_content.class === "content-block-right"){
+			emDiv.className += "em-right"
 			imageDiv.className += "image-right"
 			metadataDiv.className += "metadata-right";
 			subtitleDiv.className += "subtitle-right";
 		}else if (this_content.class === "content-block-middle-left"){
+			emDiv.className += "em-middle-left"
 			imageDiv.className += "image-middle-left"
 			metadataDiv.className += "metadata-middle-left";
 			subtitleDiv.className += "subtitle-middle-left";
 		}else {
 			imageDiv.className += "image-middle-right"
+			emDiv.className += "em-middle-right"
 			metadataDiv.className += "metadata-middle-right";
 			subtitleDiv.className += "subtitle-middle-right";
 		}
+
+		var em = document.createElement("p");
+		em.innerHTML = "»"+this_content.em+"«"
 
 		var h2 = document.createElement("h2")
 		h2.innerHTML = this_content.name
@@ -726,22 +822,25 @@ function contentData(data){
 
 		div.append(innerDiv)
 		div.append(imageDiv)
-
+		if (this_content.em != ""){
+			emDiv.append(em)
+			emBlock.append(emDiv)
+			document.getElementById("dark-content-wrapper").appendChild(emBlock);
+		}
 		document.getElementById("dark-content-wrapper").appendChild(div);
 
 
 
 		//defines/pulls year-infos into the t_years object
 		if(4===this_content.year.length){
-
 		//tens
-		t_years.hundreds[i] = this_content.year.substring(0, 2);
+		t_years.hundreds.push(this_content.year.substring(0, 2));
 
 		//hundreds
 		t_years.tens.push(this_content.year.substring(2, 4));
 
 		//POSITIONS
-		t_years.positions[i] = div.getBoundingClientRect().y+windowOffset;
+		t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 	}
 	}
 	drawLoop();
@@ -756,17 +855,16 @@ function shaftText(textID){
 
 //draws the tmeline
 function timeline(tens_moving, i){
-
-	var time_position = t_years.positions[i]-windowOffset
+	var time_position = t_years.positions[i+1]-windowOffset
 
 	if(time_position>=window.innerHeight*0.47){
 
-	$('#t-fixed').text(t_years.tens[i-1]);
+	$('#t-fixed').text(t_years.tens[i]);
 
 
-	$('#h-fixed').text(t_years.hundreds[i-1]);
+	$('#h-fixed').text(t_years.hundreds[i]);
 
-	$(tens_moving).text(t_years.tens[i]);
+	$(tens_moving).text(t_years.tens[i+1]);
 	var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
 	if(0<=opacitator && opacitator<=1){
 	$(tens_moving).css({"opacity": opacitator});

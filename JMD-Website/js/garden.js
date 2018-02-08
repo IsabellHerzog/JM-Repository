@@ -2,7 +2,7 @@
 
 //importing Data from googleSpreadsheets CONTENT
 document.addEventListener('DOMContentLoaded', function() {
-	var URL = "https://docs.google.com/spreadsheets/d/1gOexCcBm8hd-o1hEjzHu0bcVQMbBkhWvmRo8ATCH9qc/edit?usp=sharing"
+	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
 	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
 })
 //importing Data from googleSpreadsheets INFORMATIONAL DATA
@@ -36,17 +36,17 @@ var garden = {
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
-			{s: 0, e: 300}, //white_1 (start + end)
-			{s: 1500, e: 1500}, //threequaterwhite_1
-			{s:3000, e: 3000}, //halfwhite_1
-			{s:4000,e: 4000}, //quaterwhite_1
-			{s:5000, e: 5000}, //onpixel_1
-			{s:14000, e: 16000}, //blackend/start
-			{s:20000, e: 20000}, //onepixel_2
-			{s:50000, e: 50000}, //quaterwhite_2
-			{s:50000, e: 50000}, //halfwhite_2
-			{s:50000, e: 50000}, //threequaterwhite_2
-			{s:50000, e: 50000} //white_2
+			{s: 0, e: 600}, //white_1 (start + end)
+			{s: 1000, e: 1000}, //threequaterwhite_1
+			{s:1400, e: 1400}, //halfwhite_1
+			{s:2300,e: 2300}, //quaterwhite_1
+			{s:3300, e: 3300}, //onpixel_1
+			{s:24000, e: 31700}, //blackend/start
+			{s:36000, e: 36000}, //onepixel_2
+			{s:36500, e: 36500}, //quaterwhite_2
+			{s:37000, e: 37000}, //halfwhite_2
+			{s:37500, e: 37500}, //threequaterwhite_2
+			{s:38000, e: 39200} //white_2
 		]
 	}
 }
@@ -68,6 +68,7 @@ var pillar = {
 	color: colorset.black,
 	points: [ //x,y coordinates for the pillars on the canvas
 		{x: -200, y: -200}, //first one is hidden
+<<<<<<< HEAD
 		{x: 1092, y: 500},
 		{x: 400, y: 965},
 		{x: 1092, y: 1325},
@@ -87,6 +88,38 @@ var pillar = {
 		//{x: 1394, y: 3444},
 		//{x: 170, y: 5230},
 		{x: 476, y: 1000000000099909877788}
+=======
+        {x: 1092, y: 2700},
+				{x: 1310, y: 3200},
+				{x: 285, y: 3665},
+				{x: 730, y: 4067},
+				{x: 1310, y: 4475},
+				{x: 1095, y: 5070},
+				{x: 370, y: 5500},
+				{x:1095, y: 6200},
+				{x:1095, y: 6950},
+				{x:370, y: 7400},
+				{x:1000, y: 8300},
+				{x:1095, y: 9100},
+				{x:370, y: 9100},
+				{x:565, y: 9800},
+				{x:1095, y: 10130},
+				{x:565, y: 10400},
+				{x:370, y: 11000},
+				{x:1095, y: 11800},
+				{x:565, y: 11800},
+				{x:370, y: 12300},
+
+				{x:1200, y: 12900},
+				{x:750, y: 13500},
+				{x:370, y: 14400},
+				{x:255, y: 15800},
+				{x:1405, y: 16200},
+				{x:1205, y: 16800},
+				{x:370, y: 17000},
+
+        {x: 476, y: 1000000000099909877788}
+>>>>>>> master
 	]
 }
 
@@ -144,7 +177,7 @@ var Mouse = {
 // Necessary for storing the points of the pillars
 var segments = [];
 var shaftGrowing = true;
-
+var shaftShrinking = false;
 //relations
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
 
@@ -288,6 +321,9 @@ function calcSegments(i_min, i_max, rectSize, c){
 		const dot = jQuery.extend(true, {}, pillar.points[i]);
 		var line = {};
 
+var this_pillar_Y =  pillar.points[i].y + c
+
+if(windowOffset-200 < this_pillar_Y && this_pillar_Y<=windowOffset+window.innerHeight || i===0){
 
 		//line1
 		line.a = calcShift(dot,0,0,c);
@@ -309,6 +345,7 @@ function calcSegments(i_min, i_max, rectSize, c){
 		line.b = calcShift(dot,0,0,c);
 		segments.push(jQuery.extend(true, {}, line));
 	}
+}
 }
 
 //draws the shadows
@@ -357,6 +394,7 @@ function deactivateStates(){
 	shadow.active = false;
 	lightSpot.active = false;
 	shaftGrowing = false;
+	shaftShrinking = false;
 }
 
 //a function to map a number from one area to another (S = Source, T = Target)
@@ -406,34 +444,34 @@ function scrollLight(sectionAnkers){
 
 	switch (garden.section) {
 
-
-		case garden.sections[0]:
+//'white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'
+		case 'white_1':
 		shaftGrowing = true;
 		lightShaft.active = true
 		lightShaft.width = window.innerWidth;
 
 		break;
 
-		case garden.sections[0]+"++":
+		case 'white_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, window.innerWidth, window.innerWidth*0.75);
 		break;
 
-		case garden.sections[1]:
+		case 'threequaterwhite_1':
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.75
 		break;
 
-		case garden.sections[1]+"++":
+		case 'threequaterwhite_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[1].e, sectionAnkers[2].s, window.innerWidth*0.75, window.innerWidth*0.5);
 		pillar.active = true
 		break;
 
-		case garden.sections[2]:
+		case 'halfwhite_1':
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.5
@@ -443,7 +481,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[2]+"++":
+		case 'halfwhite_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].e, sectionAnkers[3].s, window.innerWidth*0.5, window.innerWidth*0.25);
@@ -453,7 +491,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[3]:
+		case 'quaterwhite_1':
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.25
@@ -464,7 +502,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[3]+"++":
+		case 'quaterwhite_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
 
@@ -475,7 +513,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, 1)
 		break;
 
-		case garden.sections[4]:
+		case 'onpixel_1':
 		lightShaft.active = true;
 		lightShaft.width = 1
 
@@ -485,7 +523,8 @@ function scrollLight(sectionAnkers){
 		lightSpot.active = true
 		break;
 
-		case garden.sections[4]+"++":
+		case 'onpixel_1'+"++":
+		lightShaft.middle.color = "rgb(255, 255, 255)"
 		lightShaft.active = true;
 		lightShaft.width = 1
 		lightShaft.y2 = mapArea(windowOffset, sectionAnkers[4].e, sectionAnkers[5].s, window.innerHeight, 0);
@@ -501,13 +540,19 @@ function scrollLight(sectionAnkers){
 		shadow.active = true
 
 		lightSpot.y = lightShaft.y2
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 13, 64))
+		shadow.background = "rgb("+color+","+color+","+color+")";
 		break;
 
-		case garden.sections[5]:
+		case 'black':
+
 		pillar.active = true
 		break;
 
-		case garden.sections[5]+"++":
+		case 'black'+"++":
+		lightShaft.middle.color = "rgb(200, 200, 200)"
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
+		shadow.background = "rgb("+color+","+color+","+color+")";
 		lightShaft.active = true;
 		lightShaft.width = 1
 		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight, 0);
@@ -524,76 +569,78 @@ function scrollLight(sectionAnkers){
 		lightSpot.y = lightShaft.y1
 		break;
 
-		case garden.sections[6]:
+		case 'onepixel_2':
 		lightShaft.active = true;
 		lightShaft.width = 1
-
 
 		pillar.active = true
 		shadow.active = true
 
-		lightSpot.active = true
+		////lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[6]+"++":
+		case 'onepixel_2'+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 
 		pillar.active = true
 
-		lightSpot.active = true
+		//lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[6].e, sectionAnkers[7].s, 2, window.innerWidth*0.25);
 		break;
 
-		case garden.sections[7]:
+		case 'quaterwhite_2':
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.25
 
 		pillar.active = true
 
-		lightSpot.active = true
+		//lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[7]+"++":
+		case 'quaterwhite_2'+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[7].e, sectionAnkers[8].s, window.innerWidth*0.25, window.innerWidth*0.5);
 
 		pillar.active = true
-		lightSpot.active = true
+		//lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[8]:
+		case 'halfwhite_2':
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.5
 
 		pillar.active = true
-		lightSpot.active = true
+		lightspot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[8]+"++":
+		case 'halfwhite_2'+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[8].e, sectionAnkers[9].s, window.innerWidth*0.5, window.innerWidth*0.75);
 
 		pillar.active = true
-		lightSpot.active = true
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[9]:
+		case 'threequaterwhite_2':
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.75
 		break;
 
-		case garden.sections[9]+"++":
+		case 'threequaterwhite_2'+"++":
+		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[9].e, sectionAnkers[10].s, window.innerWidth*0.75, window.innerWidth);
 		break;
 
-		case garden.sections[10]:
+		case 'white_2':
 		lightShaft.active = true
 		lightShaft.width = window.innerWidth;
 		break;
@@ -608,6 +655,7 @@ function draw(){
 
 	calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
 	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
+
 	// Clear canvas
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -621,6 +669,14 @@ function draw(){
 		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
 		ctx.fill();
 
+	}
+
+	if (shaftShrinking) {
+		var color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 50, 200))
+		lightShaft.middle.color = "rgb(200, 200, 200)"
+		ctx.fillStyle = "rgb("+color+","+color+","+color+")";
+		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
+		ctx.fill();
 	}
 
 	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
@@ -660,6 +716,7 @@ function draw(){
 		for(var i=0;i<pillar.points.length;i++){
 			ctx.fillStyle = pillar.color
 			var spot = pillar.points[i];
+			if(windowOffset-200 < spot.y <=windowOffset+window.innerHeight){
 			ctx.beginPath();
 			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
 			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
@@ -667,6 +724,7 @@ function draw(){
 			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
 			ctx.fill();
 		}
+	}
 	}
 }
 
@@ -686,12 +744,15 @@ function infoData(data){
 
 		div.className += this_content.class;
 
-		if(div.className ==="info-text-quote"){
+		if(div.className ==="info-text-quote1" || div.className ==="info-text-quote2"){
 			div.append(p);
-			div.append(h3);
 		}else{
+<<<<<<< HEAD
 			div.append(h3);
 			div.append(p);
+=======
+		div.append(p);
+>>>>>>> master
 		}
 		document.getElementById("light-content-wrapper").appendChild(div);
 	}
@@ -704,6 +765,8 @@ function contentData(data){
 
 		var this_content = data[i];
 
+
+		if(this_content.type === "content"){
 		//fills in the html content
 		var div = document.createElement("div");
 		div.className += "content-block";
@@ -745,7 +808,7 @@ function contentData(data){
 		}
 
 		var em = document.createElement("p");
-		em.innerHTML = this_content.em
+		em.innerHTML = "»"+this_content.em+"«"
 
 		var h2 = document.createElement("h2")
 		h2.innerHTML = this_content.name
@@ -785,18 +848,63 @@ function contentData(data){
 
 		//defines/pulls year-infos into the t_years object
 		if(4===this_content.year.length){
+<<<<<<< HEAD
 
 			//tens
 			t_years.hundreds[i] = this_content.year.substring(0, 2);
+=======
+		//tens
+		t_years.hundreds.push(this_content.year.substring(0, 2));
+>>>>>>> master
 
 			//hundreds
 			t_years.tens.push(this_content.year.substring(2, 4));
 
+<<<<<<< HEAD
 			//POSITIONS
 			t_years.positions[i] = div.getBoundingClientRect().y+windowOffset;
 		}
+=======
+		//POSITIONS
+		t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
+>>>>>>> master
 	}
+
+}else if(this_content.type === "section"){
+
+	var div = document.createElement("div");
+	div.className = "content-block"
+
+	var innerDiv = document.createElement("div");
+	innerDiv.className = "timeline-section"
+	innerDiv.innerHTML = this_content.text;
+
+	div.append(innerDiv)
+	document.getElementById("dark-content-wrapper").appendChild(div);
+
+	var split_p = 2
+	var end_p = 4
+	if(this_content.year.length===3){
+	 split_p = 1
+	 end_p = 3
+ }else if(this_content.year.length===5){
+	 split_p = 3
+	 end_p = 5
+ }
+
+	//tens
+	t_years.hundreds.push(this_content.year.substring(0, split_p));
+
+	//hundreds
+	t_years.tens.push(this_content.year.substring(split_p, end_p));
+
+	//POSITIONS
+	t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
+	console.log(t_years.position);
+
+}
 	drawLoop();
+}
 }
 
 //makes Text of an ID align to the shaft
@@ -808,11 +916,11 @@ function shaftText(textID){
 
 //draws the tmeline
 function timeline(tens_moving, i){
-
-	var time_position = t_years.positions[i]-windowOffset
+	var time_position = t_years.positions[i+1]-windowOffset
 
 	if(time_position>=window.innerHeight*0.47){
 
+<<<<<<< HEAD
 		$('#t-fixed').text(t_years.tens[i-1]);
 
 
@@ -823,6 +931,18 @@ function timeline(tens_moving, i){
 		if(0<=opacitator && opacitator<=1){
 			$(tens_moving).css({"opacity": opacitator});
 			$(tens_moving).css({"top": time_position});
+=======
+	$('#t-fixed').text(t_years.tens[i]);
+
+
+	$('#h-fixed').text(t_years.hundreds[i]);
+
+	$(tens_moving).text(t_years.tens[i+1]);
+	var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
+	if(0<=opacitator && opacitator<=1){
+	$(tens_moving).css({"opacity": opacitator});
+	$(tens_moving).css({"top": time_position});
+>>>>>>> master
 
 			$('#t-fixed').css({"top": 47 - opacitator*2 + "vh"});
 			$('#t-fixed').css({"opacity": 1-opacitator});

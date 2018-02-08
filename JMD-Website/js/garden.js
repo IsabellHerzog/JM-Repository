@@ -58,7 +58,7 @@ var colorset = {
 	lightGrey: "#BFBFBF",
 }
 
-//POSITIONS OF pillars
+//POSITIONS OF pillars !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 var pillar = {
 	active: false, //determines wheather the pillars
 	size: 200, //sets the size of the pillars
@@ -167,7 +167,7 @@ document.body.style.height = garden.size
 
 //updating functions:
 
-// Find intersection of RAY & SEGMENT
+// Find intersection of RAY & SEGMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function getIntersection(ray,segment){
 
 	// RAY in parametric: Point + Delta*T1
@@ -206,7 +206,7 @@ function getIntersection(ray,segment){
 	};
 }
 
-//calculates the shadow-polygons
+//calculates the shadow-polygons!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function getSightPolygon(sightX,sightY){
 
 	// Get all unique points
@@ -323,16 +323,25 @@ if(windowOffset-200 < this_pillar_Y && this_pillar_Y<=windowOffset+window.innerH
 }
 }
 
-//draws the shadows
+//draws the shadows!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function drawPolygon(polygon,ctx,fillStyle){
+
+	ctx.rect(0,0,window.innerWidth,window.innerHeight);
 	ctx.fillStyle = fillStyle;
+	ctx.fill();
+	ctx.save();
+
+
 	ctx.beginPath();
-	ctx.moveTo(polygon[0].x ,polygon[0].y -windowOffset); //maybe needed
+	ctx.moveTo(polygon[0].x ,polygon[0].y -windowOffset);
 	for(var i=1;i<polygon.length;i++){
 		var intersect = polygon[i];
-		ctx.lineTo(intersect.x ,intersect.y -windowOffset); //maybe needed
+		ctx.lineTo(intersect.x ,intersect.y -windowOffset);
 	}
-	ctx.fill();
+	ctx.closePath();
+	ctx.clip();
+	ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+	ctx.restore();
 }
 
 //draws the lightSpot
@@ -628,7 +637,7 @@ function draw(){
 	calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
 	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
 
-	// Clear canvas
+	// Clear canvas !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 
 	if (shaftGrowing) {
@@ -656,7 +665,7 @@ function draw(){
 
 
 	if(shadow.active){
-		// Sight Polygons
+		// Sight Polygons!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		var polygons = [getSightPolygon(lightSpot.x,lightSpot.y+windowOffset)];//needed
 		for(var angle=0;angle<Math.PI*2; angle+=(Math.PI*2)/20){
 			var dx = Math.sin(angle)*shadow.intersections.fuzzyness;
@@ -664,13 +673,13 @@ function draw(){
 			polygons.push(getSightPolygon((lightSpot.x+dx) ,(lightSpot.y+dy)));//needed
 		};
 
+		// DRAW AS A GIANT POLYGON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		drawPolygon(polygons[0],ctx,shadow.background);
-		// DRAW AS A GIANT POLYGON
-		for(var i=1;i<polygons.length;i++){
-			ctx.globalAlpha = shadow.intersections.opacity;
-			drawPolygon(polygons[i],ctx, shadow.intersections.color);
-			ctx.globalAlpha = 1;
-		}
+		// for(var i=1;i<polygons.length;i++){
+		// 	ctx.globalAlpha = shadow.intersections.opacity;
+		// 	drawPolygon(polygons[i],ctx, shadow.intersections.color);
+		// 	ctx.globalAlpha = 1;
+		// }
 	}
 
 	if(lightShaft.active){
@@ -684,6 +693,7 @@ function draw(){
 		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
 		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
 	}
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	if(pillar.active){
 		for(var i=0;i<pillar.points.length;i++){
 			ctx.fillStyle = pillar.color
@@ -905,7 +915,7 @@ function manipulateHTML(){
 	timeline('#t-moving',0);
 }
 
-//everything triggered when input-changes are happening
+//everything triggered when input-changes are happening !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function drawLoop(){
 	requestAnimationFrame(drawLoop);
 	if(updateCanvas){
@@ -918,7 +928,7 @@ function drawLoop(){
 
 //######################EVENTS##########################
 
-//everything happening when scrolling
+//everything happening when scrolling !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 window.addEventListener('scroll', function(e){
 	updateCanvas = true;
 	windowOffset = window.pageYOffset;

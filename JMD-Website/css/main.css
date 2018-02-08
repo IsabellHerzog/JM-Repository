@@ -488,3 +488,14 @@ img{
   width: 100%
 }
 /* -------------------- */
+
+.timeline-section{
+  font-family: 'BodoniStd', serif;
+  color: white;
+  font-size: 100;
+  margin-left: -350;
+  letter-spacing: 1.5;
+  margin-bottom: 150;
+  grid-area: 1/1/1/6;
+  opacity: 0.5;
+}

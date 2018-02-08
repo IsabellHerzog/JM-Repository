@@ -2,7 +2,7 @@
 
 //importing Data from googleSpreadsheets CONTENT
 document.addEventListener('DOMContentLoaded', function() {
-	var URL = "https://docs.google.com/spreadsheets/d/1gOexCcBm8hd-o1hEjzHu0bcVQMbBkhWvmRo8ATCH9qc/edit?usp=sharing"
+	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
 	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
 })
 //importing Data from googleSpreadsheets INFORMATIONAL DATA
@@ -94,26 +94,6 @@ var pillar = {
 				{x:1205, y: 16800},
 				{x:370, y: 17000},
 
-
-
-				//{x:370, y: 11000},
-        //{x: 400, y: 1965},
-        //{x: 1092, y: 1325},
-        //{x: 300, y: 1670},
-        //{x: 1320, y: 2020},
-        //{x: 725, y: 2720},
-        //{x: 1092, y: 3000},
-        //{x: 400, y: 3370},
-        //{x: 610, y: 3940},
-        //{x: 1100, y: 3940},
-        //{x: 1320, y: 4435},
-        //{x: 400, y: 4840},
-        //{x: 1088, y: 2736},
-        //{x: 1088, y: 2736},
-        //{x: 476, y: 3222},
-        //{x: 476, y: 4610},
-        //{x: 1394, y: 3444},
-        //{x: 170, y: 5230},
         {x: 476, y: 1000000000099909877788}
 	]
 }
@@ -436,34 +416,34 @@ function scrollLight(sectionAnkers){
 
 	switch (garden.section) {
 
-
-		case garden.sections[0]:
+//'white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'
+		case 'white_1':
 		shaftGrowing = true;
 		lightShaft.active = true
 		lightShaft.width = window.innerWidth;
 
 		break;
 
-		case garden.sections[0]+"++":
+		case 'white_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
 			lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, window.innerWidth, window.innerWidth*0.75);
 		break;
 
-		case garden.sections[1]:
+		case 'threequaterwhite_1':
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.75
 		break;
 
-		case garden.sections[1]+"++":
+		case 'threequaterwhite_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[1].e, sectionAnkers[2].s, window.innerWidth*0.75, window.innerWidth*0.5);
 		pillar.active = true
 		break;
 
-		case garden.sections[2]:
+		case 'halfwhite_1':
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.5
@@ -473,7 +453,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[2]+"++":
+		case 'halfwhite_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].e, sectionAnkers[3].s, window.innerWidth*0.5, window.innerWidth*0.25);
@@ -483,7 +463,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[3]:
+		case 'quaterwhite_1':
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.25
@@ -494,7 +474,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[3]+"++":
+		case 'quaterwhite_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
 
@@ -505,7 +485,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, 1)
 		break;
 
-		case garden.sections[4]:
+		case 'onpixel_1':
 		lightShaft.active = true;
 		lightShaft.width = 1
 
@@ -515,7 +495,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.active = true
 		break;
 
-		case garden.sections[4]+"++":
+		case 'onpixel_1'+"++":
 		lightShaft.middle.color = "rgb(255, 255, 255)"
 		lightShaft.active = true;
 		lightShaft.width = 1
@@ -536,12 +516,12 @@ function scrollLight(sectionAnkers){
 		shadow.background = "rgb("+color+","+color+","+color+")";
 		break;
 
-		case garden.sections[5]:
+		case 'black':
 
 		pillar.active = true
 		break;
 
-		case garden.sections[5]+"++":
+		case 'black'+"++":
 		lightShaft.middle.color = "rgb(200, 200, 200)"
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
 		shadow.background = "rgb("+color+","+color+","+color+")";
@@ -561,7 +541,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.y = lightShaft.y1
 		break;
 
-		case garden.sections[6]:
+		case 'onepixel_2':
 		lightShaft.active = true;
 		lightShaft.width = 1
 
@@ -572,7 +552,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[6]+"++":
+		case 'onepixel_2'+"++":
 		shaftShrinking = true;
 		lightShaft.active = true;
 
@@ -583,7 +563,7 @@ function scrollLight(sectionAnkers){
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[6].e, sectionAnkers[7].s, 2, window.innerWidth*0.25);
 		break;
 
-		case garden.sections[7]:
+		case 'quaterwhite_2':
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.25
 
@@ -593,7 +573,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[7]+"++":
+		case 'quaterwhite_2'+"++":
 		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[7].e, sectionAnkers[8].s, window.innerWidth*0.25, window.innerWidth*0.5);
@@ -603,7 +583,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[8]:
+		case 'halfwhite_2':
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.5
 
@@ -612,7 +592,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[8]+"++":
+		case 'halfwhite_2'+"++":
 		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[8].e, sectionAnkers[9].s, window.innerWidth*0.5, window.innerWidth*0.75);
@@ -621,18 +601,18 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[9]:
+		case 'threequaterwhite_2':
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.75
 		break;
 
-		case garden.sections[9]+"++":
+		case 'threequaterwhite_2'+"++":
 		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[9].e, sectionAnkers[10].s, window.innerWidth*0.75, window.innerWidth);
 		break;
 
-		case garden.sections[10]:
+		case 'white_2':
 		lightShaft.active = true
 		lightShaft.width = window.innerWidth;
 		break;
@@ -647,7 +627,7 @@ function draw(){
 
 	calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
 	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
-	console.log(segments.length/4-1);
+
 	// Clear canvas
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -752,6 +732,8 @@ function contentData(data){
 
 		var this_content = data[i];
 
+
+		if(this_content.type === "content"){
 		//fills in the html content
 		var div = document.createElement("div");
 		div.className += "content-block";
@@ -842,8 +824,42 @@ function contentData(data){
 		//POSITIONS
 		t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 	}
-	}
+
+}else if(this_content.type === "section"){
+
+	var div = document.createElement("div");
+	div.className = "content-block"
+
+	var innerDiv = document.createElement("div");
+	innerDiv.className = "timeline-section"
+	innerDiv.innerHTML = this_content.text;
+
+	div.append(innerDiv)
+	document.getElementById("dark-content-wrapper").appendChild(div);
+
+	var split_p = 2
+	var end_p = 4
+	if(this_content.year.length===3){
+	 split_p = 1
+	 end_p = 3
+ }else if(this_content.year.length===5){
+	 split_p = 3
+	 end_p = 5
+ }
+
+	//tens
+	t_years.hundreds.push(this_content.year.substring(0, split_p));
+
+	//hundreds
+	t_years.tens.push(this_content.year.substring(split_p, end_p));
+
+	//POSITIONS
+	t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
+	console.log(t_years.position);
+
+}
 	drawLoop();
+}
 }
 
 //makes Text of an ID align to the shaft

@@ -48,6 +48,29 @@ font-family: Carmela;
 src: url(../assets/fonts/carmela.ttf) format("truetype");
 }
 
+@font-face {
+font-family: Bodoni72;
+src: url(../assets/fonts/Bodoni_72_OS.otf) format("opentype");
+}
+
+
+@mixin for-phone-only {
+  @media (max-width: 599px) { @content; }
+}
+/* @mixin for-tablet-portrait-up {
+  @media (min-width: 600px) { @content; }
+}
+@mixin for-tablet-landscape-up {
+  @media (min-width: 900px) { @content; }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) { @content; }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) { @content; }
+} */
+
+
 ::-webkit-scrollbar {
     /* display: none; */
 }
@@ -96,7 +119,7 @@ h2{
                        "quote2 quote2"
                        "main_l3 main_r3";
   margin-top: 34;
-  max-width: 1080px;
+  max-width: 1140px;
   margin: 0 auto;
   padding-left: 11%;
   padding-right: 11%;
@@ -490,12 +513,57 @@ img{
 /* -------------------- */
 
 .timeline-section{
-  font-family: 'BodoniStd', serif;
-  color: white;
-  font-size: 100;
-  margin-left: -350;
-  letter-spacing: 1.5;
-  margin-bottom: 150;
-  grid-area: 1/1/1/6;
+  /* font-family: 'UniversLTPro-45light', sans-serif; */
+  font-family: 'UniversLTPro-65Bold', sans-serif;
+  font-size: 60;
+  line-height: 1.2;
+  color: rgb(173, 173, 173);
   opacity: 0.5;
+
+  /* font-family: 'Bodoni72', serif;
+  font-size: 90;
+  letter-spacing: 2.5; */
+  /* color: rgb(173, 173, 173); */
+
+  margin-bottom: 150;
+
+}
+
+.timeline-section-left{
+  margin-left: -100;
+  grid-area: 1/1/1/6;
+  margin-right: -100;
+  min-width: 1000;
+}
+
+.timeline-section-right{
+  margin-right: -100;
+  grid-area: 1/2/1/6;
+  text-align: right;
+}
+
+.animate{
+  transition: 0.7s ease-in-out;
+  -moz-transition: 0.7s ease-in-out;
+  -webkit-transition: 0.7s ease-in-out;
+}
+
+.animate-back{
+  transition: 0.7s ease-in-out;
+  -moz-transition: 0.7s ease-in-out;
+  -webkit-transition: 0.7s ease-in-out;
+  opacity: 0;
+}
+
+.timeline-section-left.animate{
+  transform: translate(0, -3vh);
+  -moz-transform: translate(0,-3vh)
+  -webkit-transform: translate(0, -3vh);
+}
+
+.timeline-section-right.animate{
+  transform: translate(0, -3vh);
+  -moz-transform: translate(0,-3vh)
+  -webkit-transform: translate(0, -3vh);
+
 }

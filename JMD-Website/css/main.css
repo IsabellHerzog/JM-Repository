@@ -519,9 +519,9 @@ img{
   color: rgb(173, 173, 173);
   opacity: 0.5;
 
-  /* font-family: 'Bodoni72', serif;
-  font-size: 90;
-  letter-spacing: 2.5; */
+  font-family: 'Bodoni72', serif;
+  font-size: 80;
+  letter-spacing:  1.5;
   /* color: rgb(173, 173, 173); */
 
   margin-bottom: 150;

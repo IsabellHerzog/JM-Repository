@@ -398,8 +398,7 @@ h2{
   grid-area: adress;
 }
 /* -----------------*/
-
-.info-text-left1, .info-text-left2, .info-text-left3{
+^
   font-family: 'UniversLTPro-45Light', sans-serif;
   font-size: 15px;
   line-height: 28px;
@@ -531,7 +530,7 @@ img{
 
 .timeline-section-left{
   margin-left: -100;
-  grid-area: 1/1/1/6;
+  grid-area: 1/1/1/5;
   margin-right: -100;
   min-width: 1000;
 }

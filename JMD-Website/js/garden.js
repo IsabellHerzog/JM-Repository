@@ -36,7 +36,7 @@ var garden = {
 	sectionPoints: { //s: start, e: end
 		a:[
 			{s: 0, e: 600}, //white_1 (start + end)
-			{s: 1000, e: 1000}, //threequaterwhite_1
+			{s: 999999999, e: 999999999}, //threequaterwhite_1
 			{s:1400, e: 1400}, //halfwhite_1
 			{s:2300,e: 2300}, //quaterwhite_1
 			{s:3300, e: 3300}, //onpixel_1
@@ -49,6 +49,7 @@ var garden = {
 		]
 	}
 }
+
 
 //Contains all colors and enables changes in the colorset
 var colorset = {
@@ -380,25 +381,6 @@ function mapArea(x, min_S, max_S, min_T, max_T){
 	return y
 }
 
-//separates emphazised (<em> </em>) from string
-
-// function splitEm(fullText) {
-// 	if (fullText.split("<em>")[0] != ""){
-// 		if (fullText.split("<em>").length <= 1){
-// 			return ""
-// 		}
-// 		var next = fullText.split("<em>")[1]
-// 		if (next[0] != ""){
-// 			return next.split("</em>")[0]
-// 		}
-// 	}else {
-// 		var next = fullText.split("<em>")[1]
-// 		if (next[0] != ""){
-// 			return next.split("</em>")[0]
-// 		}
-// 	}
-// }
-
 //goes through the stages of one lightloop mapping the states on the scrollingposition. For more information take the relating sketch file from the folder 04_wireframes/02_juli folder
 function scrollLight(sectionAnkers){
 	for(var i=0; i<sectionAnkers.length; i++){
@@ -416,6 +398,7 @@ function scrollLight(sectionAnkers){
 
 	deactivateStates()
 
+	console.log(garden.section);
 	switch (garden.section) {
 
 		//'white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'

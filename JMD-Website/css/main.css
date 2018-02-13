@@ -98,6 +98,21 @@ h2{
   line-height: 35px;
 }
 
+#scrollbar-style::-webkit-scrollbar-thumb
+{
+	background-color: rgba(0,0,0, 0.9);
+}
+
+#scrollbar-style::-webkit-scrollbar
+{
+	width: 5px;
+}
+
+#scrollbar-style::-webkit-scrollbar-track
+{
+	background-color: rgba(40,40,40, 0.15)
+}
+
 #canvas{
   display: block;
   position: fixed;
@@ -428,9 +443,11 @@ h4{
 }
 
 .info-text-quote1{
+  margin: 0 auto;
+  width: 700;
+  /* text-transform: uppercase; */
   text-align: center;
   vertical-align: middle;
-  margin: 0 auto;
   grid-area: quote1;
 }
 .info-text-quote2{
@@ -519,10 +536,10 @@ img{
   color: rgb(173, 173, 173);
   opacity: 0.5;
 
-  /* font-family: 'Bodoni72', serif;
-  font-size: 90;
-  letter-spacing: 2.5; */
-  /* color: rgb(173, 173, 173); */
+  font-family: 'Bodoni72', serif;
+  font-size: 80;
+  letter-spacing: 1.5;
+  color: rgb(173, 173, 173);
 
   margin-bottom: 150;
 

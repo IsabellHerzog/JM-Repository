@@ -804,13 +804,12 @@ function contentData(data){
 		var img = document.createElement("img")
 		img.src = "./assets/images/" + this_content.imgName
 		img.style.opacity = "0.9"
-		// img.style.backgroundBlendMode = "multiply";
 
 		var metaP = document.createElement("p");
-		metaP.innerHTML = this_content.metadata
+		metaP.innerHTML = this_content.metadata;
 
 		var subtitleP = document.createElement("p");
-		subtitleP.innerHTML = this_content.subtitle
+		subtitleP.innerHTML = this_content.subtitle.split("-").join("&#8209;"); //split.join prohibit a line break after a fake hypen
 
 		innerDiv.append(h2)
 		innerDiv.append(p)
@@ -833,18 +832,19 @@ function contentData(data){
 
 		//defines/pulls year-infos into the t_years object
 		if(4===this_content.year.length){
-		//tens
-		t_years.hundreds.push(this_content.year.substring(0, 2));
-
-		//hundreds
-		t_years.tens.push(this_content.year.substring(2, 4));
-
-		//POSITIONS
-		t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
+			//tens
+			t_years.hundreds.push(this_content.year.substring(0, 2));
+			//hundreds
+			t_years.tens.push(this_content.year.substring(2, 4));
+			//POSITIONS
+			t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
+		}
 	}
-	}
+
+
 	drawLoop();
 }
+
 
 //makes Text of an ID align to the shaft
 function shaftText(textID){
@@ -853,7 +853,7 @@ function shaftText(textID){
 	$(textID).css({"width":textWidth, "margin-left": textLeftMargin+"px"})
 }
 
-//draws the tmeline
+//draws the timeline
 function timeline(tens_moving, i){
 	var time_position = t_years.positions[i+1]-windowOffset
 

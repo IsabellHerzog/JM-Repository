@@ -841,6 +841,13 @@ function contentData(data){
 		}
 	}
 
+	$('.content-block p').each(function(){
+			var string = $(this).html();
+			for (var i = 0; i < 2; i++){
+				string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
+			}
+			$(this).html(string);
+	});
 
 	drawLoop();
 }

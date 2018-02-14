@@ -81,6 +81,7 @@ h2{
   margin: 0;
   padding: 0;
   z-index: -1;
+  pointer-events: none;
 }
 
 #light-content-wrapper{

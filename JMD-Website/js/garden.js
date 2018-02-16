@@ -12,11 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 // linking & importing objects to the html
-var canvas = document.getElementById("canvas");
-
+var canvas = document.getElementById("canvasLightshaft");
+var canvasPS = document.getElementById("canvasPillarsShadows");
 var ctx = canvas.getContext("2d");
+var ctxPS = canvasPS.getContext("2d");
 
-ctx.fillRect(0, 0, 150, 100);
+//ctx.fillRect(0, 0, 150, 100); //WhyThis?
 // var data = require
 
 var t_years = {
@@ -51,7 +52,7 @@ var garden = {
 //Contains all colors and enables changes in the colorset
 var colorset = {
 	black: "#010006",
-	softlyLit: "#404040",
+	softlyLit: "#000000",
 	concrete: "#0e0d0d",
 	concreteLit: "#BFBFBF",
 	beige: "#F3EEE8",
@@ -324,24 +325,24 @@ if(windowOffset-200 < this_pillar_Y && this_pillar_Y<=windowOffset+window.innerH
 }
 
 //draws the shadows!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-function drawPolygon(polygon,ctx,fillStyle){
+function drawPolygon(polygon,ctxPS,fillStyle){
 
-	ctx.rect(0,0,window.innerWidth,window.innerHeight);
-	ctx.fillStyle = fillStyle;
-	ctx.fill();
-	ctx.save();
+	ctxPS.rect(0,0,window.innerWidth,window.innerHeight);
+	ctxPS.fillStyle = "rgba(0, 0, 0, 0.7)"; //shadowsOpacity
+	ctxPS.fill();
+	ctxPS.save();
 
 
-	ctx.beginPath();
-	ctx.moveTo(polygon[0].x ,polygon[0].y -windowOffset);
+	ctxPS.beginPath();
+	ctxPS.moveTo(polygon[0].x ,polygon[0].y -windowOffset);
 	for(var i=1;i<polygon.length;i++){
 		var intersect = polygon[i];
-		ctx.lineTo(intersect.x ,intersect.y -windowOffset);
+		ctxPS.lineTo(intersect.x ,intersect.y -windowOffset);
 	}
-	ctx.closePath();
-	ctx.clip();
-	ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-	ctx.restore();
+	ctxPS.closePath();
+	ctxPS.clip();
+	ctxPS.clearRect(0,0,window.innerWidth,window.innerHeight);
+	ctxPS.restore();
 }
 
 //draws the lightSpot
@@ -369,6 +370,8 @@ function resizeCanvas(){
 	var scaleFactor = window.innerWidth/garden.scaleW
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
+	canvasPS.width = window.innerWidth;
+	canvasPS.height = window.innerHeight;
 }
 
 //deactivates all states
@@ -522,7 +525,7 @@ function scrollLight(sectionAnkers){
 
 		lightSpot.y = lightShaft.y2
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 13, 64))
-		shadow.background = "rgb("+color+","+color+","+color+")";
+		canvas.style.background = "rgb("+color+","+color+","+color+")";
 		break;
 
 		case 'black':
@@ -533,7 +536,7 @@ function scrollLight(sectionAnkers){
 		case 'black'+"++":
 		lightShaft.middle.color = "rgb(200, 200, 200)"
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
-		shadow.background = "rgb("+color+","+color+","+color+")";
+		canvas.style.background = "rgb("+color+","+color+","+color+")";
 		lightShaft.active = true;
 		lightShaft.width = 1
 		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight, 0);
@@ -639,6 +642,7 @@ function draw(){
 
 	// Clear canvas !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	ctx.clearRect(0,0,canvas.width,canvas.height);
+	ctxPS.clearRect(0,0,canvasPS.width,canvasPS.height);
 
 	if (shaftGrowing) {
 		var color = 255
@@ -674,7 +678,7 @@ function draw(){
 		};
 
 		// DRAW AS A GIANT POLYGON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		drawPolygon(polygons[0],ctx,shadow.background);
+		drawPolygon(polygons[0],ctxPS,"black");
 		// for(var i=1;i<polygons.length;i++){
 		// 	ctx.globalAlpha = shadow.intersections.opacity;
 		// 	drawPolygon(polygons[i],ctx, shadow.intersections.color);
@@ -696,15 +700,15 @@ function draw(){
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	if(pillar.active){
 		for(var i=0;i<pillar.points.length;i++){
-			ctx.fillStyle = pillar.color
+			ctxPS.fillStyle = pillar.color
 			var spot = pillar.points[i];
 			if(windowOffset-200 < spot.y <=windowOffset+window.innerHeight){
-			ctx.beginPath();
-			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
-			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
-			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
-			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
-			ctx.fill();
+			ctxPS.beginPath();
+			ctxPS.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
+			ctxPS.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
+			ctxPS.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
+			ctxPS.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
+			ctxPS.fill();
 		}
 	}
 	}
@@ -919,6 +923,7 @@ function manipulateHTML(){
 function drawLoop(){
 	requestAnimationFrame(drawLoop);
 	if(updateCanvas){
+		console.log();
 		resizeCanvas();
 		draw();
 		manipulateHTML();

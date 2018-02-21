@@ -131,10 +131,8 @@ var lightSpot = {
 //settings of the shadows
 var shadow = {
 	active: false,
-	background: colorset.softlyLit, //color of the background
+	color: "rgba(0,0,0,0.4)",
 	intersections: {
-		opacity: 0.3,
-		color: colorset.concreteLit, //color of the shadow overlays
 		fuzzyness: 40 //spreading of the light, also relates to the lightshaft-size
 	}
 }
@@ -328,7 +326,7 @@ if(windowOffset-200 < this_pillar_Y && this_pillar_Y<=windowOffset+window.innerH
 function drawPolygon(polygon,ctxPS,fillStyle){
 
 	ctxPS.rect(0,0,window.innerWidth,window.innerHeight);
-	ctxPS.fillStyle = "rgba(0, 0, 0, 0.7)"; //shadowsOpacity
+	ctxPS.fillStyle = fillStyle; //shadowsOpacity
 	ctxPS.fill();
 	ctxPS.save();
 
@@ -678,7 +676,7 @@ function draw(){
 		};
 
 		// DRAW AS A GIANT POLYGON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		drawPolygon(polygons[0],ctxPS,"black");
+		drawPolygon(polygons[0],ctxPS,shadow.color);
 		// for(var i=1;i<polygons.length;i++){
 		// 	ctx.globalAlpha = shadow.intersections.opacity;
 		// 	drawPolygon(polygons[i],ctx, shadow.intersections.color);

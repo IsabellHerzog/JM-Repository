@@ -17,7 +17,8 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
 //To ensure data is loaded before anything else is done
-var dataLoaded = false;
+var contentLoaded = false;
+var infoLoaded = false;
 
 var section_states = []
 var section_active = -1;
@@ -192,10 +193,10 @@ function set_garden_anker(){
 	garden.sectionPoints.a[4].e = get_boundaries("info-text-quote2", 0).bot;
 	//blackend/start
 	garden.sectionPoints.a[5].s = get_boundaries("#black-start", "id").bot;
-	garden.sectionPoints.a[5].e = get_boundaries("#black-end", "id").top;
+	garden.sectionPoints.a[5].e = get_boundaries("#black-end", "id").center;
 	//onepixel_2
-	garden.sectionPoints.a[6].s = get_boundaries("#oneline", "id").bot;
-	garden.sectionPoints.a[6].e = get_boundaries("#oneline", "id").bot;
+	garden.sectionPoints.a[6].s = get_boundaries("#oneline", "id").top + 2*$("#oneline").height();
+	garden.sectionPoints.a[6].e = get_boundaries("#oneline", "id").top + 2*$("#oneline").height();
 	//white_2
 	garden.sectionPoints.a[10].s = get_boundaries("#light-content-wrapper2", "id").center;
 	garden.sectionPoints.a[10].e = get_boundaries("#light-content-wrapper2", "id").bot;
@@ -445,7 +446,6 @@ function scrollLight(sectionAnkers){
 	lightShaft.y2 = window.innerHeight;
 
 	deactivateStates()
-	console.log(garden.section);
 	switch (garden.section) {
 
 		//'white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'
@@ -762,6 +762,8 @@ function infoData(data){
 		}
 		document.getElementById(wrapper).appendChild(div);
 	}
+	infoData = true
+	drawLoop()
 }
 
 //fills the content in the dark content-area from a spreadsheet
@@ -901,10 +903,8 @@ function contentData(data){
 			t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 		}
 	}
-	dataLoaded = true;
-	drawLoop(data);
-	set_garden_anker()
-	console.log("start!");
+	contentLoaded = true;
+	drawLoop()
 }
 
 //makes Text of an ID align to the shaft
@@ -1010,7 +1010,6 @@ function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animat
 function get_boundaries(selectorClass, n){
 	if(n == "id"){
 		var divElement = selectorClass
-		console.log(divElement);
 	}else{
 		var divElement = $( "."+selectorClass + ":eq("+ n +")")
 	}
@@ -1045,22 +1044,24 @@ function manipulateHTML(){
 //everything triggered when input-changes are happening
 function drawLoop(){
 	requestAnimationFrame(drawLoop);
-	if(updateCanvas && dataLoaded){
+	if(updateCanvas && contentLoaded && infoData){
 		resizeCanvas();
+		set_garden_anker()
 		draw();
 		manipulateHTML();
 		updateCanvas = false;
-	}else{
-		//loading animation
+	}else if(!contentLoaded || !infoData){
+		console.log("data loading...");
 	}
 }
+
 
 //######################EVENTS##########################
 
 //everything happening when scrolling
 window.addEventListener('scroll', function(e){
-	updateCanvas = true;
 	windowOffset = window.pageYOffset;
+	updateCanvas = true;
 })
 
 // resize the canvas to fill browser window dynamically

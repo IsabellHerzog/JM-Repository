@@ -2,7 +2,7 @@
 
 //importing Data from googleSpreadsheets CONTENT
 document.addEventListener('DOMContentLoaded', function() {
-	var URL = "https://docs.google.com/spreadsheets/d/1gOexCcBm8hd-o1hEjzHu0bcVQMbBkhWvmRo8ATCH9qc/edit?usp=sharing"
+	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
 	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
 })
 //importing Data from googleSpreadsheets INFORMATIONAL DATA
@@ -16,13 +16,15 @@ var canvas = document.getElementById("canvas");
 
 var ctx = canvas.getContext("2d");
 
-ctx.fillRect(0, 0, 150, 100);
+var section_states = []
+var section_active = -1;
+
 // var data = require
 
 var t_years = {
-    positions: [],
-    tens: [],
-    hundreds: []
+	positions: [],
+	tens: [],
+	hundreds: []
 }
 
 //VARS parametric influencing parameters
@@ -65,56 +67,36 @@ var pillar = {
 	color: colorset.black,
 	points: [ //x,y coordinates for the pillars on the canvas
 		{x: -200, y: -200}, //first one is hidden
-        {x: 1092, y: 2700},
-				{x: 1310, y: 3200},
-				{x: 285, y: 3665},
-				{x: 730, y: 4067},
-				{x: 1310, y: 4475},
-				{x: 1095, y: 5070},
-				{x: 370, y: 5500},
-				{x:1095, y: 6200},
-				{x:1095, y: 6950},
-				{x:370, y: 7400},
-				{x:1000, y: 8300},
-				{x:1095, y: 9100},
-				{x:370, y: 9100},
-				{x:565, y: 9800},
-				{x:1095, y: 10130},
-				{x:565, y: 10400},
-				{x:370, y: 11000},
-				{x:1095, y: 11800},
-				{x:565, y: 11800},
-				{x:370, y: 12300},
+		{x: 1092, y: 2700},
+		{x: 1310, y: 3200},
+		{x: 285, y: 3665},
+		{x: 730, y: 4067},
+		{x: 1310, y: 4475},
+		{x: 1095, y: 5070},
+		{x: 370, y: 5500},
+		{x:1095, y: 6200},
+		{x:1095, y: 6950},
+		{x:370, y: 7400},
+		{x:1000, y: 8300},
+		{x:1095, y: 9100},
+		{x:370, y: 9100},
+		{x:565, y: 9800},
+		{x:1095, y: 10130},
+		{x:565, y: 10400},
+		{x:370, y: 11000},
+		{x:1095, y: 11800},
+		{x:565, y: 11800},
+		{x:370, y: 12300},
 
-				{x:1200, y: 12900},
-				{x:750, y: 13500},
-				{x:370, y: 14400},
-				{x:255, y: 15800},
-				{x:1405, y: 16200},
-				{x:1205, y: 16800},
-				{x:370, y: 17000},
+		{x:1200, y: 12900},
+		{x:750, y: 13500},
+		{x:370, y: 14400},
+		{x:255, y: 15800},
+		{x:1405, y: 16200},
+		{x:1205, y: 16800},
+		{x:370, y: 17000},
 
-
-
-				//{x:370, y: 11000},
-        //{x: 400, y: 1965},
-        //{x: 1092, y: 1325},
-        //{x: 300, y: 1670},
-        //{x: 1320, y: 2020},
-        //{x: 725, y: 2720},
-        //{x: 1092, y: 3000},
-        //{x: 400, y: 3370},
-        //{x: 610, y: 3940},
-        //{x: 1100, y: 3940},
-        //{x: 1320, y: 4435},
-        //{x: 400, y: 4840},
-        //{x: 1088, y: 2736},
-        //{x: 1088, y: 2736},
-        //{x: 476, y: 3222},
-        //{x: 476, y: 4610},
-        //{x: 1394, y: 3444},
-        //{x: 170, y: 5230},
-        {x: 476, y: 1000000000099909877788}
+		{x: 476, y: 1000000000099909877788}
 	]
 }
 
@@ -316,31 +298,31 @@ function calcSegments(i_min, i_max, rectSize, c){
 		const dot = jQuery.extend(true, {}, pillar.points[i]);
 		var line = {};
 
-var this_pillar_Y =  pillar.points[i].y + c
+		var this_pillar_Y =  pillar.points[i].y + c
 
-if(windowOffset-200 < this_pillar_Y && this_pillar_Y<=windowOffset+window.innerHeight || i===0){
+		if(windowOffset-200 < this_pillar_Y && this_pillar_Y<=windowOffset+window.innerHeight || i===0){
 
-		//line1
-		line.a = calcShift(dot,0,0,c);
-		line.b = calcShift(dot,0,rectSize,c);
-		segments.push(jQuery.extend(true, {}, line));
+			//line1
+			line.a = calcShift(dot,0,0,c);
+			line.b = calcShift(dot,0,rectSize,c);
+			segments.push(jQuery.extend(true, {}, line));
 
-		//line2
-		line.a = calcShift(dot,0,rectSize,c);
-		line.b = calcShift(dot,rectSize,rectSize,c);
-		segments.push(jQuery.extend(true, {}, line));
+			//line2
+			line.a = calcShift(dot,0,rectSize,c);
+			line.b = calcShift(dot,rectSize,rectSize,c);
+			segments.push(jQuery.extend(true, {}, line));
 
-		// //line3
-		line.a = calcShift(dot,rectSize,rectSize,c);
-		line.b = calcShift(dot,rectSize,0,c);
-		segments.push(jQuery.extend(true, {}, line));
+			// //line3
+			line.a = calcShift(dot,rectSize,rectSize,c);
+			line.b = calcShift(dot,rectSize,0,c);
+			segments.push(jQuery.extend(true, {}, line));
 
-		// //line4
-		line.a = calcShift(dot,rectSize,0,c);
-		line.b = calcShift(dot,0,0,c);
-		segments.push(jQuery.extend(true, {}, line));
+			// //line4
+			line.a = calcShift(dot,rectSize,0,c);
+			line.b = calcShift(dot,0,0,c);
+			segments.push(jQuery.extend(true, {}, line));
+		}
 	}
-}
 }
 
 //draws the shadows
@@ -436,34 +418,34 @@ function scrollLight(sectionAnkers){
 
 	switch (garden.section) {
 
-
-		case garden.sections[0]:
+		//'white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'
+		case 'white_1':
 		shaftGrowing = true;
 		lightShaft.active = true
 		lightShaft.width = window.innerWidth;
 
 		break;
 
-		case garden.sections[0]+"++":
+		case 'white_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
-			lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, window.innerWidth, window.innerWidth*0.75);
+		lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, window.innerWidth, window.innerWidth*0.75);
 		break;
 
-		case garden.sections[1]:
+		case 'threequaterwhite_1':
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.75
 		break;
 
-		case garden.sections[1]+"++":
+		case 'threequaterwhite_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[1].e, sectionAnkers[2].s, window.innerWidth*0.75, window.innerWidth*0.5);
 		pillar.active = true
 		break;
 
-		case garden.sections[2]:
+		case 'halfwhite_1':
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.5
@@ -473,7 +455,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[2]+"++":
+		case 'halfwhite_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].e, sectionAnkers[3].s, window.innerWidth*0.5, window.innerWidth*0.25);
@@ -483,7 +465,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[3]:
+		case 'quaterwhite_1':
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.25
@@ -494,7 +476,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[3]+"++":
+		case 'quaterwhite_1'+"++":
 		shaftGrowing = true;
 		lightShaft.active = true;
 
@@ -505,7 +487,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, 1)
 		break;
 
-		case garden.sections[4]:
+		case 'onpixel_1':
 		lightShaft.active = true;
 		lightShaft.width = 1
 
@@ -515,7 +497,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.active = true
 		break;
 
-		case garden.sections[4]+"++":
+		case 'onpixel_1'+"++":
 		lightShaft.middle.color = "rgb(255, 255, 255)"
 		lightShaft.active = true;
 		lightShaft.width = 1
@@ -536,12 +518,12 @@ function scrollLight(sectionAnkers){
 		shadow.background = "rgb("+color+","+color+","+color+")";
 		break;
 
-		case garden.sections[5]:
+		case 'black':
 
 		pillar.active = true
 		break;
 
-		case garden.sections[5]+"++":
+		case 'black'+"++":
 		lightShaft.middle.color = "rgb(200, 200, 200)"
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
 		shadow.background = "rgb("+color+","+color+","+color+")";
@@ -561,7 +543,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.y = lightShaft.y1
 		break;
 
-		case garden.sections[6]:
+		case 'onepixel_2':
 		lightShaft.active = true;
 		lightShaft.width = 1
 
@@ -572,7 +554,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[6]+"++":
+		case 'onepixel_2'+"++":
 		shaftShrinking = true;
 		lightShaft.active = true;
 
@@ -583,7 +565,7 @@ function scrollLight(sectionAnkers){
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[6].e, sectionAnkers[7].s, 2, window.innerWidth*0.25);
 		break;
 
-		case garden.sections[7]:
+		case 'quaterwhite_2':
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.25
 
@@ -593,7 +575,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[7]+"++":
+		case 'quaterwhite_2'+"++":
 		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[7].e, sectionAnkers[8].s, window.innerWidth*0.25, window.innerWidth*0.5);
@@ -603,7 +585,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[8]:
+		case 'halfwhite_2':
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.5
 
@@ -612,7 +594,7 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[8]+"++":
+		case 'halfwhite_2'+"++":
 		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[8].e, sectionAnkers[9].s, window.innerWidth*0.5, window.innerWidth*0.75);
@@ -621,18 +603,18 @@ function scrollLight(sectionAnkers){
 		lightSpot.opacity = mapArea(lightShaft.width, window.innerWidth*0.5, 1, 0, .7)
 		break;
 
-		case garden.sections[9]:
+		case 'threequaterwhite_2':
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.75
 		break;
 
-		case garden.sections[9]+"++":
+		case 'threequaterwhite_2'+"++":
 		shaftShrinking = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[9].e, sectionAnkers[10].s, window.innerWidth*0.75, window.innerWidth);
 		break;
 
-		case garden.sections[10]:
+		case 'white_2':
 		lightShaft.active = true
 		lightShaft.width = window.innerWidth;
 		break;
@@ -647,7 +629,7 @@ function draw(){
 
 	calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
 	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
-	console.log(segments.length/4-1);
+
 	// Clear canvas
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -709,14 +691,14 @@ function draw(){
 			ctx.fillStyle = pillar.color
 			var spot = pillar.points[i];
 			if(windowOffset-200 < spot.y <=windowOffset+window.innerHeight){
-			ctx.beginPath();
-			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
-			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
-			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
-			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
-			ctx.fill();
+				ctx.beginPath();
+				ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
+				ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
+				ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
+				ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
+				ctx.fill();
+			}
 		}
-	}
 	}
 }
 
@@ -739,7 +721,7 @@ function infoData(data){
 		if(div.className ==="info-text-quote1" || div.className ==="info-text-quote2"){
 			div.append(p);
 		}else{
-		div.append(p);
+			div.append(p);
 		}
 		document.getElementById("light-content-wrapper").appendChild(div);
 	}
@@ -752,98 +734,133 @@ function contentData(data){
 
 		var this_content = data[i];
 
-		//fills in the html content
-		var div = document.createElement("div");
-		div.className += "content-block";
 
-		var innerDiv = document.createElement("div");
-		innerDiv.className += this_content.class
+		if(this_content.type === "content"){
+			//fills in the html content
+			var div = document.createElement("div");
+			div.className += "content-block";
 
-		var metadataDiv = document.createElement("div");
-		var subtitleDiv = document.createElement("div");
+			var innerDiv = document.createElement("div");
+			innerDiv.className += this_content.class
 
-		var emBlock = document.createElement("div")
-		emBlock.className += "emBlock"
+			var metadataDiv = document.createElement("div");
+			var subtitleDiv = document.createElement("div");
 
-		var emDiv = document.createElement("div")
-		emDiv.className += "em "
+			var emBlock = document.createElement("div")
+			emBlock.className += "emBlock"
 
-		var imageDiv = document.createElement("div");
+			var emDiv = document.createElement("div")
+			emDiv.className += "em "
 
-		if(this_content.class === "content-block-left"){
-			emDiv.className += "em-left"
-			imageDiv.className += "image-left"
-			metadataDiv.className += "metadata-left";
-			subtitleDiv.className += "subtitle-left";
-		}else if(this_content.class === "content-block-right"){
-			emDiv.className += "em-right"
-			imageDiv.className += "image-right"
-			metadataDiv.className += "metadata-right";
-			subtitleDiv.className += "subtitle-right";
-		}else if (this_content.class === "content-block-middle-left"){
-			emDiv.className += "em-middle-left"
-			imageDiv.className += "image-middle-left"
-			metadataDiv.className += "metadata-middle-left";
-			subtitleDiv.className += "subtitle-middle-left";
-		}else {
-			imageDiv.className += "image-middle-right"
-			emDiv.className += "em-middle-right"
-			metadataDiv.className += "metadata-middle-right";
-			subtitleDiv.className += "subtitle-middle-right";
+			var imageDiv = document.createElement("div");
+
+			if(this_content.class === "content-block-left"){
+				emDiv.className += "em-left"
+				imageDiv.className += "image-left"
+				metadataDiv.className += "metadata-left";
+				subtitleDiv.className += "subtitle-left";
+			}else if(this_content.class === "content-block-right"){
+				emDiv.className += "em-right"
+				imageDiv.className += "image-right"
+				metadataDiv.className += "metadata-right";
+				subtitleDiv.className += "subtitle-right";
+			}else if (this_content.class === "content-block-middle-left"){
+				emDiv.className += "em-middle-left"
+				imageDiv.className += "image-middle-left"
+				metadataDiv.className += "metadata-middle-left";
+				subtitleDiv.className += "subtitle-middle-left";
+			}else {
+				imageDiv.className += "image-middle-right"
+				emDiv.className += "em-middle-right"
+				metadataDiv.className += "metadata-middle-right";
+				subtitleDiv.className += "subtitle-middle-right";
+			}
+
+			var em = document.createElement("p");
+			em.innerHTML = "»"+this_content.em+"«"
+
+			var h2 = document.createElement("h2")
+			h2.innerHTML = this_content.name
+
+			var p = document.createElement("p");
+			p.innerHTML = this_content.text
+
+			var img = document.createElement("img")
+			img.src = "./assets/images/" + this_content.imgName
+			img.style.opacity = "0.9"
+			// img.style.backgroundBlendMode = "multiply";
+
+			var metaP = document.createElement("p");
+			metaP.innerHTML = this_content.metadata
+
+			var subtitleP = document.createElement("p");
+			subtitleP.innerHTML = this_content.subtitle
+
+			innerDiv.append(h2)
+			innerDiv.append(p)
+			subtitleDiv.append(subtitleP)
+			innerDiv.append(subtitleDiv)
+			metadataDiv.append(metaP)
+			imageDiv.append(img)
+			imageDiv.append(metadataDiv)
+
+			div.append(innerDiv)
+			div.append(imageDiv)
+			if (this_content.em != ""){
+				emDiv.append(em)
+				emBlock.append(emDiv)
+				document.getElementById("dark-content-wrapper").appendChild(emBlock);
+			}
+			document.getElementById("dark-content-wrapper").appendChild(div);
+
+
+
+			//defines/pulls year-infos into the t_years object
+			if(4===this_content.year.length){
+				//tens
+				t_years.hundreds.push(this_content.year.substring(0, 2));
+
+				//hundreds
+				t_years.tens.push(this_content.year.substring(2, 4));
+
+				//POSITIONS
+				var p = $(div);
+				t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
+			}
+
+		}else if(this_content.type === "section"){
+
+			var div = document.createElement("div");
+			div.className = "content-block"
+
+			var innerDiv = document.createElement("div");
+			innerDiv.className = "timeline-section " + this_content.class;
+			innerDiv.innerHTML = this_content.text;
+
+			div.append(innerDiv)
+			document.getElementById("dark-content-wrapper").appendChild(div);
+
+			var split_p = 2
+			var end_p = 4
+			if(this_content.year.length===3){
+				split_p = 1
+				end_p = 3
+			}else if(this_content.year.length===5){
+				split_p = 3
+				end_p = 5
+			}
+
+			//tens
+			t_years.hundreds.push(this_content.year.substring(0, split_p));
+
+			//hundreds
+			t_years.tens.push(this_content.year.substring(split_p, end_p));
+
+			//POSITIONS
+			t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 		}
-
-		var em = document.createElement("p");
-		em.innerHTML = "»"+this_content.em+"«"
-
-		var h2 = document.createElement("h2")
-		h2.innerHTML = this_content.name
-
-		var p = document.createElement("p");
-		p.innerHTML = this_content.text
-
-		var img = document.createElement("img")
-		img.src = "./assets/images/" + this_content.imgName
-		img.style.opacity = "0.9"
-		// img.style.backgroundBlendMode = "multiply";
-
-		var metaP = document.createElement("p");
-		metaP.innerHTML = this_content.metadata
-
-		var subtitleP = document.createElement("p");
-		subtitleP.innerHTML = this_content.subtitle
-
-		innerDiv.append(h2)
-		innerDiv.append(p)
-		subtitleDiv.append(subtitleP)
-		innerDiv.append(subtitleDiv)
-		metadataDiv.append(metaP)
-		imageDiv.append(img)
-		imageDiv.append(metadataDiv)
-
-		div.append(innerDiv)
-		div.append(imageDiv)
-		if (this_content.em != ""){
-			emDiv.append(em)
-			emBlock.append(emDiv)
-			document.getElementById("dark-content-wrapper").appendChild(emBlock);
-		}
-		document.getElementById("dark-content-wrapper").appendChild(div);
-
-
-
-		//defines/pulls year-infos into the t_years object
-		if(4===this_content.year.length){
-		//tens
-		t_years.hundreds.push(this_content.year.substring(0, 2));
-
-		//hundreds
-		t_years.tens.push(this_content.year.substring(2, 4));
-
-		//POSITIONS
-		t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
+		drawLoop();
 	}
-	}
-	drawLoop();
 }
 
 //makes Text of an ID align to the shaft
@@ -859,25 +876,70 @@ function timeline(tens_moving, i){
 
 	if(time_position>=window.innerHeight*0.47){
 
-	$('#t-fixed').text(t_years.tens[i]);
+		$('#t-fixed').text(t_years.tens[i]);
 
 
-	$('#h-fixed').text(t_years.hundreds[i]);
+		$('#h-fixed').text(t_years.hundreds[i]);
 
-	$(tens_moving).text(t_years.tens[i+1]);
-	var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
-	if(0<=opacitator && opacitator<=1){
-	$(tens_moving).css({"opacity": opacitator});
-	$(tens_moving).css({"top": time_position});
+		$(tens_moving).text(t_years.tens[i+1]);
+		var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
+		if(0<=opacitator && opacitator<=1){
+			$(tens_moving).css({"opacity": opacitator});
+			$(tens_moving).css({"top": time_position});
 
-	$('#t-fixed').css({"top": 47 - opacitator*2 + "vh"});
-	$('#t-fixed').css({"opacity": 1-opacitator});
+			$('#t-fixed').css({"top": 47 - opacitator*2 + "vh"});
+			$('#t-fixed').css({"opacity": 1-opacitator});
+		}
+	}else if((time_position<window.innerHeight*0.47)){
+		$('#t-fixed').css({"top": 47 + "vh"});
+		$('#t-fixed').css({"opacity": 1});
+		$(tens_moving).css({"top": window.innerHeight});
+		timeline(tens_moving, i+1)
+	}
 }
-}else if((time_position<window.innerHeight*0.47)){
-	$('#t-fixed').css({"top": 47 + "vh"});
-	$('#t-fixed').css({"opacity": 1});
-	$(tens_moving).css({"top": window.innerHeight});
-	timeline(tens_moving, i+1)
+
+//spots element, returns true if it is in viewport or false if not
+function div_visible(divElement, space_top, space_bot){
+	var top_of_element = $(divElement).offset().top;
+	var bottom_of_element = $(divElement).offset().top + $(divElement).outerHeight();
+	var bottom_of_screen = $(window).scrollTop() + window.innerHeight;
+	var top_of_screen = $(window).scrollTop();
+
+	if((bottom_of_screen-space_bot > top_of_element) && (top_of_screen+space_top < bottom_of_element)){
+		return true
+	}
+	else {
+		return false
+	}
+}
+
+//triggers animation when element is reaching a specific position in the viewport (default = whole viewport)
+function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animation_state, leave_animation_state){
+	var timeline_sections = document.getElementsByClassName(selectorClass)
+
+	var old_section_state = []
+
+	for(i=0; i<timeline_sections.length; i++){
+		old_section_state[i] = section_states[i]
+		section_states[i] = false
+	}
+
+	for(i=0; i<timeline_sections.length; i++){
+		if(div_visible(timeline_sections[i], space_top, space_bot)){
+			section_states[i] = true
+		}
+	}
+
+	for(n=0; n<section_states.length; n++){
+		if(section_states[n] !== old_section_state[n]){
+		if(section_states[n]){
+			$( "."+selectorClass + ":eq("+ n +")" ).removeClass(leave_animation_state);
+			$( "."+selectorClass + ":eq("+ n +")" ).addClass(enter_animation_state);
+		}else{
+			$( "."+selectorClass + ":eq("+ n +")" ).removeClass(enter_animation_state);
+			$( "."+selectorClass + ":eq("+ n +")" ).addClass(leave_animation_state);
+		}
+	}
 }
 }
 
@@ -887,6 +949,13 @@ function manipulateHTML(){
 
 	//move timeline
 	timeline('#t-moving',0);
+
+	var visibility_height = 200 + window.innerHeight*0.3;
+	var total_padding = window.innerHeight-visibility_height
+
+	//triggers animation when element is reaching a specific position (selector, space top, space bot, EnteranimationClassName, leave_animationClassname)
+	triggerClassAnimation('timeline-section', total_padding*0.5, total_padding*0.5, " animate", " animate-back")
+
 }
 
 //everything triggered when input-changes are happening

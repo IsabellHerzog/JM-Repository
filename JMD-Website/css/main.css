@@ -75,6 +75,9 @@ h2{
   line-height: 35px;
 }
 
+<<<<<<< HEAD
+#canvasLightshaft{
+=======
 #scrollbar-style::-webkit-scrollbar-thumb
 {
 	/* background-color: rgba(255,255,255, 0.1); */
@@ -94,7 +97,8 @@ h2{
 	/* background-color: rgba(0,0,0, 0.4) */
 }
 
-#canvasLightshaft{
+#canvas{
+>>>>>>> master
   display: block;
   position: fixed;
   margin: 0;
@@ -543,6 +547,13 @@ img{
 /* -------------------- */
 
 .timeline-section{
+<<<<<<< HEAD
+  font-family: 'BodoniStd', serif;
+  color: white;
+  font-size: 100;
+  margin-left: -350;
+  letter-spacing: 1.5;
+=======
   /* font-family: 'UniversLTPro-45light', sans-serif; */
   font-family: 'UniversLTPro-65Bold', sans-serif;
   font-size: 60;
@@ -555,6 +566,7 @@ img{
   letter-spacing: 1.5;
   color: rgb(173, 173, 173);
 
+>>>>>>> master
   margin-bottom: 150;
   grid-area: 1/1/1/6;
   opacity: 0.5;

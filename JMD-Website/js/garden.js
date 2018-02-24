@@ -19,6 +19,8 @@ var ctx = canvas.getContext("2d");
 //To ensure data is loaded before anything else is done
 var contentLoaded = false;
 var infoLoaded = false;
+var dataLoaded = false;
+var ankerSet = false;
 
 var section_states = []
 var section_active = -1;
@@ -171,52 +173,51 @@ canvas.style.background = colorset.concrete;
 
 //#####################FUNCTIONS#######################
 
-
 //updateing garden sections
 function set_garden_anker(){
 
 
+	if(!ankerSet){
+		// {s: 0, e: 600}, //white_1 (start + end)
 
-	// {s: 0, e: 600}, //white_1 (start + end)
-
-	//white_1
-	garden.sectionPoints.a[0].s = 0;
-	garden.sectionPoints.a[0].e = get_boundaries("info-text-right1", 0).center;
-	//halfwhite_1
-	garden.sectionPoints.a[2].s = get_boundaries("info-text-quote1", 0).center;
-	garden.sectionPoints.a[2].e = get_boundaries("info-text-quote1", 0).center;
-	//quaterwhite_1
-	garden.sectionPoints.a[3].s = get_boundaries("info-text-quote1", 0).top;
-	garden.sectionPoints.a[3].e = get_boundaries("info-text-quote1", 0).top;
-	//onpixel_1
-	garden.sectionPoints.a[4].s = get_boundaries("info-text-quote2", 0).bot;
-	garden.sectionPoints.a[4].e = get_boundaries("info-text-quote2", 0).bot;
-	//blackend/start
-	garden.sectionPoints.a[5].s = get_boundaries("#black-start", "id").bot;
-	garden.sectionPoints.a[5].e = get_boundaries("#black-end", "id").center;
-	//onepixel_2
-	garden.sectionPoints.a[6].s = get_boundaries("#oneline", "id").top + 2*$("#oneline").height();
-	garden.sectionPoints.a[6].e = get_boundaries("#oneline", "id").top + 2*$("#oneline").height();
-	//white_2
-	garden.sectionPoints.a[10].s = get_boundaries("#light-content-wrapper2", "id").center;
-	garden.sectionPoints.a[10].e = get_boundaries("#light-content-wrapper2", "id").bot;
+		//white_1
+		garden.sectionPoints.a[0].s = 0;
+		garden.sectionPoints.a[0].e = get_boundaries("info-text-right1", 0).center;
+		//halfwhite_1
+		garden.sectionPoints.a[2].s = get_boundaries("info-text-quote1", 0).center;
+		garden.sectionPoints.a[2].e = get_boundaries("info-text-quote1", 0).center;
+		//quaterwhite_1
+		garden.sectionPoints.a[3].s = get_boundaries("info-text-quote1", 0).top;
+		garden.sectionPoints.a[3].e = get_boundaries("info-text-quote1", 0).top;
+		//onpixel_1
+		garden.sectionPoints.a[4].s = get_boundaries("info-text-quote2", 0).bot;
+		garden.sectionPoints.a[4].e = get_boundaries("info-text-quote2", 0).bot;
+		//blackend/start
+		garden.sectionPoints.a[5].s = get_boundaries("#black-start", "id").bot;
+		garden.sectionPoints.a[5].e = get_boundaries("#black-end", "id").center;
+		//onepixel_2
+		garden.sectionPoints.a[6].s = get_boundaries("#oneline", "id").top + 2*$("#oneline").height();
+		garden.sectionPoints.a[6].e = get_boundaries("#oneline", "id").top + 2*$("#oneline").height();
+		//white_2
+		garden.sectionPoints.a[10].s = get_boundaries("#light-content-wrapper2", "id").center;
+		garden.sectionPoints.a[10].e = get_boundaries("#light-content-wrapper2", "id").bot;
 
 
-	//automate (in between stages)
-	//threequaterwhite_1 default 0.75%
-	garden.sectionPoints.a[1].s = (garden.sectionPoints.a[2].s-garden.sectionPoints.a[0].e)/2+garden.sectionPoints.a[0].e;
-	garden.sectionPoints.a[1].e = (garden.sectionPoints.a[2].s-garden.sectionPoints.a[0].e)/2+garden.sectionPoints.a[0].e;
-	//halfwhite_2
-	garden.sectionPoints.a[8].s = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e
-	garden.sectionPoints.a[8].e = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e
-	//quaterwhite_2
-	garden.sectionPoints.a[7].s = (garden.sectionPoints.a[8].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e;
-	garden.sectionPoints.a[7].e = (garden.sectionPoints.a[8].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e;
-	//threequaterwhite_2
-	garden.sectionPoints.a[9].s = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[8].e)/2+garden.sectionPoints.a[8].e;
-	garden.sectionPoints.a[9].e = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[8].e)/2+garden.sectionPoints.a[8].e;
+		//automate (in between stages)
+		//threequaterwhite_1 default 0.75%
+		garden.sectionPoints.a[1].s = (garden.sectionPoints.a[2].s-garden.sectionPoints.a[0].e)/2+garden.sectionPoints.a[0].e;
+		garden.sectionPoints.a[1].e = (garden.sectionPoints.a[2].s-garden.sectionPoints.a[0].e)/2+garden.sectionPoints.a[0].e;
+		//halfwhite_2
+		garden.sectionPoints.a[8].s = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e
+		garden.sectionPoints.a[8].e = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e
+		//quaterwhite_2
+		garden.sectionPoints.a[7].s = (garden.sectionPoints.a[8].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e;
+		garden.sectionPoints.a[7].e = (garden.sectionPoints.a[8].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e;
+		//threequaterwhite_2
+		garden.sectionPoints.a[9].s = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[8].e)/2+garden.sectionPoints.a[8].e;
+		garden.sectionPoints.a[9].e = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[8].e)/2+garden.sectionPoints.a[8].e;
+	}
 }
-
 
 // Find intersection of RAY & SEGMENT
 function getIntersection(ray,segment){
@@ -412,6 +413,11 @@ function resizeCanvas(){
 	// getGardenSections()
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
+	//default settings for lightShaft
+	lightShaft.x1 = window.innerWidth/2
+	lightShaft.x2 = lightShaft.x1
+	lightShaft.y1 = 0;
+	lightShaft.y2 = window.innerHeight;
 }
 
 //a function to map a number from one area to another (S = Source, T = Target)
@@ -439,11 +445,6 @@ function scrollLight(sectionAnkers){
 			garden.section = garden.sections[i] + "++"
 		}
 	}
-	//default settings for lightShaft
-	lightShaft.x1 = window.innerWidth/2
-	lightShaft.x2 = lightShaft.x1
-	lightShaft.y1 = 0;
-	lightShaft.y2 = window.innerHeight;
 
 	deactivateStates()
 	switch (garden.section) {
@@ -682,10 +683,8 @@ function draw(){
 		ctx.fill();
 	}
 
-	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
 	//searches for boundaries of the div (top or bottom)
 	scrollLight(garden.sectionPoints.a);
-
 
 	if(shadow.active){
 		// Sight Polygons
@@ -716,6 +715,7 @@ function draw(){
 		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
 		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
 	}
+
 	if(pillar.active){
 		for(var i=0;i<pillar.points.length;i++){
 			ctx.fillStyle = pillar.color
@@ -762,7 +762,7 @@ function infoData(data){
 		}
 		document.getElementById(wrapper).appendChild(div);
 	}
-	infoData = true
+	infoLoaded = true
 	drawLoop()
 }
 
@@ -1044,19 +1044,41 @@ function manipulateHTML(){
 //everything triggered when input-changes are happening
 function drawLoop(){
 	requestAnimationFrame(drawLoop);
-	if(updateCanvas && contentLoaded && infoData){
-		resizeCanvas();
+	if(updateCanvas && dataLoaded){
 		set_garden_anker()
 		draw();
 		manipulateHTML();
 		updateCanvas = false;
-	}else if(!contentLoaded || !infoData){
+	}else if(!dataLoaded){
+		//pageload function for pageload animation. Number determines in Milliseconds how long the animation will stay after pageload
+		pageload(3000)
+	}
+}
+
+//set a timer for the function until disappears when not triggered lineWidth
+function pageload(t_value) {
+	//executes when all content loaded
+	if(contentLoaded && infoLoaded){
+		console.log("all loaded");
+		setTimeout(function(){
+			$(document.body).css({"overflow-y": "auto"})
+			$("#loadingAnimation").remove()
+			dataLoaded = true;
+		}, t_value);
+
+		//executes when half content loaded
+	}else if(contentLoaded || infoLoaded){
+		console.log("halfly loaded");
+
+		//executes when all contents are loading
+	}else{
 		console.log("data loading...");
 	}
 }
 
-
 //######################EVENTS##########################
+
+resizeCanvas();
 
 //everything happening when scrolling
 window.addEventListener('scroll', function(e){

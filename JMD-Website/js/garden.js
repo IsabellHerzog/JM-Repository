@@ -174,7 +174,7 @@ canvas.style.background = colorset.concrete;
 //#####################FUNCTIONS#######################
 
 //updateing garden sections
-function set_garden_anker(){
+function getGardenAnker(){
 
 
 	if(!ankerSet){
@@ -342,6 +342,7 @@ function calcShift(dot,sizeX,sizeY, positioner){
 	return point;
 }
 
+//calcs all the segments needed to draw pillars
 function calcSegments(i_min, i_max, rectSize, c){
 
 	for(var i = i_min; i<i_max; i++){
@@ -1045,7 +1046,7 @@ function manipulateHTML(){
 function drawLoop(){
 	requestAnimationFrame(drawLoop);
 	if(updateCanvas && dataLoaded){
-		set_garden_anker()
+		getGardenAnker()
 		draw();
 		manipulateHTML();
 		updateCanvas = false;

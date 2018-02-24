@@ -117,12 +117,20 @@ h2{
 	/* background-color: rgba(0,0,0, 0.4) */
 }
 
-#canvas{
+#background-canvas{
   display: block;
   position: fixed;
   margin: 0;
   padding: 0;
   z-index: -1;
+}
+
+#foreground-canvas{
+  display: block;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  z-index: 100;
 }
 
 #light-content-wrapper{

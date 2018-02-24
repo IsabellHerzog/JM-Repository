@@ -12,9 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 // linking & importing objects to the html
-var canvas = document.getElementById("canvas");
-
-var ctx = canvas.getContext("2d");
+var canvasBg = document.getElementById("background-canvas");
+var canvasFg = document.getElementById("foreground-canvas");
+var ctxBg = canvasBg.getContext("2d");
+var ctxFg = canvasFg.getContext("2d");
 
 //To ensure data is loaded before anything else is done
 var contentLoaded = false;
@@ -137,10 +138,8 @@ var lightSpot = {
 //settings of the shadows
 var shadow = {
 	active: false,
-	background: colorset.softlyLit, //color of the background
+	color: "rgba(0,0,0,0.4)",
 	intersections: {
-		opacity: 0.3,
-		color: colorset.concreteLit, //color of the shadow overlays
 		fuzzyness: 40 //spreading of the light, also relates to the lightshaft-size
 	}
 }
@@ -165,7 +164,7 @@ var shaftShrinking = false;
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
 
 //sets the background color
-canvas.style.background = colorset.concrete;
+// canvasBg.style.background = colorset.concrete;
 
 // sets documents height to the gardens-size
 // garden.size = garden.sectionPoints.a[10].e
@@ -378,42 +377,53 @@ function calcSegments(i_min, i_max, rectSize, c){
 
 //draws the shadows
 function drawPolygon(polygon,ctx,fillStyle){
-	ctx.fillStyle = fillStyle;
+
+	ctx.rect(0,0,window.innerWidth,window.innerHeight);
+	ctx.fillStyle = fillStyle; //shadowsOpacity
+	ctx.fill();
+	ctx.save();
+
+
 	ctx.beginPath();
-	ctx.moveTo(polygon[0].x ,polygon[0].y -windowOffset); //maybe needed
+	ctx.moveTo(polygon[0].x ,polygon[0].y -windowOffset);
 	for(var i=1;i<polygon.length;i++){
 		var intersect = polygon[i];
-		ctx.lineTo(intersect.x ,intersect.y -windowOffset); //maybe needed
+		ctx.lineTo(intersect.x ,intersect.y -windowOffset);
 	}
-	ctx.fill();
+	ctx.closePath();
+	ctx.clip();
+	ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+	ctx.restore();
 }
 
 //draws the lightSpot
 function drawSpot(image, x, y, width, height, opacity){
-	ctx.globalAlpha = opacity
-	ctx.drawImage(image, x, y, width, height);
-	ctx.globalAlpha = 1
+	ctxBg.globalAlpha = opacity
+	ctxBg.drawImage(image, x, y, width, height);
+	ctxBg.globalAlpha = 1
 }
 
 //draw shaft line
 function drawShaft(x1,y1, x2, y2, shaftSize){
 
 	//draw light
-	ctx.strokeStyle = lightShaft.middle.color
-	ctx.beginPath()
-	ctx.moveTo(x1,y1);
-	ctx.lineTo(x2, y2);
-	ctx.lineTo(x1, y1);
-	ctx.lineWidth = shaftSize;
-	ctx.stroke();
+	ctxBg.strokeStyle = lightShaft.middle.color
+	ctxBg.beginPath()
+	ctxBg.moveTo(x1,y1);
+	ctxBg.lineTo(x2, y2);
+	ctxBg.lineTo(x1, y1);
+	ctxBg.lineWidth = shaftSize;
+	ctxBg.stroke();
 }
 
 //everything related to the canvas size
 function resizeCanvas(){
 	// var scaleFactor = window.innerWidth/garden.scaleW
 	// getGardenSections()
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+	canvasBg.width = window.innerWidth;
+	canvasBg.height = window.innerHeight;
+	canvasFg.width = window.innerWidth;
+	canvasFg.height = window.innerHeight;
 	//default settings for lightShaft
 	lightShaft.x1 = window.innerWidth/2
 	lightShaft.x2 = lightShaft.x1
@@ -446,6 +456,12 @@ function scrollLight(sectionAnkers){
 			garden.section = garden.sections[i] + "++"
 		}
 	}
+
+	//default settings for lightShaft
+	lightShaft.x1 = window.innerWidth/2
+	lightShaft.x2 = lightShaft.x1
+	lightShaft.y1 = 0;
+	lightShaft.y2 = window.innerHeight;
 
 	deactivateStates()
 	switch (garden.section) {
@@ -546,7 +562,7 @@ function scrollLight(sectionAnkers){
 
 		lightSpot.y = lightShaft.y2
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 13, 64))
-		shadow.background = "rgb("+color+","+color+","+color+")";
+		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 		break;
 
 		case 'black':
@@ -557,9 +573,10 @@ function scrollLight(sectionAnkers){
 		case 'black'+"++":
 		lightShaft.middle.color = "rgb(200, 200, 200)"
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
-		shadow.background = "rgb("+color+","+color+","+color+")";
+		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 		lightShaft.active = true;
 		lightShaft.width = 1
+
 		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight, 0);
 		if(lightShaft.y1>window.innerHeight/2){
 			shadow.intersections.opacity = mapArea(lightShaft.y1, window.innerHeight, window.innerHeight - 150, 0, 1)
@@ -662,26 +679,23 @@ function draw(){
 	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
 
 	// Clear canvas
-	ctx.clearRect(0,0,canvas.width,canvas.height);
+	ctxBg.clearRect(0,0,canvasBg.width,canvasBg.height);
+	ctxFg.clearRect(0,0,canvasFg.width,canvasFg.height);
 
 	if (shaftGrowing) {
 		var color = 255
 		if (lightShaft.width != null){
 			color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 64, 255))
 		}
-
-		ctx.fillStyle = "rgb("+color+","+color+","+color+")";
-		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
-		ctx.fill();
-
+		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 	}
 
 	if (shaftShrinking) {
 		var color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 50, 200))
 		lightShaft.middle.color = "rgb(200, 200, 200)"
-		ctx.fillStyle = "rgb("+color+","+color+","+color+")";
-		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
-		ctx.fill();
+		ctxBg.fillStyle = "rgb("+color+","+color+","+color+")";
+		ctxBg.rect(0, 0, window.innerWidth,window.innerHeight);
+		ctxBg.fill();
 	}
 
 	//searches for boundaries of the div (top or bottom)
@@ -696,13 +710,13 @@ function draw(){
 			polygons.push(getSightPolygon((lightSpot.x+dx) ,(lightSpot.y+dy)));//needed
 		};
 
-		drawPolygon(polygons[0],ctx,shadow.background);
+		drawPolygon(polygons[0], ctxFg, shadow.color);
 		// DRAW AS A GIANT POLYGON
-		for(var i=1;i<polygons.length;i++){
-			ctx.globalAlpha = shadow.intersections.opacity;
-			drawPolygon(polygons[i],ctx, shadow.intersections.color);
-			ctx.globalAlpha = 1;
-		}
+		// for(var i=1;i<polygons.length;i++){
+		// 	ctxBg.globalAlpha = shadow.intersections.opacity;
+		// 	drawPolygon(polygons[i],ctxBg, shadow.intersections.color);
+		// 	ctxBg.globalAlpha = 1;
+		// }
 	}
 
 	if(lightShaft.active){
@@ -711,7 +725,7 @@ function draw(){
 
 	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
 	if(lightSpot.active){
-		lightSpot.x = canvas.width/2;
+		lightSpot.x = canvasBg.width/2;
 		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
 		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
 		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
@@ -719,15 +733,15 @@ function draw(){
 
 	if(pillar.active){
 		for(var i=0;i<pillar.points.length;i++){
-			ctx.fillStyle = pillar.color
+			ctxBg.fillStyle = pillar.color
 			var spot = pillar.points[i];
 			if(windowOffset-200 < spot.y <=windowOffset+window.innerHeight){
-				ctx.beginPath();
-				ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
-				ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
-				ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
-				ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
-				ctx.fill();
+				ctxBg.beginPath();
+				ctxBg.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
+				ctxBg.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
+				ctxBg.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
+				ctxBg.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
+				ctxBg.fill();
 			}
 		}
 	}
@@ -1098,7 +1112,7 @@ window.onload = function(){
 };
 
 //everything happening when mouse is moved (reassign canvasto the top one if you wanna use again)
-canvas.onmousemove = function(event){
+canvasFg.onmousemove = function(event){
 	Mouse.x = event.clientX;
 	Mouse.y = event.clientY;
 	updateCanvas = true;

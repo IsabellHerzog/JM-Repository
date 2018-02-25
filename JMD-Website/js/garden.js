@@ -429,6 +429,7 @@ function resizeCanvas(){
 	lightShaft.x2 = lightShaft.x1
 	lightShaft.y1 = 0;
 	lightShaft.y2 = window.innerHeight;
+	drawLoop();
 }
 
 //a function to map a number from one area to another (S = Source, T = Target)
@@ -778,7 +779,7 @@ function infoData(data){
 		document.getElementById(wrapper).appendChild(div);
 	}
 	infoLoaded = true
-	drawLoop()
+	resizeCanvas()
 }
 
 //fills the content in the dark content-area from a spreadsheet
@@ -1093,8 +1094,6 @@ function pageload(t_value) {
 
 //######################EVENTS##########################
 
-resizeCanvas();
-
 //everything happening when scrolling
 window.addEventListener('scroll', function(e){
 	windowOffset = window.pageYOffset;
@@ -1102,7 +1101,7 @@ window.addEventListener('scroll', function(e){
 })
 
 // resize the canvas to fill browser window dynamically
-window.addEventListener('resize', draw, false);
+window.addEventListener('resize', resizeCanvas, false);
 
 //everything happening on pageload
 window.onload = function(){

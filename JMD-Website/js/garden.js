@@ -12,21 +12,17 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 // linking & importing objects to the html
-var canvas = document.getElementById("canvas");
+var canvasBg = document.getElementById("background-canvas");
+var canvasFg = document.getElementById("foreground-canvas");
+var ctxBg = canvasBg.getContext("2d");
+var ctxFg = canvasFg.getContext("2d");
 
-<<<<<<< HEAD
-var ctx = canvas.getContext("2d");
-=======
 //To ensure data is loaded before anything else is done
 var contentLoaded = false;
 var infoLoaded = false;
 var dataLoaded = false;
 var ankerSet = false;
 var timelineSet = false;
-<<<<<<< HEAD
->>>>>>> timeline(j)
-=======
->>>>>>> timeline(j)
 
 var section_states = []
 var section_active = -1;
@@ -47,20 +43,23 @@ var garden = {
 	sections: ['white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'], //sections for garden
 	sectionPoints: { //s: start, e: end
 		a:[
-			{s: 0, e: 600}, //white_1 (start + end)
-			{s: 1000, e: 1000}, //threequaterwhite_1
-			{s:1400, e: 1400}, //halfwhite_1
-			{s:2300,e: 2300}, //quaterwhite_1
-			{s:3300, e: 3300}, //onpixel_1
+			{s: 0, e: 300}, //white_1 (start + end)
+			{s: 400, e: 400}, //threequaterwhite_1
+			{s:1300, e: 1300}, //halfwhite_1
+			{s:1600,e: 1600}, //quaterwhite_1
+			{s:2500, e: 2500}, //onpixel_1
 			{s:24000, e: 31700}, //blackend/start
-			{s:36000, e: 36000}, //onepixel_2
-			{s:36500, e: 36500}, //quaterwhite_2
-			{s:37000, e: 37000}, //halfwhite_2
-			{s:37500, e: 37500}, //threequaterwhite_2
-			{s:38000, e: 39200} //white_2
+			{s:44444444, e: 4444444}, //onepixel_2
+			{s:44444444, e: 4444444}, //quaterwhite_2
+			{s:44444444, e: 4444444}, //halfwhite_2
+			{s:44444444, e: 4444444}, //threequaterwhite_2
+			{s:44444444, e: 44444444} //white_2
 		]
 	}
 }
+
+var quote1_width_1 = 690;
+var quote1_width_2 = 620;
 
 //Contains all colors and enables changes in the colorset
 var colorset = {
@@ -121,13 +120,9 @@ var lightShaft = {
 	y2: 0, //end of the shaft
 	middle: {
 		width: 1, //size of the shaft
+		f_width: 0.75,
 		color: "white"
 	},
-	border: {
-		width: 1, //size of the surrounding border
-		opacity: 1,
-		color: colorset.concrete
-	}
 }
 
 //settings of the lightSpot
@@ -144,10 +139,8 @@ var lightSpot = {
 //settings of the shadows
 var shadow = {
 	active: false,
-	background: colorset.softlyLit, //color of the background
+	color: "rgba(0,0,0,0.4)",
 	intersections: {
-		opacity: 0.3,
-		color: colorset.concreteLit, //color of the shadow overlays
 		fuzzyness: 40 //spreading of the light, also relates to the lightshaft-size
 	}
 }
@@ -167,21 +160,19 @@ var Mouse = {
 var segments = [];
 var shaftGrowing = true;
 var shaftShrinking = false;
+
 //relations
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
 
 //sets the background color
-canvas.style.background = colorset.concrete;
+// canvasBg.style.background = colorset.concrete;
 
 // sets documents height to the gardens-size
-garden.size = garden.sectionPoints.a[10].e
-document.body.style.height = garden.size
+// garden.size = garden.sectionPoints.a[10].e
+// document.body.style.height = garden.size
 
 //#####################FUNCTIONS#######################
 
-<<<<<<< HEAD
-//updating functions:
-=======
 //updateing garden sections
 function getAnkers(){
 
@@ -238,7 +229,6 @@ function getAnkers(){
 		timelineSet = true
 	}
 }
->>>>>>> timeline(j)
 
 // Find intersection of RAY & SEGMENT
 function getIntersection(ray,segment){
@@ -363,18 +353,16 @@ function calcShift(dot,sizeX,sizeY, positioner){
 	return point;
 }
 
+//calcs all the segments needed to draw pillars
 function calcSegments(i_min, i_max, rectSize, c){
 
 	for(var i = i_min; i<i_max; i++){
 		const dot = jQuery.extend(true, {}, pillar.points[i]);
 		var line = {};
 
-<<<<<<< HEAD
 		var this_pillar_Y =  pillar.points[i].y + c
 
 		if(windowOffset-200 < this_pillar_Y && this_pillar_Y<=windowOffset+window.innerHeight || i===0){
-=======
->>>>>>> parent of 5b0ccc1... Merge branch 'master' of https://github.com/IsabellHerzog/JM-Repository
 
 			//line1
 			line.a = calcShift(dot,0,0,c);
@@ -401,51 +389,59 @@ function calcSegments(i_min, i_max, rectSize, c){
 
 //draws the shadows
 function drawPolygon(polygon,ctx,fillStyle){
-	ctx.fillStyle = fillStyle;
+
+	ctx.rect(0,0,window.innerWidth,window.innerHeight);
+	ctx.fillStyle = fillStyle; //shadowsOpacity
+	ctx.fill();
+	ctx.save();
+
+
 	ctx.beginPath();
-	ctx.moveTo(polygon[0].x ,polygon[0].y -windowOffset); //maybe needed
+	ctx.moveTo(polygon[0].x ,polygon[0].y -windowOffset);
 	for(var i=1;i<polygon.length;i++){
 		var intersect = polygon[i];
-		ctx.lineTo(intersect.x ,intersect.y -windowOffset); //maybe needed
+		ctx.lineTo(intersect.x ,intersect.y -windowOffset);
 	}
-	ctx.fill();
+	ctx.closePath();
+	ctx.clip();
+	ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+	ctx.restore();
 }
 
 //draws the lightSpot
 function drawSpot(image, x, y, width, height, opacity){
-	ctx.globalAlpha = opacity
-	ctx.drawImage(image, x, y, width, height);
-	ctx.globalAlpha = 1
+	ctxBg.globalAlpha = opacity
+	ctxBg.drawImage(image, x, y, width, height);
+	ctxBg.globalAlpha = 1
 }
 
 //draw shaft line
 function drawShaft(x1,y1, x2, y2, shaftSize){
 
 	//draw light
-	ctx.strokeStyle = lightShaft.middle.color
-	ctx.beginPath()
-	ctx.moveTo(x1,y1);
-	ctx.lineTo(x2, y2);
-	ctx.lineTo(x1, y1);
-	ctx.lineWidth = shaftSize;
-	ctx.stroke();
+	ctxBg.strokeStyle = lightShaft.middle.color
+	ctxBg.beginPath()
+	ctxBg.moveTo(x1,y1);
+	ctxBg.lineTo(x2, y2);
+	ctxBg.lineTo(x1, y1);
+	ctxBg.lineWidth = shaftSize;
+	ctxBg.stroke();
 }
 
 //everything related to the canvas size
 function resizeCanvas(){
-	var scaleFactor = window.innerWidth/garden.scaleW
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-}
-
-//deactivates all states
-function deactivateStates(){
-	lightShaft.active = false;
-	pillar.active = false;
-	shadow.active = false;
-	lightSpot.active = false;
-	shaftGrowing = false;
-	shaftShrinking = false;
+	// var scaleFactor = window.innerWidth/garden.scaleW
+	// getGardenSections()
+	canvasBg.width = window.innerWidth;
+	canvasBg.height = window.innerHeight;
+	canvasFg.width = window.innerWidth;
+	canvasFg.height = window.innerHeight;
+	//default settings for lightShaft
+	lightShaft.x1 = window.innerWidth/2
+	lightShaft.x2 = lightShaft.x1
+	lightShaft.y1 = 0;
+	lightShaft.y2 = window.innerHeight;
+	drawLoop();
 }
 
 //a function to map a number from one area to another (S = Source, T = Target)
@@ -454,24 +450,15 @@ function mapArea(x, min_S, max_S, min_T, max_T){
 	return y
 }
 
-//separates emphazised (<em> </em>) from string
-
-// function splitEm(fullText) {
-// 	if (fullText.split("<em>")[0] != ""){
-// 		if (fullText.split("<em>").length <= 1){
-// 			return ""
-// 		}
-// 		var next = fullText.split("<em>")[1]
-// 		if (next[0] != ""){
-// 			return next.split("</em>")[0]
-// 		}
-// 	}else {
-// 		var next = fullText.split("<em>")[1]
-// 		if (next[0] != ""){
-// 			return next.split("</em>")[0]
-// 		}
-// 	}
-// }
+//deactivates all garden-states
+function deactivateStates(){
+	lightShaft.active = false;
+	pillar.active = false;
+	shadow.active = false;
+	lightSpot.active = false;
+	shaftGrowing = false;
+	shaftShrinking = false;
+}
 
 //goes through the stages of one lightloop mapping the states on the scrollingposition. For more information take the relating sketch file from the folder 04_wireframes/02_juli folder
 function scrollLight(sectionAnkers){
@@ -482,6 +469,7 @@ function scrollLight(sectionAnkers){
 			garden.section = garden.sections[i] + "++"
 		}
 	}
+
 	//default settings for lightShaft
 	lightShaft.x1 = window.innerWidth/2
 	lightShaft.x2 = lightShaft.x1
@@ -489,7 +477,6 @@ function scrollLight(sectionAnkers){
 	lightShaft.y2 = window.innerHeight;
 
 	deactivateStates()
-
 	switch (garden.section) {
 
 		//'white_1', 'threequaterwhite_1', 'halfwhite_1', 'quaterwhite_1', 'onpixel_1', 'black', 'onepixel_2', 'quaterwhite_2', 'halfwhite_2', 'threequaterwhite_2', 'white_2'
@@ -497,28 +484,27 @@ function scrollLight(sectionAnkers){
 		shaftGrowing = true;
 		lightShaft.active = true
 		lightShaft.width = window.innerWidth;
-
 		break;
 
 		case 'white_1'+"++":
 		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
-		lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, window.innerWidth, window.innerWidth*0.75);
+		lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, window.innerWidth, window.innerWidth*0.9);
 		break;
 
 		case 'threequaterwhite_1':
 		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
-		lightShaft.width = window.innerWidth*0.75
+		lightShaft.width = window.innerWidth*0.9
 		break;
 
 		case 'threequaterwhite_1'+"++":
 		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
-		lightShaft.width = mapArea(windowOffset, sectionAnkers[1].e, sectionAnkers[2].s, window.innerWidth*0.75, window.innerWidth*0.5);
+		lightShaft.width = mapArea(windowOffset, sectionAnkers[1].e, sectionAnkers[2].s, window.innerWidth*0.9, quote1_width_1);
 		pillar.active = true
 		break;
 
@@ -526,7 +512,7 @@ function scrollLight(sectionAnkers){
 		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
-		lightShaft.width = window.innerWidth*0.5
+		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].s, sectionAnkers[2].e, quote1_width_1, quote1_width_2);
 
 		pillar.active = true
 		lightSpot.active = true
@@ -537,7 +523,7 @@ function scrollLight(sectionAnkers){
 		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
-		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].e, sectionAnkers[3].s, window.innerWidth*0.5, window.innerWidth*0.25);
+		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].e, sectionAnkers[3].s, quote1_width_2, window.innerWidth*0.25);
 
 		pillar.active = true
 		lightSpot.active = true
@@ -596,16 +582,8 @@ function scrollLight(sectionAnkers){
 		shadow.active = true
 
 		lightSpot.y = lightShaft.y2
-<<<<<<< HEAD
-<<<<<<< HEAD
-		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 13, 64))
-		shadow.background = "rgb("+color+","+color+","+color+")";
-=======
-=======
->>>>>>> timeline(j)
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 21, 64))
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
->>>>>>> timeline(j)
 		break;
 
 		case 'black':
@@ -616,15 +594,11 @@ function scrollLight(sectionAnkers){
 
 		case 'black'+"++":
 		lightShaft.middle.color = "rgb(200, 200, 200)"
-<<<<<<< HEAD
-		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 21))
-		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
-=======
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
-		shadow.background = "rgb("+color+","+color+","+color+")";
->>>>>>> parent of bcaf51e... Merge branch 'master' of https://github.com/IsabellHerzog/JM-Repository
+		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 		lightShaft.active = true;
 		lightShaft.width = 1
+
 		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight, 0);
 		if(lightShaft.y1>window.innerHeight/2){
 			shadow.intersections.opacity = mapArea(lightShaft.y1, window.innerHeight, window.innerHeight - 150, 0, 1)
@@ -725,46 +699,29 @@ function draw(){
 
 	calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
 	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of 5b0ccc1... Merge branch 'master' of https://github.com/IsabellHerzog/JM-Repository
 	// Clear canvas
-<<<<<<< HEAD
-<<<<<<< HEAD
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-=======
 	ctxBg.clearRect(0,0,window.innerWidth,window.innerHeight);
 	ctxFg.clearRect(0,0,window.innerWidth,window.innerHeight);
->>>>>>> timeline(j)
-=======
-	ctxBg.clearRect(0,0,window.innerWidth,window.innerHeight);
-	ctxFg.clearRect(0,0,window.innerWidth,window.innerHeight);
->>>>>>> timeline(j)
 
 	if (shaftGrowing) {
 		var color = 255
 		if (lightShaft.width != null){
 			color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 64, 255))
 		}
-
-		ctx.fillStyle = "rgb("+color+","+color+","+color+")";
-		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
-		ctx.fill();
-
+		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 	}
 
 	if (shaftShrinking) {
 		var color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 50, 200))
 		lightShaft.middle.color = "rgb(200, 200, 200)"
-		ctx.fillStyle = "rgb("+color+","+color+","+color+")";
-		ctx.rect(0, 0, window.innerWidth,window.innerHeight);
-		ctx.fill();
+		ctxBg.fillStyle = "rgb("+color+","+color+","+color+")";
+		ctxBg.rect(0, 0, window.innerWidth,window.innerHeight);
+		ctxBg.fill();
 	}
 
-	// scrollLight(0, 200,400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200)
+	//searches for boundaries of the div (top or bottom)
 	scrollLight(garden.sectionPoints.a);
-
 
 	if(shadow.active){
 		// Sight Polygons
@@ -775,13 +732,13 @@ function draw(){
 			polygons.push(getSightPolygon((lightSpot.x+dx) ,(lightSpot.y+dy)));//needed
 		};
 
-		drawPolygon(polygons[0],ctx,shadow.background);
+		drawPolygon(polygons[0], ctxFg, shadow.color);
 		// DRAW AS A GIANT POLYGON
-		for(var i=1;i<polygons.length;i++){
-			ctx.globalAlpha = shadow.intersections.opacity;
-			drawPolygon(polygons[i],ctx, shadow.intersections.color);
-			ctx.globalAlpha = 1;
-		}
+		// for(var i=1;i<polygons.length;i++){
+		// 	ctxBg.globalAlpha = shadow.intersections.opacity;
+		// 	drawPolygon(polygons[i],ctxBg, shadow.intersections.color);
+		// 	ctxBg.globalAlpha = 1;
+		// }
 	}
 
 	if(lightShaft.active){
@@ -790,32 +747,24 @@ function draw(){
 
 	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
 	if(lightSpot.active){
-		lightSpot.x = canvas.width/2;
+		lightSpot.x = canvasBg.width/2;
 		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
 		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
 		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
 	}
+
 	if(pillar.active){
 		for(var i=0;i<pillar.points.length;i++){
-			ctx.fillStyle = pillar.color
+			ctxBg.fillStyle = pillar.color
 			var spot = pillar.points[i];
-<<<<<<< HEAD
 			if(windowOffset-200 < spot.y <=windowOffset+window.innerHeight){
-				ctx.beginPath();
-				ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
-				ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
-				ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
-				ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
-				ctx.fill();
+				ctxBg.beginPath();
+				ctxBg.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
+				ctxBg.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
+				ctxBg.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
+				ctxBg.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
+				ctxBg.fill();
 			}
-=======
-			ctx.beginPath();
-			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
-			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
-			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
-			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
-			ctx.fill();
->>>>>>> parent of 5b0ccc1... Merge branch 'master' of https://github.com/IsabellHerzog/JM-Repository
 		}
 	}
 }
@@ -836,21 +785,22 @@ function infoData(data){
 
 		div.className += this_content.class;
 
-		if(div.className ==="info-text-quote1" || div.className ==="info-text-quote2"){
-			div.append(p);
-		}else{
-			div.append(p);
+		//fills in an Id if one exists
+		if(this_content.id.length >= 2){
+			div.setAttribute("id", this_content.id);
 		}
-		document.getElementById("light-content-wrapper").appendChild(div);
+
+		div.append(p);
+
+		if(this_content.section == "iWrapper1"){
+			var wrapper = "light-content-wrapper"
+		}else if(this_content.section == "iWrapper2"){
+			var wrapper = "light-content-wrapper2"
+		}
+		document.getElementById(wrapper).appendChild(div);
 	}
-<<<<<<< HEAD
-=======
 	infoLoaded = true
 	drawLoop()
-<<<<<<< HEAD
->>>>>>> timeline(j)
-=======
->>>>>>> timeline(j)
 }
 
 //fills the content in the dark content-area from a spreadsheet
@@ -930,6 +880,11 @@ function contentData(data){
 			imageDiv.append(img)
 			imageDiv.append(metadataDiv)
 
+			//fills in an Id if one exists
+			if(this_content.id.length >= 2){
+				div.setAttribute("id", this_content.id);
+			}
+
 			div.append(innerDiv)
 			div.append(imageDiv)
 			if (this_content.em != ""){
@@ -955,7 +910,6 @@ function contentData(data){
 			}
 
 		}else if(this_content.type === "section"){
-
 			var div = document.createElement("div");
 			div.className = "content-block"
 
@@ -993,15 +947,35 @@ function contentData(data){
 			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			// t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 		}
-		drawLoop();
 	}
+	contentLoaded = true;
+	drawLoop()
 }
 
 //makes Text of an ID align to the shaft
 function shaftText(textID){
-	textWidth = lightShaft.width+"px"
-	textLeftMargin = $(window).width()/2 - lightShaft.width/2 + 1
-	$(textID).css({"width":textWidth, "margin-left": textLeftMargin+"px"})
+	var gridWidth = $("#light-content-wrapper").width();
+	if(lightShaft.width <= gridWidth){
+		textWidth = lightShaft.width+"px"
+		textMargin = ($(window).width()/2 - (lightShaft.width+1)/2 + 1)/2
+		$(textID).css({"width":textWidth, "border-left": textMargin+"px"})
+		$(textID).css({"width":textWidth, "border-right": textMargin+"px"})
+		var text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
+		$(textID).css('opacity', text_opacity)
+	}
+}
+
+//aligns text left/right to the shaft
+function voidText(textID, left, right){
+	var gap = window.innerWidth*0.06
+	var textMargin = (lightShaft.width+1)/2 - gap/2
+	if(left){
+		$(textID).css({"margin-right": textMargin+"px"})
+		$(textID).css({"margin-left": -textMargin+"px"})
+	}else if(right){
+		$(textID).css({"margin-left": textMargin+"px"})
+		$(textID).css({"margin-right": -textMargin+"px"})
+	}
 }
 
 //draws the tmeline
@@ -1047,7 +1021,7 @@ function div_visible(divElement, space_top, space_bot){
 	}
 }
 
-//triggers animation when element is reaching a specific position in the viewport (default = whole viewport)
+//triggers css-animation when element is reaching a specific position in the viewport (default = whole viewport)
 function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animation_state, leave_animation_state){
 	var timeline_sections = document.getElementsByClassName(selectorClass)
 
@@ -1066,26 +1040,46 @@ function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animat
 
 	for(n=0; n<section_states.length; n++){
 		if(section_states[n] !== old_section_state[n]){
-		if(section_states[n]){
-			$( "."+selectorClass + ":eq("+ n +")" ).removeClass(leave_animation_state);
-			$( "."+selectorClass + ":eq("+ n +")" ).addClass(enter_animation_state);
-		}else{
-			$( "."+selectorClass + ":eq("+ n +")" ).removeClass(enter_animation_state);
-			$( "."+selectorClass + ":eq("+ n +")" ).addClass(leave_animation_state);
+			if(section_states[n]){
+				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(leave_animation_state);
+				$( "."+selectorClass + ":eq("+ n +")" ).addClass(enter_animation_state);
+			}else{
+				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(enter_animation_state);
+				$( "."+selectorClass + ":eq("+ n +")" ).addClass(leave_animation_state);
+			}
 		}
 	}
 }
+
+//picks the nth element of a and analyses its y-position and returns in top and bot - if id input id into n
+function get_boundaries(selectorClass, n){
+	if(n == "id"){
+		var divElement = selectorClass
+	}else{
+		var divElement = $( "."+selectorClass + ":eq("+ n +")")
+	}
+	var divPosition = {}
+	divPosition.top = $(divElement).offset().top;
+	divPosition.center = $(divElement).offset().top + ($(divElement).height()-window.innerHeight)/2;
+	divPosition.bot = $(divElement).offset().top + $(divElement).height()-window.innerHeight;
+	return divPosition
 }
 
 //everything that changes HTML or CSS Properties
 function manipulateHTML(){
-	shaftText('#text1');
 
 	//move timeline
 	timeline('#t-moving',0);
 
 	var visibility_height = 200 + window.innerHeight*0.3;
 	var total_padding = window.innerHeight-visibility_height
+
+	//changes the width of the LIBESKIND-quote in relation to the lightShaft-width
+	shaftText("#quote1")
+
+	//changes margin of the left and righttext (voidText: "element_id, left (boolean), right(boolean)")
+	voidText("#quote2-left", true, false)
+	voidText("#quote2-right", false, true)
 
 	//triggers animation when element is reaching a specific position (selector, space top, space bot, EnteranimationClassName, leave_animationClassname)
 	triggerClassAnimation('timeline-section', total_padding*0.5, total_padding*0.5, " animate", " animate-back")
@@ -1095,13 +1089,6 @@ function manipulateHTML(){
 //everything triggered when input-changes are happening
 function drawLoop(){
 	requestAnimationFrame(drawLoop);
-<<<<<<< HEAD
-	if(updateCanvas){
-		resizeCanvas();
-		draw();
-		manipulateHTML();
-		updateCanvas = false;
-=======
 	if(updateCanvas && dataLoaded){
 		getAnkers();
 		draw();
@@ -1137,7 +1124,6 @@ function pageload(t_value) {
 		// ctxFg.fillStyle = "blue"; //shadowsOpacity
 		// ctxFg.fill();
 		console.log("data loading...");
->>>>>>> timeline(j)
 	}
 }
 
@@ -1145,8 +1131,8 @@ function pageload(t_value) {
 
 //everything happening when scrolling
 window.addEventListener('scroll', function(e){
-	updateCanvas = true;
 	windowOffset = window.pageYOffset;
+	updateCanvas = true;
 })
 
 // resize the canvas to fill browser window dynamically
@@ -1160,7 +1146,7 @@ window.onload = function(){
 };
 
 //everything happening when mouse is moved (reassign canvasto the top one if you wanna use again)
-canvas.onmousemove = function(event){
+canvasFg.onmousemove = function(event){
 	Mouse.x = event.clientX;
 	Mouse.y = event.clientY;
 	updateCanvas = true;

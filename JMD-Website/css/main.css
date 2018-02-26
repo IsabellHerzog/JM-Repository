@@ -1,51 +1,41 @@
 @font-face {
 font-family: UniversLTPro-45Light;
-src: url(../assets/fonts/UniversLTPro-45Light.otf) format("opentype"),
-    url(../assets/fonts/UniversLTPro-45Light.woff) format("woff"),
-    url(../assets/fonts/UniversLTPro-45Light.woff2) format("woff2");
+src: url(../assets/fonts/UniversLTPro-45Light.otf);
 font-style: normal;
 font-weight: lighter;
 }
 
 @font-face {
 font-family: UniversLTPro-45LightOblique;
-src: url(../assets/fonts/UniversLTPro-45LightOblique.otf) format("opentype"),
-    url(../assets/fonts/UniversLTPro-45LightOblique.woff) format("woff"),
-    url(../assets/fonts/UniversLTPro-45LightOblique.woff2) format("woff2");
+src: url(../assets/fonts/UniversLTPro-45LightOblique.otf);
 font-style: oblique;
 font-weight: normal;
 }
 
 @font-face {
 font-family: UniversLTPro-55Roman;
-src: url(../assets/fonts/UniversLTPro-55Roman.otf) format("opentype"),
-    url(../assets/fonts/UniversLTPro-55Roman.woff) format("woff"),
-    url(../assets/fonts/UniversLTPro-55Roman.woff2) format("woff2");
+src: url(../assets/fonts/UniversLTPro-55Roman.otf);
 font-style: normal;
 font-weight: normal;
 }
 
 @font-face {
 font-family: UniversLTPro-65Bold;
-src: url(../assets/fonts/UniversLTPro-65Bold.otf) format("opentype"),
-    url(../assets/fonts/UniversLTPro-65Bold.woff) format("woff"),
-    url(../assets/fonts/UniversLTPro-65Bold.woff2) format("woff2");
+src: url(../assets/fonts/UniversLTPro-65Bold.otf);
 font-style: normal;
 font-weight: bold;
 }
 
 @font-face {
 font-family: UniversLTPro-75Black;
-src: url(../assets/fonts/UniversLTPro-75Black.otf) format("opentype"),
-    url(../assets/fonts/UniversLTPro-75Black.woff) format("woff"),
-    url(../assets/fonts/UniversLTPro-75Black.woff2) format("woff2");
+src: url(../assets/fonts/UniversLTPro-75Black.otf);
 font-style: normal;
 font-weight: bolder;
 }
 
 @font-face {
 font-family: Carmela;
-src: url(../assets/fonts/carmela.ttf) format("truetype");
+src: url(../assets/fonts/carmela.ttf);
 }
 
 @font-face {

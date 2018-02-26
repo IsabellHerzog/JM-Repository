@@ -298,9 +298,12 @@ function calcSegments(i_min, i_max, rectSize, c){
 		const dot = jQuery.extend(true, {}, pillar.points[i]);
 		var line = {};
 
+<<<<<<< HEAD
 		var this_pillar_Y =  pillar.points[i].y + c
 
 		if(windowOffset-200 < this_pillar_Y && this_pillar_Y<=windowOffset+window.innerHeight || i===0){
+=======
+>>>>>>> parent of 5b0ccc1... Merge branch 'master' of https://github.com/IsabellHerzog/JM-Repository
 
 			//line1
 			line.a = calcShift(dot,0,0,c);
@@ -635,7 +638,10 @@ function draw(){
 
 	calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
 	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 5b0ccc1... Merge branch 'master' of https://github.com/IsabellHerzog/JM-Repository
 	// Clear canvas
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -696,6 +702,7 @@ function draw(){
 		for(var i=0;i<pillar.points.length;i++){
 			ctx.fillStyle = pillar.color
 			var spot = pillar.points[i];
+<<<<<<< HEAD
 			if(windowOffset-200 < spot.y <=windowOffset+window.innerHeight){
 				ctx.beginPath();
 				ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
@@ -704,6 +711,14 @@ function draw(){
 				ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
 				ctx.fill();
 			}
+=======
+			ctx.beginPath();
+			ctx.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
+			ctx.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
+			ctx.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
+			ctx.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
+			ctx.fill();
+>>>>>>> parent of 5b0ccc1... Merge branch 'master' of https://github.com/IsabellHerzog/JM-Repository
 		}
 	}
 }

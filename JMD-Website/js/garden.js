@@ -567,13 +567,14 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'black':
-
+		var color = 13;
+		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 		pillar.active = true
 		break;
 
 		case 'black'+"++":
 		lightShaft.middle.color = "rgb(200, 200, 200)"
-		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 21))
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 		lightShaft.active = true;
 		lightShaft.width = 1

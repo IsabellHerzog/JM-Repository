@@ -870,7 +870,7 @@ function contentData(data){
 			metaP.innerHTML = this_content.metadata
 
 			var subtitleP = document.createElement("p");
-			subtitleP.innerHTML = this_content.subtitle
+			subtitleP.innerHTML = this_content.subtitle.split("-").join("&#8209;"); 
 
 			innerDiv.append(h2)
 			innerDiv.append(p)
@@ -948,6 +948,15 @@ function contentData(data){
 			// t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 		}
 	}
+	//breaks text on the right place
+	$('.content-block p').each(function(){
+			var string = $(this).html();
+			for (var i = 0; i < 2; i++){
+				string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
+			}
+			$(this).html(string);
+	});
+
 	contentLoaded = true;
 	drawLoop()
 }

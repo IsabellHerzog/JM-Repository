@@ -23,6 +23,9 @@ var infoLoaded = false;
 var dataLoaded = false;
 var ankerSet = false;
 var timelineSet = false;
+<<<<<<< HEAD
+>>>>>>> timeline(j)
+=======
 >>>>>>> timeline(j)
 
 var section_states = []
@@ -594,9 +597,12 @@ function scrollLight(sectionAnkers){
 
 		lightSpot.y = lightShaft.y2
 <<<<<<< HEAD
+<<<<<<< HEAD
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 13, 64))
 		shadow.background = "rgb("+color+","+color+","+color+")";
 =======
+=======
+>>>>>>> timeline(j)
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 21, 64))
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 >>>>>>> timeline(j)
@@ -725,7 +731,12 @@ function draw(){
 >>>>>>> parent of 5b0ccc1... Merge branch 'master' of https://github.com/IsabellHerzog/JM-Repository
 	// Clear canvas
 <<<<<<< HEAD
+<<<<<<< HEAD
 	ctx.clearRect(0,0,canvas.width,canvas.height);
+=======
+	ctxBg.clearRect(0,0,window.innerWidth,window.innerHeight);
+	ctxFg.clearRect(0,0,window.innerWidth,window.innerHeight);
+>>>>>>> timeline(j)
 =======
 	ctxBg.clearRect(0,0,window.innerWidth,window.innerHeight);
 	ctxFg.clearRect(0,0,window.innerWidth,window.innerHeight);
@@ -836,6 +847,9 @@ function infoData(data){
 =======
 	infoLoaded = true
 	drawLoop()
+<<<<<<< HEAD
+>>>>>>> timeline(j)
+=======
 >>>>>>> timeline(j)
 }
 

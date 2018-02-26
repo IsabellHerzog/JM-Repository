@@ -870,7 +870,7 @@ function contentData(data){
 			metaP.innerHTML = this_content.metadata
 
 			var subtitleP = document.createElement("p");
-			subtitleP.innerHTML = this_content.subtitle.split("-").join("&#8209;"); 
+			subtitleP.innerHTML = this_content.subtitle.split("-").join("&#8209;");
 
 			innerDiv.append(h2)
 			innerDiv.append(p)

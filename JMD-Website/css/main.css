@@ -26,12 +26,12 @@ font-style: normal;
 font-weight: bold;
 }
 
-@font-face {
+/* @font-face {
 font-family: UniversLTPro-75Black;
 src: url(../assets/fonts/UniversLTPro-75Black.otf);
 font-style: normal;
 font-weight: bolder;
-}
+} */
 
 @font-face {
 font-family: Carmela;
@@ -47,18 +47,6 @@ src: url(../assets/fonts/Bodoni_72_OS.otf) format("opentype");
 @mixin for-phone-only {
   @media (max-width: 599px) { @content; }
 }
-/* @mixin for-tablet-portrait-up {
-  @media (min-width: 600px) { @content; }
-}
-@mixin for-tablet-landscape-up {
-  @media (min-width: 900px) { @content; }
-}
-@mixin for-desktop-up {
-  @media (min-width: 1200px) { @content; }
-}
-@mixin for-big-desktop-up {
-  @media (min-width: 1800px) { @content; }
-} */
 
 
 ::-webkit-scrollbar {

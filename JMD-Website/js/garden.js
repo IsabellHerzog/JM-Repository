@@ -1,6 +1,6 @@
 //######################SETUP##########################
 
-//importing Data from googleSpreadsheets CONTENT
+// importing Data from googleSpreadsheets CONTENT
 document.addEventListener('DOMContentLoaded', function() {
 	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
 	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
@@ -14,7 +14,16 @@ document.addEventListener('DOMContentLoaded', function() {
 // linking & importing objects to the html
 var canvas = document.getElementById("canvas");
 
+<<<<<<< HEAD
 var ctx = canvas.getContext("2d");
+=======
+//To ensure data is loaded before anything else is done
+var contentLoaded = false;
+var infoLoaded = false;
+var dataLoaded = false;
+var ankerSet = false;
+var timelineSet = false;
+>>>>>>> timeline(j)
 
 var section_states = []
 var section_active = -1;
@@ -167,7 +176,66 @@ document.body.style.height = garden.size
 
 //#####################FUNCTIONS#######################
 
+<<<<<<< HEAD
 //updating functions:
+=======
+//updateing garden sections
+function getAnkers(){
+
+
+	if(!ankerSet){
+		// {s: 0, e: 600}, //white_1 (start + end)
+
+		//white_1
+		garden.sectionPoints.a[0].s = 0;
+		garden.sectionPoints.a[0].e = get_boundaries("info-text-right1", 0).center;
+		//halfwhite_1
+		garden.sectionPoints.a[2].s = get_boundaries("info-text-quote1", 0).center;
+		garden.sectionPoints.a[2].e = get_boundaries("info-text-quote1", 0).center;
+		//quaterwhite_1
+		garden.sectionPoints.a[3].s = get_boundaries("info-text-quote1", 0).top;
+		garden.sectionPoints.a[3].e = get_boundaries("info-text-quote1", 0).top;
+		//onpixel_1
+		garden.sectionPoints.a[4].s = get_boundaries("info-text-quote2", 0).bot;
+		garden.sectionPoints.a[4].e = get_boundaries("info-text-quote2", 0).bot;
+		//blackend/start
+		garden.sectionPoints.a[5].s = get_boundaries("#black-start", "id").bot;
+		garden.sectionPoints.a[5].e = get_boundaries("#black-end", "id").center;
+		//onepixel_2
+		garden.sectionPoints.a[6].s = get_boundaries("#oneline", "id").top + 2*$("#oneline").height();
+		garden.sectionPoints.a[6].e = get_boundaries("#oneline", "id").top + 2*$("#oneline").height();
+		//white_2
+		garden.sectionPoints.a[10].s = get_boundaries("#light-content-wrapper2", "id").center;
+		garden.sectionPoints.a[10].e = get_boundaries("#light-content-wrapper2", "id").bot;
+
+
+		//automate (in between stages)
+		//threequaterwhite_1 default 0.75%
+		garden.sectionPoints.a[1].s = (garden.sectionPoints.a[2].s-garden.sectionPoints.a[0].e)/2+garden.sectionPoints.a[0].e;
+		garden.sectionPoints.a[1].e = (garden.sectionPoints.a[2].s-garden.sectionPoints.a[0].e)/2+garden.sectionPoints.a[0].e;
+		//halfwhite_2
+		garden.sectionPoints.a[8].s = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e
+		garden.sectionPoints.a[8].e = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e
+		//quaterwhite_2
+		garden.sectionPoints.a[7].s = (garden.sectionPoints.a[8].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e;
+		garden.sectionPoints.a[7].e = (garden.sectionPoints.a[8].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e;
+		//threequaterwhite_2
+		garden.sectionPoints.a[9].s = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[8].e)/2+garden.sectionPoints.a[8].e;
+		garden.sectionPoints.a[9].e = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[8].e)/2+garden.sectionPoints.a[8].e;
+		ankerSet = false;
+	}
+
+	if(!timelineSet){
+		//POSITIONS
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
+		for(var i=0; i<t_years.tens.length; i++){
+			t_years.positions.push(get_boundaries("timeline-section", i).top)
+		}
+		timelineSet = true
+	}
+}
+>>>>>>> timeline(j)
 
 // Find intersection of RAY & SEGMENT
 function getIntersection(ray,segment){
@@ -430,18 +498,21 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'white_1'+"++":
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, window.innerWidth, window.innerWidth*0.75);
 		break;
 
 		case 'threequaterwhite_1':
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.75
 		break;
 
 		case 'threequaterwhite_1'+"++":
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[1].e, sectionAnkers[2].s, window.innerWidth*0.75, window.innerWidth*0.5);
@@ -449,6 +520,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'halfwhite_1':
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.5
@@ -459,6 +531,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'halfwhite_1'+"++":
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].e, sectionAnkers[3].s, window.innerWidth*0.5, window.innerWidth*0.25);
@@ -469,6 +542,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'quaterwhite_1':
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.25
@@ -480,6 +554,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'quaterwhite_1'+"++":
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 
@@ -491,6 +566,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'onpixel_1':
+		lightShaft.middle.color = "rgb(200, 200, 200)";
 		lightShaft.active = true;
 		lightShaft.width = 1
 
@@ -501,7 +577,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'onpixel_1'+"++":
-		lightShaft.middle.color = "rgb(255, 255, 255)"
+		lightShaft.middle.color = "rgb(200, 200, 200)";
 		lightShaft.active = true;
 		lightShaft.width = 1
 		lightShaft.y2 = mapArea(windowOffset, sectionAnkers[4].e, sectionAnkers[5].s, window.innerHeight, 0);
@@ -517,8 +593,13 @@ function scrollLight(sectionAnkers){
 		shadow.active = true
 
 		lightSpot.y = lightShaft.y2
+<<<<<<< HEAD
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 13, 64))
 		shadow.background = "rgb("+color+","+color+","+color+")";
+=======
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 21, 64))
+		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
+>>>>>>> timeline(j)
 		break;
 
 		case 'black':
@@ -643,7 +724,12 @@ function draw(){
 =======
 >>>>>>> parent of 5b0ccc1... Merge branch 'master' of https://github.com/IsabellHerzog/JM-Repository
 	// Clear canvas
+<<<<<<< HEAD
 	ctx.clearRect(0,0,canvas.width,canvas.height);
+=======
+	ctxBg.clearRect(0,0,window.innerWidth,window.innerHeight);
+	ctxFg.clearRect(0,0,window.innerWidth,window.innerHeight);
+>>>>>>> timeline(j)
 
 	if (shaftGrowing) {
 		var color = 255
@@ -746,6 +832,11 @@ function infoData(data){
 		}
 		document.getElementById("light-content-wrapper").appendChild(div);
 	}
+<<<<<<< HEAD
+=======
+	infoLoaded = true
+	drawLoop()
+>>>>>>> timeline(j)
 }
 
 //fills the content in the dark content-area from a spreadsheet
@@ -863,7 +954,14 @@ function contentData(data){
 
 			var split_p = 2
 			var end_p = 4
-			if(this_content.year.length===3){
+
+			if(this_content.year.length===1){
+				split_p = 0
+				end_p = 1
+			}else if(this_content.year.length===2){
+				split_p = 0
+				end_p = 2
+			}else if(this_content.year.length===3){
 				split_p = 1
 				end_p = 3
 			}else if(this_content.year.length===5){
@@ -878,7 +976,8 @@ function contentData(data){
 			t_years.tens.push(this_content.year.substring(split_p, end_p));
 
 			//POSITIONS
-			t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 		}
 		drawLoop();
 	}
@@ -982,11 +1081,49 @@ function manipulateHTML(){
 //everything triggered when input-changes are happening
 function drawLoop(){
 	requestAnimationFrame(drawLoop);
+<<<<<<< HEAD
 	if(updateCanvas){
 		resizeCanvas();
 		draw();
 		manipulateHTML();
 		updateCanvas = false;
+=======
+	if(updateCanvas && dataLoaded){
+		getAnkers();
+		draw();
+		manipulateHTML();
+		updateCanvas = false;
+	}else if(!dataLoaded){
+		//pageload function for pageload animation. Number determines in Milliseconds how long the animation will stay after pageload
+		pageload(3000)
+	}
+}
+
+//set a timer for the function until disappears when not triggered lineWidth
+function pageload(t_value) {
+	//executes when all content loaded
+	if(contentLoaded && infoLoaded){
+		console.log("all loaded");
+		setTimeout(function(){
+			$(document.body).css({"overflow-y": "auto"})
+			$("#loadingAnimation").remove()
+			dataLoaded = true;
+		}, t_value);
+
+		//executes when half content loaded
+	}else if(contentLoaded || infoLoaded){
+		console.log("halfly loaded");
+
+		//executes when all contents are loading
+	}else{
+		// var positioner = {x: window.innerWidth/2 - 160, y: window.innerHeight/2 - 160}
+		// var sizes = {s:8, l: 12}
+		// ctxFg.rect(positioner.x, positioner.y,12,12);
+		// ctxFg.rect(window.innerWidth/2+40, window.innerHeight/2+120,8,8);
+		// ctxFg.fillStyle = "blue"; //shadowsOpacity
+		// ctxFg.fill();
+		console.log("data loading...");
+>>>>>>> timeline(j)
 	}
 }
 
@@ -1003,9 +1140,9 @@ window.addEventListener('resize', resizeCanvas, false);
 
 //everything happening on pageload
 window.onload = function(){
-	lightSpot.image.onload = function(){
-	};
+	lightSpot.image.onload = function(){};
 	lightSpot.image.src = "assets/garden_lightShaftSpot.png";
+	resizeCanvas();
 };
 
 //everything happening when mouse is moved (reassign canvasto the top one if you wanna use again)

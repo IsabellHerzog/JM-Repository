@@ -60,7 +60,7 @@ src: url(../assets/fonts/Bodoni_72_OS.otf) format("opentype");
 
 
 ::-webkit-scrollbar {
-    display: none;
+    /* display: none; */
 }
 
 

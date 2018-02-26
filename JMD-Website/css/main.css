@@ -271,72 +271,69 @@ h2{
 
 .metadata-middle-right p{
   padding-top: 10px;
-  font-size: 11;
-  text-align: right;
-  color: #6C6C6C;
-  line-height: 21px;
+  font-size: 15;
+  text-align: left;
+  opacity: 0.5;
+  line-height: 29px;
 }
 
 .metadata-middle-left p{
   padding-top: 10px;
-  font-size: 11;
-  text-align: left;
-  color: #6C6C6C;
-  line-height: 21px;
+  font-size: 15;
+  text-align: right;
+  opacity: 0.5;
+  line-height: 29px;
 }
 
 .metadata-right p{
   padding-top: 10px;
-  font-size: 11;
-  text-align: right;
-  color: #6C6C6C;
-  line-height: 21px;
+  font-size: 15;
+  text-align: left;
+  opacity: 0.5;
+  line-height: 29px;
 }
 
 .metadata-left p{
   padding-top: 10px;
-  font-size: 11;
-  text-align: left;
-  color: #6C6C6C;
-  line-height: 21px;
+  font-size: 15;
+  text-align: right;
+  opacity: 0.5;
+  line-height: 29px;
 }
 
 .subtitle-middle-right p{
   padding-top: 10px;
   font-size: 15;
-  color: #6C6C6C;
   text-align: right;
+  opacity: 0.5;
   line-height: 29px;
 }
 .subtitle-middle-left p{
   padding-top: 10px;
   font-size: 15;
-  color: #6C6C6C;
   text-align: left;
+  opacity: 0.5;
   line-height: 29px;
 }
 
 .subtitle-right p{
   padding-top: 10px;
   font-size: 15;
-  color: #6C6C6C;
   text-align: right;
+  opacity: 0.5;
   line-height: 29px;
 }
 
 .subtitle-left p{
   padding-top: 10px;
   font-size: 15;
-  color: #6C6C6C;
   text-align: left;
+  opacity: 0.5;
   line-height: 29px;
 }
 
-
-
 .yearDivision {
   padding-left: 20px;
-
 }
 
 .content-block h2{

@@ -1,15 +1,15 @@
 //######################SETUP##########################
 
 //importing Data from googleSpreadsheets CONTENT
-document.addEventListener('DOMContentLoaded', function() {
-	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
-	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
-})
-//importing Data from googleSpreadsheets INFORMATIONAL DATA
-document.addEventListener('DOMContentLoaded', function() {
-	var URL = "https://docs.google.com/spreadsheets/d/112kX1SjyxW9D7rQ69ovMpJBAJluQoIbhlhMxlSrfSBw/edit?usp=sharing"
-	Tabletop.init( { key: URL, callback: infoData, simpleSheet: true } )
-})
+// document.addEventListener('DOMContentLoaded', function() {
+// 	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
+// 	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
+// })
+// //importing Data from googleSpreadsheets INFORMATIONAL DATA
+// document.addEventListener('DOMContentLoaded', function() {
+// 	var URL = "https://docs.google.com/spreadsheets/d/112kX1SjyxW9D7rQ69ovMpJBAJluQoIbhlhMxlSrfSBw/edit?usp=sharing"
+// 	Tabletop.init( { key: URL, callback: infoData, simpleSheet: true } )
+// })
 
 // linking & importing objects to the html
 var canvasBg = document.getElementById("background-canvas");
@@ -701,8 +701,8 @@ function draw(){
 	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
 
 	// Clear canvas
-	ctxBg.clearRect(0,0,canvasBg.width,canvasBg.height);
-	ctxFg.clearRect(0,0,canvasFg.width,canvasFg.height);
+	ctxBg.clearRect(0,0,window.innerWidth,window.innerHeight);
+	ctxFg.clearRect(0,0,window.innerWidth,window.innerHeight);
 
 	if (shaftGrowing) {
 		var color = 255
@@ -949,7 +949,7 @@ function contentData(data){
 		}
 	}
 	contentLoaded = true;
-	drawLoop()
+	resizeCanvas()
 }
 
 //makes Text of an ID align to the shaft
@@ -1117,6 +1117,12 @@ function pageload(t_value) {
 
 		//executes when all contents are loading
 	}else{
+		var positioner = {x: window.innerWidth/2 - 160, y: window.innerHeight/2 - 160}
+		var sizes = {s:8, l: 12}
+		ctxFg.rect(positioner.x, positioner.y,12,12);
+		ctxFg.rect(window.innerWidth/2+40, window.innerHeight/2+120,8,8);
+		ctxFg.fillStyle = "blue"; //shadowsOpacity
+		ctxFg.fill();
 		console.log("data loading...");
 	}
 }
@@ -1134,9 +1140,9 @@ window.addEventListener('resize', resizeCanvas, false);
 
 //everything happening on pageload
 window.onload = function(){
-	lightSpot.image.onload = function(){
-	};
+	lightSpot.image.onload = function(){};
 	lightSpot.image.src = "assets/garden_lightShaftSpot.png";
+	resizeCanvas();
 };
 
 //everything happening when mouse is moved (reassign canvasto the top one if you wanna use again)

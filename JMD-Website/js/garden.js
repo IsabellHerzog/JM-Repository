@@ -835,40 +835,8 @@ function contentData(data){
 			var em = document.createElement("p");
 			em.innerHTML = "»"+this_content.em+"«"
 
-<<<<<<< HEAD
 			var h2 = document.createElement("h2")
 			h2.innerHTML = this_content.name
-=======
-		var p = document.createElement("p");
-		p.innerHTML = this_content.text
-
-		var img = document.createElement("img")
-		img.src = "./assets/images/" + this_content.imgName
-		img.style.opacity = "0.9"
-
-		var metaP = document.createElement("p");
-		metaP.innerHTML = this_content.metadata;
-
-		var subtitleP = document.createElement("p");
-		subtitleP.innerHTML = this_content.subtitle.split("-").join("&#8209;"); //split.join prohibit a line break after a fake hypen
-
-		innerDiv.append(h2)
-		innerDiv.append(p)
-		subtitleDiv.append(subtitleP)
-		innerDiv.append(subtitleDiv)
-		metadataDiv.append(metaP)
-		imageDiv.append(img)
-		imageDiv.append(metadataDiv)
-
-		div.append(innerDiv)
-		div.append(imageDiv)
-		if (this_content.em != ""){
-			emDiv.append(em)
-			emBlock.append(emDiv)
-			document.getElementById("dark-content-wrapper").appendChild(emBlock);
-		}
-		document.getElementById("dark-content-wrapper").appendChild(div);
->>>>>>> BLACK-reduce-font-size
 
 			var p = document.createElement("p");
 			p.innerHTML = this_content.text
@@ -878,7 +846,6 @@ function contentData(data){
 			img.style.opacity = "0.9"
 			// img.style.backgroundBlendMode = "multiply";
 
-<<<<<<< HEAD
 			var metaP = document.createElement("p");
 			metaP.innerHTML = this_content.metadata
 
@@ -955,30 +922,7 @@ function contentData(data){
 	}
 	contentLoaded = true;
 	drawLoop()
-=======
-		//defines/pulls year-infos into the t_years object
-		if(4===this_content.year.length){
-			//tens
-			t_years.hundreds.push(this_content.year.substring(0, 2));
-			//hundreds
-			t_years.tens.push(this_content.year.substring(2, 4));
-			//POSITIONS
-			t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
-		}
-	}
-
-	$('.content-block p').each(function(){
-			var string = $(this).html();
-			for (var i = 0; i < 2; i++){
-				string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
-			}
-			$(this).html(string);
-	});
-
-	drawLoop();
->>>>>>> BLACK-reduce-font-size
 }
-
 
 //makes Text of an ID align to the shaft
 function shaftText(textID){
@@ -1006,7 +950,7 @@ function voidText(textID, left, right){
 	}
 }
 
-//draws the timeline
+//draws the tmeline
 function timeline(tens_moving, i){
 	var time_position = t_years.positions[i+1]-windowOffset
 

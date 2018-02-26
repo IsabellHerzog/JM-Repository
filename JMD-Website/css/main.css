@@ -72,7 +72,7 @@ src: url(../assets/fonts/Bodoni_72_OS.otf) format("opentype");
 
 
 ::-webkit-scrollbar {
-    display: none;
+    /* display: none; */
 }
 
 
@@ -82,7 +82,7 @@ body{
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
   font-family: 'UniversLTPro-45Light', sans-serif;
 }
 
@@ -98,26 +98,7 @@ h2{
   line-height: 35px;
 }
 
-#scrollbar-style::-webkit-scrollbar-thumb
-{
-	/* background-color: rgba(255,255,255, 0.1); */
-  height: 60px;
-  background-color: black;
-  border-radius: 10px 0px 0px 10px;
-
-}
-
-#scrollbar-style::-webkit-scrollbar
-{
-	width: 6px;
-}
-
-#scrollbar-style::-webkit-scrollbar-track
-{
-	/* background-color: rgba(0,0,0, 0.4) */
-}
-
-#background-canvas{
+#canvas{
   display: block;
   position: fixed;
   margin: 0;
@@ -125,25 +106,17 @@ h2{
   z-index: -1;
 }
 
-#foreground-canvas{
-  display: block;
-  position: fixed;
-  margin: 0;
-  padding: 0;
-  z-index: 100;
-}
-
 #light-content-wrapper{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;
-  grid-column-gap: 7vw;
+  grid-column-gap: 10%;
   grid-template-areas: "head1 head2"
                        ". adress"
                        "main_l1 main_r1"
                        "quote1 quote1"
                        "main_l2 main_r2"
-                       "quote2left quote2right"
+                       "quote2 quote2"
                        "main_l3 main_r3";
   margin-top: 34;
   max-width: 1140px;
@@ -154,18 +127,18 @@ h2{
 }
 
 #light-content-wrapper2{
+  margin-top: 1000px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;
-  grid-column-gap: 7vw;
-  grid-template-areas: "head1 head2"
-                       ". adress"
-                       "main_l1 main_r1"
+  grid-column-gap: 10%;
+  grid-template-areas: "main_l1 main_r1"
                        "quote1 quote1"
                        "main_l2 main_r2"
-                       "quote2left quote2right"
+                       "quote2 quote2"
                        "main_l3 main_r3";
-  max-width: 1140px;
+  margin-top: 34;
+  max-width: 1080px;
   margin: 0 auto;
   padding-left: 11%;
   padding-right: 11%;
@@ -180,7 +153,15 @@ h2{
   padding-right: 4%;
   justify-content: center;
   color: #D8D8D8;
-  margin-bottom: 400;
+}
+
+.timeline{
+  position: fixed;
+  font-family: 'UniversLTPro-55Roman', sans-serif;
+  color: white;
+  font-size: 15;
+  letter-spacing: 10;
+  padding-left: 10;
 }
 
 #h-fixed{
@@ -206,27 +187,6 @@ h2{
   z-index: 5;
   top: 47vh;;
   left: 28;
-}
-
-#quote2-left{
-  text-align: right;
-}
-
-#quote2-right{
-  text-align: left;
-}
-
-#loadingAnimation {
-  background: url(https://media.giphy.com/media/k6xBcDKmJwrAGTV4XR/giphy.gif) center center no-repeat;
-}
-
-.timeline{
-  position: fixed;
-  font-family: 'UniversLTPro-55Roman', sans-serif;
-  color: white;
-  font-size: 15;
-  letter-spacing: 10;
-  padding-left: 10;
 }
 
 .tnumber{
@@ -398,7 +358,6 @@ h2{
 
   grid-area: main_r3;
 }
-
 /* --- style white area --- */
 .info-text-hebrew{
   font-family: 'Carmela', sans-serif;
@@ -469,26 +428,16 @@ h4{
 }
 
 .info-text-quote1{
-  margin: 0 auto;
-  height: 520;
   text-align: center;
   vertical-align: middle;
+  margin: 0 auto;
   grid-area: quote1;
 }
-.info-text-quote2-left{
+.info-text-quote2{
   text-align: center;
   vertical-align: middle;
   margin: 0 auto;
-  grid-area: quote2left;
-  width: 100%;
-}
-
-.info-text-quote2-right{
-  text-align: center;
-  vertical-align: middle;
-  margin: 0 auto;
-  grid-area: quote2right;
-  width: 100%;
+  grid-area: quote2;
 }
 
 .info-text-quote1 span{
@@ -572,8 +521,8 @@ img{
 
   font-family: 'Bodoni72', serif;
   font-size: 80;
-  letter-spacing: 1.5;
-  color: rgb(173, 173, 173);
+  letter-spacing:  1.5;
+  /* color: rgb(173, 173, 173); */
 
   margin-bottom: 150;
 

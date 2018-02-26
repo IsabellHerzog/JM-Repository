@@ -22,6 +22,7 @@ var contentLoaded = false;
 var infoLoaded = false;
 var dataLoaded = false;
 var ankerSet = false;
+var timelineSet = false;
 
 var section_states = []
 var section_active = -1;
@@ -173,7 +174,7 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequ
 //#####################FUNCTIONS#######################
 
 //updateing garden sections
-function getGardenAnker(){
+function getAnkers(){
 
 
 	if(!ankerSet){
@@ -215,6 +216,17 @@ function getGardenAnker(){
 		//threequaterwhite_2
 		garden.sectionPoints.a[9].s = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[8].e)/2+garden.sectionPoints.a[8].e;
 		garden.sectionPoints.a[9].e = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[8].e)/2+garden.sectionPoints.a[8].e;
+		ankerSet = false;
+	}
+
+	if(!timelineSet){
+		//POSITIONS
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
+		for(var i=0; i<t_years.tens.length; i++){
+			t_years.positions.push(get_boundaries("timeline-section", i).top)
+		}
+		timelineSet = true
 	}
 }
 
@@ -475,18 +487,21 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'white_1'+"++":
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, window.innerWidth, window.innerWidth*0.9);
 		break;
 
 		case 'threequaterwhite_1':
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.9
 		break;
 
 		case 'threequaterwhite_1'+"++":
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[1].e, sectionAnkers[2].s, window.innerWidth*0.9, quote1_width_1);
@@ -494,6 +509,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'halfwhite_1':
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].s, sectionAnkers[2].e, quote1_width_1, quote1_width_2);
@@ -504,6 +520,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'halfwhite_1'+"++":
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].e, sectionAnkers[3].s, quote1_width_2, window.innerWidth*0.25);
@@ -514,6 +531,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'quaterwhite_1':
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 		lightShaft.width = window.innerWidth*0.25
@@ -525,6 +543,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'quaterwhite_1'+"++":
+		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
 
@@ -536,6 +555,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'onpixel_1':
+		lightShaft.middle.color = "rgb(200, 200, 200)";
 		lightShaft.active = true;
 		lightShaft.width = 1
 
@@ -546,7 +566,7 @@ function scrollLight(sectionAnkers){
 		break;
 
 		case 'onpixel_1'+"++":
-		lightShaft.middle.color = "rgb(255, 255, 255)"
+		lightShaft.middle.color = "rgb(200, 200, 200)";
 		lightShaft.active = true;
 		lightShaft.width = 1
 		lightShaft.y2 = mapArea(windowOffset, sectionAnkers[4].e, sectionAnkers[5].s, window.innerHeight, 0);
@@ -562,7 +582,7 @@ function scrollLight(sectionAnkers){
 		shadow.active = true
 
 		lightSpot.y = lightShaft.y2
-		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 13, 64))
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 21, 64))
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 		break;
 
@@ -574,7 +594,7 @@ function scrollLight(sectionAnkers){
 
 		case 'black'+"++":
 		lightShaft.middle.color = "rgb(200, 200, 200)"
-		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 21))
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 		lightShaft.active = true;
 		lightShaft.width = 1
@@ -902,7 +922,14 @@ function contentData(data){
 
 			var split_p = 2
 			var end_p = 4
-			if(this_content.year.length===3){
+
+			if(this_content.year.length===1){
+				split_p = 0
+				end_p = 1
+			}else if(this_content.year.length===2){
+				split_p = 0
+				end_p = 2
+			}else if(this_content.year.length===3){
 				split_p = 1
 				end_p = 3
 			}else if(this_content.year.length===5){
@@ -917,7 +944,8 @@ function contentData(data){
 			t_years.tens.push(this_content.year.substring(split_p, end_p));
 
 			//POSITIONS
-			t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 		}
 	}
 	contentLoaded = true;
@@ -1062,7 +1090,7 @@ function manipulateHTML(){
 function drawLoop(){
 	requestAnimationFrame(drawLoop);
 	if(updateCanvas && dataLoaded){
-		getGardenAnker()
+		getAnkers();
 		draw();
 		manipulateHTML();
 		updateCanvas = false;

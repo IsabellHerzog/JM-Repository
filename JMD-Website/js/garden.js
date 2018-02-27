@@ -193,7 +193,7 @@ function getAnkers(){
 		garden.sectionPoints.a[4].s = get_boundaries("info-text-quote2", 0).bot;
 		garden.sectionPoints.a[4].e = get_boundaries("info-text-quote2", 0).bot;
 		//blackend/start
-		garden.sectionPoints.a[5].s = get_boundaries("#black-start", "id").bot;
+		garden.sectionPoints.a[5].s = get_boundaries("#black-start", "id").bot -200;
 		garden.sectionPoints.a[5].e = get_boundaries("#black-end", "id").center;
 		//onepixel_2
 		garden.sectionPoints.a[6].s = get_boundaries("#oneline", "id").top + 2*$("#oneline").height();
@@ -916,6 +916,10 @@ function contentData(data){
 			var innerDiv = document.createElement("div");
 			innerDiv.className = "timeline-section " + this_content.class;
 			innerDiv.innerHTML = this_content.text;
+
+			if(this_content.id.length >= 2){
+				div.setAttribute("id", this_content.id);
+			}
 
 			div.append(innerDiv)
 			document.getElementById("dark-content-wrapper").appendChild(div);

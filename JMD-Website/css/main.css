@@ -88,21 +88,20 @@ h2{
 
 #scrollbar-style::-webkit-scrollbar-thumb
 {
-	/* background-color: rgba(255,255,255, 0.1); */
-  height: 60px;
+  height: 50px;
   background-color: black;
-  border-radius: 10px 0px 0px 10px;
+  /* border-radius: 10px 0px 0px 10px; */
 
 }
 
 #scrollbar-style::-webkit-scrollbar
 {
-	width: 6px;
+	width: 10px;
 }
 
 #scrollbar-style::-webkit-scrollbar-track
 {
-	/* background-color: rgba(0,0,0, 0.4) */
+	background-color: rgba(255, 255,255, 0);
 }
 
 #background-canvas{
@@ -162,7 +161,7 @@ h2{
 
 #dark-content-wrapper{
   padding-top: 500;
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 0 auto;
   padding-left: 4%;
   padding-right: 4%;
@@ -338,12 +337,12 @@ h2{
 
 .content-block h2{
   margin-top: 0px;
-  font-family: 'UniversLTPro-45Light', sans-serif;
-  text-transform: uppercase;
+  font-family: 'UniversLTPro-55Light', sans-serif;
+  /* text-transform: uppercase; */
   font-style: normal;
   font-weight: lighter;
-  font-size: 25;
-  line-height: 36px;
+  font-size: 34;
+  line-height: 42px;
   }
 
 /* ------- */
@@ -564,14 +563,13 @@ img{
 }
 
 .timeline-section-left{
-  margin-left: -100;
+  margin-left: -4%;
   grid-area: 1/1/1/5;
-  margin-right: -100;
   min-width: 1000;
 }
 
 .timeline-section-right{
-  margin-right: -100;
+  margin-right: -4%;
   grid-area: 1/2/1/6;
   text-align: right;
 }

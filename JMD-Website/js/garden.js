@@ -131,8 +131,8 @@ var lightSpot = {
 	x: window.innerWidth/2,
 	y: window.innerHeight,
 	opacity: 0,
-	width: 582,
-	height: 635,
+	width: 537,
+	height: 537,
 	image: new Image()
 }
 
@@ -569,7 +569,7 @@ function scrollLight(sectionAnkers){
 		lightShaft.middle.color = "rgb(200, 200, 200)";
 		lightShaft.active = true;
 		lightShaft.width = 1
-		lightShaft.y2 = mapArea(windowOffset, sectionAnkers[4].e, sectionAnkers[5].s, window.innerHeight, 0);
+		lightShaft.y2 = mapArea(windowOffset, sectionAnkers[4].e, sectionAnkers[5].s, window.innerHeight, -20);
 		if(lightShaft.y2>window.innerHeight/2){
 			shadow.intersections.opacity = mapArea(lightShaft.y2, window.innerHeight, window.innerHeight - 300, 0, 1);
 		}else if (lightShaft.y2<window.innerHeight/2) {
@@ -599,7 +599,7 @@ function scrollLight(sectionAnkers){
 		lightShaft.active = true;
 		lightShaft.width = 1
 
-		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight, 0);
+		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight+300, 0);
 		if(lightShaft.y1>window.innerHeight/2){
 			shadow.intersections.opacity = mapArea(lightShaft.y1, window.innerHeight, window.innerHeight - 150, 0, 1)
 		}else if (lightShaft.y1<window.innerHeight/2) {
@@ -747,9 +747,9 @@ function draw(){
 
 	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
 	if(lightSpot.active){
-		lightSpot.x = canvasBg.width/2;
+		lightSpot.x = window.innerWidth/2 + 28
 		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
-		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
+		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, window.innerWidth)//window.innerHeight*4
 		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
 	}
 
@@ -1105,7 +1105,7 @@ function drawLoop(){
 		updateCanvas = false;
 	}else if(!dataLoaded){
 		//pageload function for pageload animation. Number determines in Milliseconds how long the animation will stay after pageload
-		pageload(3000)
+		pageload(1200)
 	}
 }
 

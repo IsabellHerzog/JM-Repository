@@ -1108,35 +1108,30 @@ function drawLoop(){
 		manipulateHTML();
 		updateCanvas = false;
 	}else if(!dataLoaded){
-		//pageload function for pageload animation. Number determines in Milliseconds how long the animation will stay after pageload
-		pageload(1200)
+		//pageload function for pageload animation. Number determines in Milliseconds how long the animation will stay after pageload, second will indicate the durance until the div-item will be removed
+		pageload(3000, 2000)
 	}
 }
 
 //set a timer for the function until disappears when not triggered lineWidth
-function pageload(t_value) {
+function pageload(t_value, a_value) {
 	//executes when all content loaded
 	if(contentLoaded && infoLoaded){
-		console.log("all loaded");
 		setTimeout(function(){
+			//blend out animation
+			$( ".loader-wrapper:eq(0)" ).addClass("blendover");
 			$(document.body).css({"overflow-y": "auto"})
-			$("#loadingAnimation").remove()
+			setTimeout(function(){
+				$(".loader-wrapper:eq(0)").remove();
+			}, a_value);
 			dataLoaded = true;
 		}, t_value);
 
 		//executes when half content loaded
 	}else if(contentLoaded || infoLoaded){
-		console.log("halfly loaded");
 
 		//executes when all contents are loading
 	}else{
-		// var positioner = {x: window.innerWidth/2 - 160, y: window.innerHeight/2 - 160}
-		// var sizes = {s:8, l: 12}
-		// ctxFg.rect(positioner.x, positioner.y,12,12);
-		// ctxFg.rect(window.innerWidth/2+40, window.innerHeight/2+120,8,8);
-		// ctxFg.fillStyle = "blue"; //shadowsOpacity
-		// ctxFg.fill();
-		console.log("data loading...");
 	}
 }
 

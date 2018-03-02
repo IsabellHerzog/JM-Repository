@@ -183,7 +183,7 @@ h2{
   transform: rotate(-90deg);
   position: fixed;
   z-index: 4;
-  top: 50;
+  top: 47;
   left: 28;
 }
 
@@ -218,7 +218,7 @@ h2{
 
 ul.loader{
   margin: 0 auto;
-  padding-top: 40vh;
+  padding-top: 42vh;
   position:relative;
   width: 128px;
   height: 128px;
@@ -651,7 +651,6 @@ img{
   transform: translate(0, -3vh);
   -moz-transform: translate(0,-3vh)
   -webkit-transform: translate(0, -3vh);
-
 }
 
 .blendover{

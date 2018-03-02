@@ -35,6 +35,12 @@ var t_years = {
 	hundreds: []
 }
 
+var backgroundHue = {
+	current: 255,
+	lightest: 97,
+	darkest: 13,
+}
+
 //VARS parametric influencing parameters
 var garden = {
 	size: 440000,
@@ -582,19 +588,18 @@ function scrollLight(sectionAnkers){
 		shadow.active = true
 
 		lightSpot.y = lightShaft.y2
-		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 21, 64))
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, backgroundHue.darkest*2.2, backgroundHue.lightest))
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 		break;
 
 		case 'black':
-		var color = 13;
-		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
+		canvasBg.style.background = "rgb("+backgroundHue.darkest+","+backgroundHue.darkest+","+backgroundHue.darkest+")";
 		pillar.active = true
 		break;
 
 		case 'black'+"++":
 		lightShaft.middle.color = "rgb(200, 200, 200)"
-		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, backgroundHue.lightest*0.7, backgroundHue.darkest))
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 		lightShaft.active = true;
 		lightShaft.width = 1
@@ -707,7 +712,7 @@ function draw(){
 	if (shaftGrowing) {
 		var color = 255
 		if (lightShaft.width != null){
-			color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 64, 255))
+			color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, backgroundHue.lightest, 255))
 		}
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 	}
@@ -800,7 +805,6 @@ function infoData(data){
 		document.getElementById(wrapper).appendChild(div);
 	}
 	infoLoaded = true
-	drawLoop()
 }
 
 //fills the content in the dark content-area from a spreadsheet
@@ -1008,7 +1012,7 @@ function timeline(tens_moving, i){
 			$(tens_moving).css({"opacity": opacitator});
 			$(tens_moving).css({"top": time_position});
 
-			$('#t-fixed').css({"top": 47 - opacitator*2 + "vh"});
+			$('#t-fixed').css({"top": 47 + "vh"});
 			$('#t-fixed').css({"opacity": 1-opacitator});
 		}
 	}else if((time_position<window.innerHeight*0.47)){
@@ -1046,9 +1050,7 @@ function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animat
 	}
 
 	for(i=0; i<timeline_sections.length; i++){
-		if(div_visible(timeline_sections[i], space_top, space_bot)){
-			section_states[i] = true
-		}
+			section_states[i] = div_visible(timeline_sections[i], space_top, space_bot)
 	}
 
 	for(n=0; n<section_states.length; n++){
@@ -1084,9 +1086,6 @@ function manipulateHTML(){
 	//move timeline
 	timeline('#t-moving',0);
 
-	var visibility_height = 200 + window.innerHeight*0.3;
-	var total_padding = window.innerHeight-visibility_height
-
 	//changes the width of the LIBESKIND-quote in relation to the lightShaft-width
 	shaftText("#quote1")
 
@@ -1094,8 +1093,11 @@ function manipulateHTML(){
 	voidText("#quote2-left", true, false)
 	voidText("#quote2-right", false, true)
 
-	//triggers animation when element is reaching a specific position (selector, space top, space bot, EnteranimationClassName, leave_animationClassname)
-	triggerClassAnimation('timeline-section', total_padding*0.5, total_padding*0.5, " animate", " animate-back")
+	//triggers animation when element is reaching a specific position
+	var visibility_height = 200 + window.innerHeight*0.3;
+	var total_padding = window.innerHeight-visibility_height
+	//--> selector, space top, space bot, EnteranimationClassName, leave_animationClassname
+	triggerClassAnimation('timeline-section', total_padding*0.5, total_padding*0.5, " animate", "animate-back")
 
 }
 
@@ -1108,16 +1110,16 @@ function drawLoop(){
 		manipulateHTML();
 		updateCanvas = false;
 	}else if(!dataLoaded){
-		//pageload function for pageload animation. Number determines in Milliseconds how long the animation will stay after pageload, second will indicate the durance until the div-item will be removed
+		// (minimum the anmation will last, time after the animation-layer is removed (currently 2sec because animation lasts 2secs))
 		pageload(3000, 2000)
 	}
 }
 
 //set a timer for the function until disappears when not triggered lineWidth
 function pageload(t_value, a_value) {
+	setTimeout(function(){
 	//executes when all content loaded
 	if(contentLoaded && infoLoaded){
-		setTimeout(function(){
 			//blend out animation
 			$( ".loader-wrapper:eq(0)" ).addClass("blendover");
 			$(document.body).css({"overflow-y": "auto"})
@@ -1125,14 +1127,12 @@ function pageload(t_value, a_value) {
 				$(".loader-wrapper:eq(0)").remove();
 			}, a_value);
 			dataLoaded = true;
-		}, t_value);
-
-		//executes when half content loaded
 	}else if(contentLoaded || infoLoaded){
-
-		//executes when all contents are loading
+		//executes when half content loaded
 	}else{
+		//executes when all contents are loading
 	}
+	}, t_value);
 }
 
 //######################EVENTS##########################

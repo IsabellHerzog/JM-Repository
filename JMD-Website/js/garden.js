@@ -23,9 +23,10 @@ var infoLoaded = false;
 var dataLoaded = false;
 var ankerSet = false;
 var timelineSet = false;
+var hundreds = "";
 
 var section_states = []
-var section_active = -1;
+var section_active
 
 // var data = require
 
@@ -958,11 +959,11 @@ function contentData(data){
 	}
 	//breaks text on the right place
 	$('.content-block p').each(function(){
-			var string = $(this).html();
-			for (var i = 0; i < 2; i++){
-				string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
-			}
-			$(this).html(string);
+		var string = $(this).html();
+		for (var i = 0; i < 2; i++){
+			string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
+		}
+		$(this).html(string);
 	});
 
 	contentLoaded = true;
@@ -995,31 +996,61 @@ function voidText(textID, left, right){
 	}
 }
 
-//draws the tmeline
-function timeline(tens_moving, i){
-	var time_position = t_years.positions[i+1]-windowOffset
+//draws the timeline
+function timeline(){
 
-	if(time_position>=window.innerHeight*0.47){
+	if(windowOffset>get_boundaries('#light-content-wrapper2', 'id').top){
+		$('.timeline:eq(0)').addClass("animate")
+		$('.timeline:eq(0)').removeClass("animate-back")
+	// }else if(windowOffset<get_boundaries('#light-content-wrapper1', 'id').bot){
+	// 	console.log("hello");
+	}else{
+		$('.timeline:eq(0)').addClass("animate-back")
+		$('.timeline:eq(0)').removeClass("animate")
+	}
 
-		$('#t-fixed').text(t_years.tens[i]);
+	for(var i=0; i<t_years.positions.length; i++){
 
+		var time_position = t_years.positions[i]-windowOffset
 
-		$('#h-fixed').text(t_years.hundreds[i]);
+		if(time_position > window.innerHeight*0.47 && time_position<=window.innerHeight){
 
-		$(tens_moving).text(t_years.tens[i+1]);
-		var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
-		if(0<=opacitator && opacitator<=1){
-			$(tens_moving).css({"opacity": opacitator});
-			$(tens_moving).css({"top": time_position});
+			//moving stuff
+			var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
 
-			$('#t-fixed').css({"top": 47 + "vh"});
+			//tens opacity + position
+			$('#t-moving').text(t_years.tens[i]);
+			$('#t-moving').css({"opacity": (opacitator)});
+			$('#t-moving').css({"top": time_position});
+
+			$('#t-fixed').css({"top": 47 - opacitator*15+ "vh"});
 			$('#t-fixed').css({"opacity": 1-opacitator});
+
+
+			//tens opacity + position
+			if(hundreds !== t_years.hundreds[i]){
+			$('#h-moving').text(t_years.hundreds[i]);
+			$('#h-moving').css({"opacity": opacitator*opacitator*opacitator});
+			$('#h-moving').css({"top": time_position + 0.03*window.innerHeight + (1-opacitator)*window.innerHeight*0.2});
+			$('#h-fixed').css({"top": 50 - opacitator*12 + "vh"});
+			$('#h-fixed').css({"opacity": 1-opacitator});
+			}
+
+	}else if(time_position<=window.innerHeight*0.47 && time_position >= 0){
+			$('#t-fixed').css({"top": 47 + "vh"});
+			$('#t-fixed').css({"opacity": 1});
+			$('#t-moving').css({"top": window.innerHeight});
+
+			$('#t-fixed').text(t_years.tens[i]);
+			$('#h-fixed').text(t_years.hundreds[i]);
+
+			$('#h-fixed').css({"top": 50 + "vh"});
+			$('#h-fixed').css({"opacity": 1});
+			$('#h-moving').css({"top": window.innerHeight});
 		}
-	}else if((time_position<window.innerHeight*0.47)){
-		$('#t-fixed').css({"top": 47 + "vh"});
-		$('#t-fixed').css({"opacity": 1});
-		$(tens_moving).css({"top": window.innerHeight});
-		timeline(tens_moving, i+1)
+
+hundreds = t_years.hundreds[i];
+section_active = t_years.positions[i];
 	}
 }
 
@@ -1050,7 +1081,7 @@ function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animat
 	}
 
 	for(i=0; i<timeline_sections.length; i++){
-			section_states[i] = div_visible(timeline_sections[i], space_top, space_bot)
+		section_states[i] = div_visible(timeline_sections[i], space_top, space_bot)
 	}
 
 	for(n=0; n<section_states.length; n++){
@@ -1083,8 +1114,8 @@ function get_boundaries(selectorClass, n){
 //everything that changes HTML or CSS Properties
 function manipulateHTML(){
 
-	//move timeline
-	timeline('#t-moving',0);
+	//move + fill timeline
+	timeline();
 
 	//changes the width of the LIBESKIND-quote in relation to the lightShaft-width
 	shaftText("#quote1")
@@ -1110,16 +1141,16 @@ function drawLoop(){
 		manipulateHTML();
 		updateCanvas = false;
 	}else if(!dataLoaded){
-		// (minimum the anmation will last, time after the animation-layer is removed (currently 2sec because animation lasts 2secs))
-		pageload(3000, 2000)
+		// (minimum the anmation will last, time after the animation-layer is removed (currently 2 sec because animation lasts 1.5secs))
+		pageload(2000, 2000)
 	}
 }
 
 //set a timer for the function until disappears when not triggered lineWidth
 function pageload(t_value, a_value) {
 	setTimeout(function(){
-	//executes when all content loaded
-	if(contentLoaded && infoLoaded){
+		//executes when all content loaded
+		if(contentLoaded && infoLoaded){
 			//blend out animation
 			$( ".loader-wrapper:eq(0)" ).addClass("blendover");
 			$(document.body).css({"overflow-y": "auto"})
@@ -1127,11 +1158,11 @@ function pageload(t_value, a_value) {
 				$(".loader-wrapper:eq(0)").remove();
 			}, a_value);
 			dataLoaded = true;
-	}else if(contentLoaded || infoLoaded){
-		//executes when half content loaded
-	}else{
-		//executes when all contents are loading
-	}
+		}else if(contentLoaded || infoLoaded){
+			//executes when half content loaded
+		}else{
+			//executes when all contents are loading
+		}
 	}, t_value);
 }
 

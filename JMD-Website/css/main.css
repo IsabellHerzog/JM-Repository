@@ -1,62 +1,66 @@
 @font-face {
-  font-family: UniversLTPro-45Light;
-  src: url(../assets/fonts/UniversLTPro-45Light.otf) format("opentype"),
-  url(../assets/fonts/UniversLTPro-45Light.woff) format("woff"),
-  url(../assets/fonts/UniversLTPro-45Light.woff2) format("woff2");
-  font-style: normal;
-  font-weight: lighter;
+    font-family: 'Carmela';
+    src: url('../assets/fonts/Carmela.woff2') format('woff2'),
+        url('../assets/fonts/Carmela.woff') format('woff'),
+        url('../assets/fonts/Carmela.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: UniversLTPro-45LightOblique;
-  src: url(../assets/fonts/UniversLTPro-45LightOblique.otf) format("opentype"),
-  url(../assets/fonts/UniversLTPro-45LightOblique.woff) format("woff"),
-  url(../assets/fonts/UniversLTPro-45LightOblique.woff2) format("woff2");
-  font-style: oblique;
-  font-weight: normal;
+    font-family: 'Bodoni72';
+    src: url('../assets/fonts/BodoniSvtyTwoOSITCTT-Book.woff2') format('woff2'),
+        url('../assets/fonts/BodoniSvtyTwoOSITCTT-Book.woff') format('woff'),
+        url('../assets/fonts/BodoniSvtyTwoOSITCTT-Book.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: UniversLTPro-55Roman;
-  src: url(../assets/fonts/UniversLTPro-55Roman.otf) format("opentype"),
-  url(../assets/fonts/UniversLTPro-55Roman.woff) format("woff"),
-  url(../assets/fonts/UniversLTPro-55Roman.woff2) format("woff2");
-  font-style: normal;
-  font-weight: normal;
+    font-family: 'UniversLTPro-45Light';
+    src: url('../assets/fonts/UniversLTPro-45Light.woff2') format('woff2'),
+        url('../assets/fonts/UniversLTPro-45Light.woff') format('woff'),
+        url('../assets/fonts/UniversLTPro-45Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: UniversLTPro-65Bold;
-  src: url(../assets/fonts/UniversLTPro-65Bold.otf) format("opentype"),
-  url(../assets/fonts/UniversLTPro-65Bold.woff) format("woff"),
-  url(../assets/fonts/UniversLTPro-65Bold.woff2) format("woff2");
-  font-style: normal;
-  font-weight: bold;
-}
-
-/* @font-face {
-font-family: UniversLTPro-75Black;
-src: url(../assets/fonts/UniversLTPro-75Black.otf) format("opentype"),
-url(../assets/fonts/UniversLTPro-75Black.woff) format("woff"),
-url(../assets/fonts/UniversLTPro-75Black.woff2) format("woff2");
-font-style: normal;
-font-weight: bolder;
-} */
-
-@font-face {
-  font-family: Carmela;
-  src: url(../assets/fonts/carmela.ttf) format("truetype");
+    font-family: 'UniversLTPro-45LightOblique';
+    src: url('../assets/fonts/UniversLTPro-45LightOblique_1.woff2') format('woff2'),
+        url('../assets/fonts/UniversLTPro-45LightOblique_1.woff') format('woff'),
+        url('../assets/fonts/UniversLTPro-45LightOblique_1.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: Bodoni72;
-  src: url(../assets/fonts/Bodoni_72_OS.otf) format("opentype");
+    font-family: 'UniversLTPro-55Roman';
+    src: url('../assets/fonts/UniversLTPro-55Roman.woff2') format('woff2'),
+        url('../assets/fonts/UniversLTPro-55Roman.woff') format('woff'),
+        url('../assets/fonts/UniversLTPro-55Roman.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
-
-@mixin for-phone-only {
-  @media (max-width: 599px) { @content; }
+@font-face {
+    font-family: 'UniversLTPro-65Bold';
+    src: url('../assets/fonts/UniversLTPro-65Bold.woff2') format('woff2'),
+        url('../assets/fonts/UniversLTPro-65Bold.woff') format('woff'),
+        url('../assets/fonts/UniversLTPro-65Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
+
+@font-face {
+    font-family: 'UniversLTPro-75Black';
+    src: url('../assets/fonts/UniversLTPro-75Black.woff2') format('woff2'),
+        url('../assets/fonts/UniversLTPro-75Black.woff') format('woff'),
+        url('../assets/fonts/UniversLTPro-75Black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 
 ::-webkit-scrollbar {
@@ -174,25 +178,37 @@ h2{
   font-family: 'UniversLTPro-55Roman', sans-serif;
   transform: rotate(-90deg);
   position: fixed;
-  z-index: 3;
+  z-index: 103;
   top: 50vh;
   left: 10
+}
+
+#h-moving{
+  font-family: 'UniversLTPro-55Roman', sans-serif;
+  transform: rotate(-90deg);
+  position: fixed;
+  z-index: 104;
+  top: 50vh;
+  left: 10;
+  float: right;
 }
 
 #t-moving{
   transform: rotate(-90deg);
   position: fixed;
-  z-index: 4;
-  top: 47;
+  z-index: 105;
+  top: 90vh;
   left: 28;
+  float: left;
 }
 
 #t-fixed{
   transform: rotate(-90deg);
   position: fixed;
-  z-index: 5;
+  z-index: 106;
   top: 47vh;;
   left: 28;
+  float: left;
 }
 
 #quote2-left{
@@ -654,7 +670,15 @@ img{
 }
 
 .blendover{
-  transition: 2s ease-in-out;
-  -moz-transition: 2s ease-in-out;
-  -webkit-transition: 2s ease-in-out;
+  transition: 1.5s ease-in;
+  -moz-transition: 1.5s ease-in;
+  -webkit-transition: 1.5s ease-in;
+}
+
+.timeline.animate{
+  opacity: 0;
+}
+
+.timeline.animate-back{
+  opacity: 1;
 }

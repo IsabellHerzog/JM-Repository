@@ -504,7 +504,7 @@ ul.loader{
   grid-area: adress;
 }
 /* -----------------*/
-^
+.info-text-left1, .info-text-left2, .info-text-left3{
 font-family: 'UniversLTPro-45Light', sans-serif;
 font-size: 15px;
 line-height: 28px;
@@ -535,9 +535,7 @@ h4{
 
 .info-text-quote1{
   margin: 0 auto;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 100vh;
+  width: 880px;
   text-align: center;
   vertical-align: middle;
   grid-area: quote1;

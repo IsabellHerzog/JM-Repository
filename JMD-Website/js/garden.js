@@ -996,7 +996,7 @@ function shaftText(textID){
 
 //aligns text left/right to the shaft
 function voidText(textID, left, right){
-	var gap = window.innerWidth*0.06
+	var gap = window.innerWidth * mapArea(lightShaft.width, 1, window.innerWidth, 0.065, -0.1)
 	var textMargin = (lightShaft.width+1)/2 - gap/2
 	if(left){
 		$(textID).css({"margin-right": textMargin+"px"})

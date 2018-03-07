@@ -64,9 +64,10 @@ var garden = {
 		]
 	}
 }
-
-var quote1_width_1 = 690;
-var quote1_width_2 = 620;
+var shaftwidth1 = 1
+var shaftwidth2 = 0.75;
+var shaftwidth3 = 0.55;
+var shaftwidth4 = 0.25;
 
 //Contains all colors and enables changes in the colorset
 var colorset = {
@@ -125,6 +126,7 @@ var lightShaft = {
 	x2: 0,
 	y1: 0, //start of the shaft
 	y2: 0, //end of the shaft
+	maxW: window.innerWidth,
 	middle: {
 		width: 1, //size of the shaft
 		f_width: 0.75,
@@ -146,7 +148,7 @@ var lightSpot = {
 //settings of the shadows
 var shadow = {
 	active: false,
-	color: "rgba(0,0,0,0.4)",
+	color: "rgba(0,0,0,0.7)",
 	intersections: {
 		fuzzyness: 40 //spreading of the light, also relates to the lightshaft-size
 	}
@@ -171,6 +173,8 @@ var shaftShrinking = false;
 //relations
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
 
+
+
 //sets the background color
 // canvasBg.style.background = colorset.concrete;
 
@@ -189,16 +193,14 @@ function getAnkers(){
 
 		//white_1
 		garden.sectionPoints.a[0].s = 0;
-		garden.sectionPoints.a[0].e = get_boundaries("info-text-right1", 0).center;
+		garden.sectionPoints.a[0].e = 0;
+		// garden.sectionPoints.a[0].e = get_boundaries("info-text-right1", 0).center;
 		//halfwhite_1
-		garden.sectionPoints.a[2].s = get_boundaries("info-text-quote1", 0).center;
-		garden.sectionPoints.a[2].e = get_boundaries("info-text-quote1", 0).center;
-		//quaterwhite_1
-		garden.sectionPoints.a[3].s = get_boundaries("info-text-quote1", 0).top;
-		garden.sectionPoints.a[3].e = get_boundaries("info-text-quote1", 0).top;
+		garden.sectionPoints.a[2].s = get_boundaries("info-text-quote1", 0).bot - 350;
+		garden.sectionPoints.a[2].e = get_boundaries("info-text-quote1", 0).top + 100;
 		//onpixel_1
-		garden.sectionPoints.a[4].s = get_boundaries("info-text-quote2", 0).bot;
-		garden.sectionPoints.a[4].e = get_boundaries("info-text-quote2", 0).bot;
+		garden.sectionPoints.a[4].s = get_boundaries("info-text-quote2", 0).center;
+		garden.sectionPoints.a[4].e = get_boundaries("info-text-quote2", 0).top;
 		//blackend/start
 		garden.sectionPoints.a[5].s = get_boundaries("#black-start", "id").bot -200;
 		garden.sectionPoints.a[5].e = get_boundaries("#black-end", "id").center;
@@ -211,9 +213,17 @@ function getAnkers(){
 
 
 		//automate (in between stages)
+
+
+
 		//threequaterwhite_1 default 0.75%
 		garden.sectionPoints.a[1].s = (garden.sectionPoints.a[2].s-garden.sectionPoints.a[0].e)/2+garden.sectionPoints.a[0].e;
 		garden.sectionPoints.a[1].e = (garden.sectionPoints.a[2].s-garden.sectionPoints.a[0].e)/2+garden.sectionPoints.a[0].e;
+
+		//quaterwhite_1
+		garden.sectionPoints.a[3].s = (garden.sectionPoints.a[4].s-garden.sectionPoints.a[2].e)/2+garden.sectionPoints.a[2].e;
+		garden.sectionPoints.a[3].e = (garden.sectionPoints.a[4].s-garden.sectionPoints.a[2].e)/2+garden.sectionPoints.a[2].e;
+
 		//halfwhite_2
 		garden.sectionPoints.a[8].s = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e
 		garden.sectionPoints.a[8].e = (garden.sectionPoints.a[10].s-garden.sectionPoints.a[6].e)/2+garden.sectionPoints.a[6].e
@@ -490,28 +500,28 @@ function scrollLight(sectionAnkers){
 		case 'white_1':
 		shaftGrowing = true;
 		lightShaft.active = true
-		lightShaft.width = window.innerWidth;
+		lightShaft.width = lightShaft.maxW;
 		break;
 
 		case 'white_1'+"++":
 		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
-		lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, window.innerWidth, window.innerWidth*0.9);
+		lightShaft.width = mapArea(windowOffset, sectionAnkers[0].e, sectionAnkers[1].s, shaftwidth1 * lightShaft.maxW, shaftwidth2 * lightShaft.maxW);
 		break;
 
 		case 'threequaterwhite_1':
 		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
-		lightShaft.width = window.innerWidth*0.9
+		lightShaft.width = lightShaft.maxW*0.9
 		break;
 
 		case 'threequaterwhite_1'+"++":
 		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
-		lightShaft.width = mapArea(windowOffset, sectionAnkers[1].e, sectionAnkers[2].s, window.innerWidth*0.9, quote1_width_1);
+		lightShaft.width = mapArea(windowOffset, sectionAnkers[1].e, sectionAnkers[2].s, shaftwidth2 * lightShaft.maxW, 895);
 		pillar.active = true
 		break;
 
@@ -519,7 +529,6 @@ function scrollLight(sectionAnkers){
 		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
-		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].s, sectionAnkers[2].e, quote1_width_1, quote1_width_2);
 
 		pillar.active = true
 		lightSpot.active = true
@@ -530,7 +539,7 @@ function scrollLight(sectionAnkers){
 		lightShaft.middle.color = "rgb(255, 255, 255)";
 		shaftGrowing = true;
 		lightShaft.active = true;
-		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].e, sectionAnkers[3].s, quote1_width_2, window.innerWidth*0.25);
+		lightShaft.width = mapArea(windowOffset, sectionAnkers[2].e, sectionAnkers[3].s, 895, shaftwidth4 * lightShaft.maxW);
 
 		pillar.active = true
 		lightSpot.active = true
@@ -713,13 +722,13 @@ function draw(){
 	if (shaftGrowing) {
 		var color = 255
 		if (lightShaft.width != null){
-			color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, backgroundHue.lightest, 255))
+			color = Math.round(mapArea(lightShaft.width, 0, lightShaft.maxW, backgroundHue.lightest, 255))
 		}
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 	}
 
 	if (shaftShrinking) {
-		var color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 50, 200))
+		var color = Math.round(mapArea(lightShaft.width, 0, lightShaft.maxW, 50, 200))
 		lightShaft.middle.color = "rgb(200, 200, 200)"
 		ctxBg.fillStyle = "rgb("+color+","+color+","+color+")";
 		ctxBg.rect(0, 0, window.innerWidth,window.innerHeight);
@@ -972,15 +981,26 @@ function contentData(data){
 
 //makes Text of an ID align to the shaft
 function shaftText(textID){
-	var gridWidth = $("#light-content-wrapper").width();
-	if(lightShaft.width <= gridWidth){
-		textWidth = lightShaft.width+"px"
-		textMargin = ($(window).width()/2 - (lightShaft.width+1)/2 + 1)/2
-		$(textID).css({"width":textWidth, "border-left": textMargin+"px"})
-		$(textID).css({"width":textWidth, "border-right": textMargin+"px"})
-		var text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
-		$(textID).css('opacity', text_opacity)
-	}
+	// var gridWidth = $("#light-content-wrapper").width();
+	// var text_opacity
+	// var textWidth
+	// var textMargin
+	// if(lightShaft.width <= gridWidth && lightShaft.width >= 714){
+	// 	console.log(lightShaft.width);
+	// 	textWidth = lightShaft.width+"px"
+	// 	textMargin = ($(window).width()/2 - (lightShaft.width+1)/2 + 1)/2
+	// 	text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
+	// }else if(lightShaft.width >= gridWidth){
+	// 	textWidth = gridWidth
+	// 	textMargin = 0
+	// 	text_opacity = 1
+	// }else if(lightShaft.width <= 714){
+	// 	textWidth = 714
+	// 	text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
+	// }
+	// $(textID).css({"width":textWidth, "border-left": textMargin+"px"})
+	// $(textID).css({"width":textWidth, "border-right": textMargin+"px"})
+	// $(textID).css('opacity', text_opacity)
 }
 
 //aligns text left/right to the shaft

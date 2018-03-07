@@ -23,9 +23,13 @@ var infoLoaded = false;
 var dataLoaded = false;
 var ankerSet = false;
 var timelineSet = false;
+<<<<<<< HEAD
+=======
+var hundreds = "";
+>>>>>>> master
 
 var section_states = []
-var section_active = -1;
+var section_active
 
 // var data = require
 
@@ -33,6 +37,12 @@ var t_years = {
 	positions: [],
 	tens: [],
 	hundreds: []
+}
+
+var backgroundHue = {
+	current: 255,
+	lightest: 97,
+	darkest: 13,
 }
 
 //VARS parametric influencing parameters
@@ -131,8 +141,8 @@ var lightSpot = {
 	x: window.innerWidth/2,
 	y: window.innerHeight,
 	opacity: 0,
-	width: 582,
-	height: 635,
+	width: 537,
+	height: 537,
 	image: new Image()
 }
 
@@ -193,7 +203,7 @@ function getAnkers(){
 		garden.sectionPoints.a[4].s = get_boundaries("info-text-quote2", 0).bot;
 		garden.sectionPoints.a[4].e = get_boundaries("info-text-quote2", 0).bot;
 		//blackend/start
-		garden.sectionPoints.a[5].s = get_boundaries("#black-start", "id").bot;
+		garden.sectionPoints.a[5].s = get_boundaries("#black-start", "id").bot -200;
 		garden.sectionPoints.a[5].e = get_boundaries("#black-end", "id").center;
 		//onepixel_2
 		garden.sectionPoints.a[6].s = get_boundaries("#oneline", "id").top + 2*$("#oneline").height();
@@ -569,7 +579,7 @@ function scrollLight(sectionAnkers){
 		lightShaft.middle.color = "rgb(200, 200, 200)";
 		lightShaft.active = true;
 		lightShaft.width = 1
-		lightShaft.y2 = mapArea(windowOffset, sectionAnkers[4].e, sectionAnkers[5].s, window.innerHeight, 0);
+		lightShaft.y2 = mapArea(windowOffset, sectionAnkers[4].e, sectionAnkers[5].s, window.innerHeight, -20);
 		if(lightShaft.y2>window.innerHeight/2){
 			shadow.intersections.opacity = mapArea(lightShaft.y2, window.innerHeight, window.innerHeight - 300, 0, 1);
 		}else if (lightShaft.y2<window.innerHeight/2) {
@@ -582,24 +592,32 @@ function scrollLight(sectionAnkers){
 		shadow.active = true
 
 		lightSpot.y = lightShaft.y2
+<<<<<<< HEAD
 		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 21, 64))
+=======
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, backgroundHue.darkest*2.2, backgroundHue.lightest))
+>>>>>>> master
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 		break;
 
 		case 'black':
+<<<<<<< HEAD
 		var color = 13;
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
+=======
+		canvasBg.style.background = "rgb("+backgroundHue.darkest+","+backgroundHue.darkest+","+backgroundHue.darkest+")";
+>>>>>>> master
 		pillar.active = true
 		break;
 
 		case 'black'+"++":
 		lightShaft.middle.color = "rgb(200, 200, 200)"
-		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, 50, 13))
+		var color = Math.round(mapArea(lightSpot.y, 0, window.innerHeight, backgroundHue.lightest*0.7, backgroundHue.darkest))
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 		lightShaft.active = true;
 		lightShaft.width = 1
 
-		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight, 0);
+		lightShaft.y1 = mapArea(windowOffset, sectionAnkers[5].e, sectionAnkers[6].s, window.innerHeight+300, 0);
 		if(lightShaft.y1>window.innerHeight/2){
 			shadow.intersections.opacity = mapArea(lightShaft.y1, window.innerHeight, window.innerHeight - 150, 0, 1)
 		}else if (lightShaft.y1<window.innerHeight/2) {
@@ -707,7 +725,7 @@ function draw(){
 	if (shaftGrowing) {
 		var color = 255
 		if (lightShaft.width != null){
-			color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, 64, 255))
+			color = Math.round(mapArea(lightShaft.width, 0, window.innerWidth, backgroundHue.lightest, 255))
 		}
 		canvasBg.style.background = "rgb("+color+","+color+","+color+")";
 	}
@@ -747,9 +765,9 @@ function draw(){
 
 	//set the lightspot to the center of the screen and make it relate to the scrollingposition (obsolete)
 	if(lightSpot.active){
-		lightSpot.x = canvasBg.width/2;
+		lightSpot.x = window.innerWidth/2 + 28
 		lightSpot.image.height = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.height, 40*window.innerHeight)//window.innerHeight*4
-		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, 1*window.innerWidth)//window.innerHeight*4
+		lightSpot.image.width = mapArea(lightShaft.width, 1, window.innerWidth, lightSpot.width, window.innerWidth)//window.innerHeight*4
 		drawSpot(lightSpot.image,lightSpot.x-lightSpot.image.width/2,lightSpot.y-lightSpot.image.height/2, lightSpot.image.width, lightSpot.image.height, lightSpot.opacity);
 	}
 
@@ -800,7 +818,10 @@ function infoData(data){
 		document.getElementById(wrapper).appendChild(div);
 	}
 	infoLoaded = true
+<<<<<<< HEAD
 	drawLoop()
+=======
+>>>>>>> master
 }
 
 //fills the content in the dark content-area from a spreadsheet
@@ -870,7 +891,7 @@ function contentData(data){
 			metaP.innerHTML = this_content.metadata
 
 			var subtitleP = document.createElement("p");
-			subtitleP.innerHTML = this_content.subtitle
+			subtitleP.innerHTML = this_content.subtitle.split("-").join("&#8209;");
 
 			innerDiv.append(h2)
 			innerDiv.append(p)
@@ -917,6 +938,10 @@ function contentData(data){
 			innerDiv.className = "timeline-section " + this_content.class;
 			innerDiv.innerHTML = this_content.text;
 
+			if(this_content.id.length >= 2){
+				div.setAttribute("id", this_content.id);
+			}
+
 			div.append(innerDiv)
 			document.getElementById("dark-content-wrapper").appendChild(div);
 
@@ -948,6 +973,15 @@ function contentData(data){
 			// t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 		}
 	}
+	//breaks text on the right place
+	$('.content-block p').each(function(){
+		var string = $(this).html();
+		for (var i = 0; i < 2; i++){
+			string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
+		}
+		$(this).html(string);
+	});
+
 	contentLoaded = true;
 	drawLoop()
 }
@@ -978,31 +1012,61 @@ function voidText(textID, left, right){
 	}
 }
 
-//draws the tmeline
-function timeline(tens_moving, i){
-	var time_position = t_years.positions[i+1]-windowOffset
+//draws the timeline
+function timeline(){
 
-	if(time_position>=window.innerHeight*0.47){
+	if(windowOffset>get_boundaries('#light-content-wrapper2', 'id').top){
+		$('.timeline:eq(0)').addClass("animate")
+		$('.timeline:eq(0)').removeClass("animate-back")
+	// }else if(windowOffset<get_boundaries('#light-content-wrapper1', 'id').bot){
+	// 	console.log("hello");
+	}else{
+		$('.timeline:eq(0)').addClass("animate-back")
+		$('.timeline:eq(0)').removeClass("animate")
+	}
 
-		$('#t-fixed').text(t_years.tens[i]);
+	for(var i=0; i<t_years.positions.length; i++){
 
+		var time_position = t_years.positions[i]-windowOffset
 
-		$('#h-fixed').text(t_years.hundreds[i]);
+		if(time_position > window.innerHeight*0.47 && time_position<=window.innerHeight){
 
-		$(tens_moving).text(t_years.tens[i+1]);
-		var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
-		if(0<=opacitator && opacitator<=1){
-			$(tens_moving).css({"opacity": opacitator});
-			$(tens_moving).css({"top": time_position});
+			//moving stuff
+			var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
 
-			$('#t-fixed').css({"top": 47 - opacitator*2 + "vh"});
+			//tens opacity + position
+			$('#t-moving').text(t_years.tens[i]);
+			$('#t-moving').css({"opacity": (opacitator)});
+			$('#t-moving').css({"top": time_position});
+
+			$('#t-fixed').css({"top": 47 - opacitator*15+ "vh"});
 			$('#t-fixed').css({"opacity": 1-opacitator});
+
+
+			//tens opacity + position
+			if(hundreds !== t_years.hundreds[i]){
+			$('#h-moving').text(t_years.hundreds[i]);
+			$('#h-moving').css({"opacity": opacitator*opacitator*opacitator});
+			$('#h-moving').css({"top": time_position + 0.03*window.innerHeight + (1-opacitator)*window.innerHeight*0.2});
+			$('#h-fixed').css({"top": 50 - opacitator*12 + "vh"});
+			$('#h-fixed').css({"opacity": 1-opacitator});
+			}
+
+	}else if(time_position<=window.innerHeight*0.47 && time_position >= 0){
+			$('#t-fixed').css({"top": 47 + "vh"});
+			$('#t-fixed').css({"opacity": 1});
+			$('#t-moving').css({"top": window.innerHeight});
+
+			$('#t-fixed').text(t_years.tens[i]);
+			$('#h-fixed').text(t_years.hundreds[i]);
+
+			$('#h-fixed').css({"top": 50 + "vh"});
+			$('#h-fixed').css({"opacity": 1});
+			$('#h-moving').css({"top": window.innerHeight});
 		}
-	}else if((time_position<window.innerHeight*0.47)){
-		$('#t-fixed').css({"top": 47 + "vh"});
-		$('#t-fixed').css({"opacity": 1});
-		$(tens_moving).css({"top": window.innerHeight});
-		timeline(tens_moving, i+1)
+
+hundreds = t_years.hundreds[i];
+section_active = t_years.positions[i];
 	}
 }
 
@@ -1033,9 +1097,7 @@ function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animat
 	}
 
 	for(i=0; i<timeline_sections.length; i++){
-		if(div_visible(timeline_sections[i], space_top, space_bot)){
-			section_states[i] = true
-		}
+		section_states[i] = div_visible(timeline_sections[i], space_top, space_bot)
 	}
 
 	for(n=0; n<section_states.length; n++){
@@ -1068,11 +1130,8 @@ function get_boundaries(selectorClass, n){
 //everything that changes HTML or CSS Properties
 function manipulateHTML(){
 
-	//move timeline
-	timeline('#t-moving',0);
-
-	var visibility_height = 200 + window.innerHeight*0.3;
-	var total_padding = window.innerHeight-visibility_height
+	//move + fill timeline
+	timeline();
 
 	//changes the width of the LIBESKIND-quote in relation to the lightShaft-width
 	shaftText("#quote1")
@@ -1081,8 +1140,11 @@ function manipulateHTML(){
 	voidText("#quote2-left", true, false)
 	voidText("#quote2-right", false, true)
 
-	//triggers animation when element is reaching a specific position (selector, space top, space bot, EnteranimationClassName, leave_animationClassname)
-	triggerClassAnimation('timeline-section', total_padding*0.5, total_padding*0.5, " animate", " animate-back")
+	//triggers animation when element is reaching a specific position
+	var visibility_height = 200 + window.innerHeight*0.3;
+	var total_padding = window.innerHeight-visibility_height
+	//--> selector, space top, space bot, EnteranimationClassName, leave_animationClassname
+	triggerClassAnimation('timeline-section', total_padding*0.5, total_padding*0.5, " animate", "animate-back")
 
 }
 
@@ -1095,20 +1157,24 @@ function drawLoop(){
 		manipulateHTML();
 		updateCanvas = false;
 	}else if(!dataLoaded){
-		//pageload function for pageload animation. Number determines in Milliseconds how long the animation will stay after pageload
-		pageload(3000)
+		// (minimum the anmation will last, time after the animation-layer is removed (currently 2 sec because animation lasts 1.5secs))
+		pageload(2000, 2000)
 	}
 }
 
 //set a timer for the function until disappears when not triggered lineWidth
-function pageload(t_value) {
-	//executes when all content loaded
-	if(contentLoaded && infoLoaded){
-		console.log("all loaded");
-		setTimeout(function(){
+function pageload(t_value, a_value) {
+	setTimeout(function(){
+		//executes when all content loaded
+		if(contentLoaded && infoLoaded){
+			//blend out animation
+			$( ".loader-wrapper:eq(0)" ).addClass("blendover");
 			$(document.body).css({"overflow-y": "auto"})
-			$("#loadingAnimation").remove()
+			setTimeout(function(){
+				$(".loader-wrapper:eq(0)").remove();
+			}, a_value);
 			dataLoaded = true;
+<<<<<<< HEAD
 		}, t_value);
 
 		//executes when half content loaded
@@ -1125,6 +1191,14 @@ function pageload(t_value) {
 		// ctxFg.fill();
 		console.log("data loading...");
 	}
+=======
+		}else if(contentLoaded || infoLoaded){
+			//executes when half content loaded
+		}else{
+			//executes when all contents are loading
+		}
+	}, t_value);
+>>>>>>> master
 }
 
 //######################EVENTS##########################

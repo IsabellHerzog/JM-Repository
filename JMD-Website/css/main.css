@@ -305,9 +305,10 @@ ul.loader{
 
 .em {
   font-family: 'UniversLTPro-45Light', sans-serif;
-  font-size: 12;
+  font-size: 15;
   line-height: 33px;
-  /*letter-spacing: 10px;*/
+  letter-spacing: 5px;
+  text-transform: uppercase;
   /* max-width: 400px; */
   text-align: center;
 }
@@ -660,7 +661,7 @@ img{
   transition: 0.7s ease-in-out;
   -moz-transition: 0.7s ease-in-out;
   -webkit-transition: 0.7s ease-in-out;
-  opacity: 0;
+  opacity: 1;
 }
 
 .timeline-section-left.animate{

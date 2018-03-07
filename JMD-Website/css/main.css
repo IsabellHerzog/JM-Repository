@@ -139,7 +139,7 @@ h2{
   margin-top: 34;
   max-width: 1140px;
   margin: 0 auto;
-  padding-left: 11%;
+  padding-left: calc(11% + 10px);
   padding-right: 11%;
   justify-content: center;
 }
@@ -214,11 +214,17 @@ h2{
 #quote2-left{
   text-align: right;
 }
+#quote2-left p{
+  padding-right: 0px;
+}
 
 #quote2-right{
   text-align: left;
 }
 
+#quote2-right p{
+  padding-left: 0px;
+}
 .loader-wrapper{
   width: 100vw;
   height: 100vh;

@@ -148,7 +148,7 @@ var lightSpot = {
 //settings of the shadows
 var shadow = {
 	active: false,
-	color: "rgba(0,0,0,0.4)",
+	color: "rgba(0,0,0,0.7)",
 	intersections: {
 		fuzzyness: 40 //spreading of the light, also relates to the lightshaft-size
 	}

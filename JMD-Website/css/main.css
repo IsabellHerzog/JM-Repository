@@ -529,7 +529,9 @@ h4{
 
 .info-text-quote1{
   margin: 0 auto;
-  height: 520;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100vh;
   text-align: center;
   vertical-align: middle;
   grid-area: quote1;

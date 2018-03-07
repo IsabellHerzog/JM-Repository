@@ -194,11 +194,11 @@ function getAnkers(){
 		garden.sectionPoints.a[2].s = get_boundaries("info-text-quote1", 0).center;
 		garden.sectionPoints.a[2].e = get_boundaries("info-text-quote1", 0).center;
 		//quaterwhite_1
-		garden.sectionPoints.a[3].s = get_boundaries("info-text-quote1", 0).top;
-		garden.sectionPoints.a[3].e = get_boundaries("info-text-quote1", 0).top;
+		garden.sectionPoints.a[3].s = get_boundaries("info-text-quote2", 0).bot;
+		garden.sectionPoints.a[3].e = get_boundaries("info-text-quote2", 0).bot;
 		//onpixel_1
-		garden.sectionPoints.a[4].s = get_boundaries("info-text-quote2", 0).bot;
-		garden.sectionPoints.a[4].e = get_boundaries("info-text-quote2", 0).bot;
+		garden.sectionPoints.a[4].s = get_boundaries("info-text-quote2", 0).top;
+		garden.sectionPoints.a[4].e = get_boundaries("info-text-quote2", 0).top;
 		//blackend/start
 		garden.sectionPoints.a[5].s = get_boundaries("#black-start", "id").bot -200;
 		garden.sectionPoints.a[5].e = get_boundaries("#black-end", "id").center;
@@ -973,14 +973,25 @@ function contentData(data){
 //makes Text of an ID align to the shaft
 function shaftText(textID){
 	var gridWidth = $("#light-content-wrapper").width();
-	if(lightShaft.width <= gridWidth){
+	var text_opacity
+	var textWidth
+	var textMargin
+	if(lightShaft.width <= gridWidth && lightShaft.width >= 714){
+		console.log(lightShaft.width);
 		textWidth = lightShaft.width+"px"
 		textMargin = ($(window).width()/2 - (lightShaft.width+1)/2 + 1)/2
-		$(textID).css({"width":textWidth, "border-left": textMargin+"px"})
-		$(textID).css({"width":textWidth, "border-right": textMargin+"px"})
-		var text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
-		$(textID).css('opacity', text_opacity)
+		text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
+	}else if(lightShaft.width >= gridWidth){
+		textWidth = gridWidth
+		textMargin = 0
+		text_opacity = 1
+	}else if(lightShaft.width <= 714){
+		textWidth = 714
+		text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
 	}
+	$(textID).css({"width":textWidth, "border-left": textMargin+"px"})
+	$(textID).css({"width":textWidth, "border-right": textMargin+"px"})
+	$(textID).css('opacity', text_opacity)
 }
 
 //aligns text left/right to the shaft

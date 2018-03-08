@@ -84,13 +84,13 @@ var pillar = {
 	active: false, //determines wheather the pillars
 	size: 200, //sets the size of the pillars
 	color: colorset.black,
-	points: [ //x,y coordinates for the pillars on the canvas
+	pointsSource: [ //x,y coordinates for the pillars on the canvas
 		{x: -200, y: -200}, //first one is hidden
-		{x: 1092, y: 2700},
-		{x: 1310, y: 3200},
-		{x: 285, y: 3665},
-		{x: 730, y: 4067},
-		{x: 1310, y: 4475},
+		{x: 50, y: 2117},
+		{x: 101, y: 3200},
+		{x: -1, y: 3665},
+		{x: 50, y: 4067},
+		{x: 101, y: 4475},
 		{x: 1095, y: 5070},
 		{x: 370, y: 5500},
 		{x:1095, y: 6200},
@@ -106,7 +106,6 @@ var pillar = {
 		{x:1095, y: 11800},
 		{x:565, y: 11800},
 		{x:370, y: 12300},
-
 		{x:1200, y: 12900},
 		{x:750, y: 13500},
 		{x:370, y: 14400},
@@ -114,10 +113,11 @@ var pillar = {
 		{x:1405, y: 16200},
 		{x:1205, y: 16800},
 		{x:370, y: 17000},
-
 		{x: 476, y: 1000000000099909877788}
-	]
+	],
 }
+
+pillar.points = jQuery.extend(true, [], pillar.pointsSource);
 
 //settings of the lightShaft
 var lightShaft = {
@@ -183,6 +183,9 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequ
 // document.body.style.height = garden.size
 
 //#####################FUNCTIONS#######################
+
+
+
 
 //updateing garden sections
 function getAnkers(){
@@ -374,10 +377,13 @@ function calcShift(dot,sizeX,sizeY, positioner){
 function calcSegments(i_min, i_max, rectSize, c){
 
 	for(var i = i_min; i<i_max; i++){
+
+
 		const dot = jQuery.extend(true, {}, pillar.points[i]);
+
 		var line = {};
 
-		var this_pillar_Y =  pillar.points[i].y + c
+		var this_pillar_Y = pillar.points[i].y + c
 
 		if(windowOffset-200 < this_pillar_Y && this_pillar_Y<=windowOffset+window.innerHeight || i===0){
 
@@ -401,6 +407,29 @@ function calcSegments(i_min, i_max, rectSize, c){
 			line.b = calcShift(dot,0,0,c);
 			segments.push(jQuery.extend(true, {}, line));
 		}
+	}
+}
+
+function calcX () {
+
+var Source = jQuery.extend(true, [], pillar.pointsSource);
+var spaceOutside = (window.innerWidth - $('#dark-content-wrapper').width())/2
+
+console.log(Source);
+	for (var i = 1; i < Source.length; i++){
+		 var xPos = Source[i].x
+		 var x
+
+		if (xPos >= 0 && xPos <= 100){
+
+			x = spaceOutside + mapArea(xPos, 0, 100, 0, $('#dark-content-wrapper').width()- pillar.size)
+		}else if (xPos < 0){
+			x = spaceOutside - 200 - (spaceOutside*0.3)
+		}else {
+			x = $('#dark-content-wrapper').width() + spaceOutside + (spaceOutside*0.3)
+		}
+		console.log(x);
+		pillar.points[i].x = x
 	}
 }
 
@@ -458,6 +487,8 @@ function resizeCanvas(){
 	lightShaft.x2 = lightShaft.x1
 	lightShaft.y1 = 0;
 	lightShaft.y2 = window.innerHeight;
+	calcX();
+	//console.log(pillar.points[1]);
 	drawLoop();
 }
 
@@ -1205,8 +1236,9 @@ window.onload = function(){
 };
 
 //everything happening when mouse is moved (reassign canvasto the top one if you wanna use again)
-canvasFg.onmousemove = function(event){
+canvasFg.onmousedown = function(event){
 	Mouse.x = event.clientX;
 	Mouse.y = event.clientY;
+	console.log("MouseX: " + Mouse.x + ", MouseY: " + (Mouse.y + windowOffset - garden.sectionPoints.a[4].s));
 	updateCanvas = true;
 };

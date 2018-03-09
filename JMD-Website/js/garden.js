@@ -106,7 +106,6 @@ var pillar = {
 		{x:1095, y: 11800},
 		{x:565, y: 11800},
 		{x:370, y: 12300},
-
 		{x:1200, y: 12900},
 		{x:750, y: 13500},
 		{x:370, y: 14400},
@@ -114,7 +113,6 @@ var pillar = {
 		{x:1405, y: 16200},
 		{x:1205, y: 16800},
 		{x:370, y: 17000},
-
 		{x: 476, y: 1000000000099909877788}
 	]
 }
@@ -712,7 +710,7 @@ function scrollLight(sectionAnkers){
 function draw(){
 	segments = []
 
-	calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
+	calcSegments(1, pillar.points.length-1, pillar.size, get_boundaries("info-text-quote1", 0).top);
 	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
 
 	// Clear canvas

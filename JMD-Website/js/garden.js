@@ -84,38 +84,72 @@ var pillar = {
 	active: false, //determines wheather the pillars
 	size: 200, //sets the size of the pillars
 	color: colorset.black,
-	points: [ //x,y coordinates for the pillars on the canvas
+	pointsSource: [ //x,y coordinates for the pillars on the canvas
 		{x: -200, y: -200}, //first one is hidden
-		{x: 1092, y: 2700},
-		{x: 1310, y: 3200},
-		{x: 285, y: 3665},
-		{x: 730, y: 4067},
-		{x: 1310, y: 4475},
-		{x: 1095, y: 5070},
-		{x: 370, y: 5500},
-		{x:1095, y: 6200},
-		{x:1095, y: 6950},
-		{x:370, y: 7400},
-		{x:1000, y: 8300},
-		{x:1095, y: 9100},
-		{x:370, y: 9100},
-		{x:565, y: 9800},
-		{x:1095, y: 10130},
-		{x:565, y: 10400},
-		{x:370, y: 11000},
-		{x:1095, y: 11800},
-		{x:565, y: 11800},
-		{x:370, y: 12300},
-		{x:1200, y: 12900},
-		{x:750, y: 13500},
-		{x:370, y: 14400},
-		{x:255, y: 15800},
-		{x:1405, y: 16200},
-		{x:1205, y: 16800},
-		{x:370, y: 17000},
+		{x: 50, y: 2117},
+		{x: 5, y: 3200},
+		{x: 70, y: 3665},
+		{x: 100, y: 5070},
+		{x: 10, y: 5470},
+		{x: 90, y: 6390},
+		{x: 10, y: 7670},
+		{x: 100, y: 8200},
+		{x: 0, y: 9370},
+		{x: 40, y: 10670},
+		{x: 10, y: 12070},
+		{x: 100, y: 12570},
+		{x: 0, y: 13570},
+		{x: 10, y: 14600},
+		{x: 90, y: 14770},
+		{x: 20, y: 16360},
+		{x: 0, y: 17260},
+		{x: 87, y: 17460},
+		{x: 34, y: 18360},
+		{x: 89, y: 18960},
+		{x: 80, y: 19860},
+		{x: 10, y: 20300},
+		{x: 50, y: 20800},
+		{x: 80, y: 21560},
+		{x: 100, y: 22860},
+		{x: 30, y: 23860},
+		{x: 70, y: 24500},
+		{x: 5, y: 25240},
+		{x: 12, y: 26440},
+		{x: 100, y: 27000},
+		{x: 40, y: 27800},
+		{x: 0, y: 28400},
+		{x: 65, y: 28700},
+		{x: 0, y: 30400},
+		{x: 80, y: 31400},
+		{x: 0, y: 32900},
+		// {x: 10, y: 9900},
+		// {x: 10, y: 1070},
+		// {x: 370, y: 5500},
+		// {x:1095, y: 6200},
+		// {x:1095, y: 6950},
+		// {x:370, y: 7400},
+		// {x:1000, y: 8300},
+		// {x:1095, y: 9100},
+		// {x:370, y: 9100},
+		// {x:565, y: 9800},
+		// {x:1095, y: 10130},
+		// {x:565, y: 10400},
+		// {x:370, y: 11000},
+		// {x:1095, y: 11800},
+		// {x:565, y: 11800},
+		// {x:370, y: 12300},
+		// {x:1200, y: 12900},
+		// {x:750, y: 13500},
+		// {x:370, y: 14400},
+		// {x:255, y: 15800},
+		// {x:1405, y: 16200},
+		// {x:1205, y: 16800},
+		// {x:370, y: 17000},
 		{x: 476, y: 1000000000099909877788}
-	]
+	],
 }
+
+pillar.points = jQuery.extend(true, [], pillar.pointsSource);
 
 //settings of the lightShaft
 var lightShaft = {
@@ -181,6 +215,9 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequ
 // document.body.style.height = garden.size
 
 //#####################FUNCTIONS#######################
+
+
+
 
 //updateing garden sections
 function getAnkers(){
@@ -372,10 +409,13 @@ function calcShift(dot,sizeX,sizeY, positioner){
 function calcSegments(i_min, i_max, rectSize, c){
 
 	for(var i = i_min; i<i_max; i++){
+
+
 		const dot = jQuery.extend(true, {}, pillar.points[i]);
+
 		var line = {};
 
-		var this_pillar_Y =  pillar.points[i].y + c
+		var this_pillar_Y = pillar.points[i].y + c
 
 		if(windowOffset-200 < this_pillar_Y && this_pillar_Y<=windowOffset+window.innerHeight || i===0){
 
@@ -399,6 +439,29 @@ function calcSegments(i_min, i_max, rectSize, c){
 			line.b = calcShift(dot,0,0,c);
 			segments.push(jQuery.extend(true, {}, line));
 		}
+	}
+}
+
+function calcX () {
+
+var Source = jQuery.extend(true, [], pillar.pointsSource);
+var spaceOutside = (window.innerWidth - $('#dark-content-wrapper').width())/2
+
+console.log(Source);
+	for (var i = 1; i < Source.length; i++){
+		 var xPos = Source[i].x
+		 var x
+
+		if (xPos >= 0 && xPos <= 100){
+
+			x = spaceOutside + mapArea(xPos, 0, 100, 0, $('#dark-content-wrapper').width()- pillar.size)
+		}else if (xPos < 0){
+			x = spaceOutside - 200 - (spaceOutside*0.3)
+		}else {
+			x = $('#dark-content-wrapper').width() + spaceOutside + (spaceOutside*0.3)
+		}
+		console.log(x);
+		pillar.points[i].x = x
 	}
 }
 
@@ -456,6 +519,8 @@ function resizeCanvas(){
 	lightShaft.x2 = lightShaft.x1
 	lightShaft.y1 = 0;
 	lightShaft.y2 = window.innerHeight;
+	calcX();
+	//console.log(pillar.points[1]);
 	drawLoop();
 }
 
@@ -1203,8 +1268,9 @@ window.onload = function(){
 };
 
 //everything happening when mouse is moved (reassign canvasto the top one if you wanna use again)
-canvasFg.onmousemove = function(event){
+canvasFg.onmousedown = function(event){
 	Mouse.x = event.clientX;
 	Mouse.y = event.clientY;
+	console.log("MouseX: " + Mouse.x + ", MouseY: " + (Mouse.y + windowOffset - garden.sectionPoints.a[4].s));
 	updateCanvas = true;
 };

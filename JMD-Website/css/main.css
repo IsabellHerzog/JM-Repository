@@ -609,6 +609,28 @@ h5{
   grid-area: quote1;
 }
 
+.info-text-quote1 span{
+  display: block;
+  font-family: 'UniversLTPro-45LightOblique', sans-serif;
+  font-size: 25;
+  padding-top: 23;
+  opacity: 1;
+  animation-name: example;
+  animation-duration: 5s;
+  animation-delay: 10s;
+}
+
+@keyframes example {
+    0%{
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    100%{
+      transform: translateY(0px);
+      opacity: 1;
+    }
+}
+
 .info-text-quote2-left{
   text-align: center;
   vertical-align: middle;
@@ -625,11 +647,6 @@ h5{
   width: 100%;
 }
 
-.info-text-quote1 span{
-  display: block;
-  font-family: 'UniversLTPro-45LightOblique', sans-serif;
-  font-size: 30;
-}
 
 .info-text-quote1 p{
   font-family: 'UniversLTPro-65Bold', sans-serif;
@@ -702,9 +719,7 @@ img{
   font-size: 80;
   letter-spacing: 1.5;
   color: rgb(173, 173, 173);
-
   margin-bottom: 150;
-
 }
 
 .timeline-section-left{
@@ -734,20 +749,14 @@ img{
 
 .timeline-section-left.animate{
   transform: translate(0, -3vh);
-  -moz-transform: translate(0,-3vh)
+  -moz-transform: translate(0,-3vh);
   -webkit-transform: translate(0, -3vh);
 }
 
 .timeline-section-right.animate{
   transform: translate(0, -3vh);
-  -moz-transform: translate(0,-3vh)
+  -moz-transform: translate(0,-3vh);
   -webkit-transform: translate(0, -3vh);
-}
-
-.blendover{
-  transition: 1.5s ease-in;
-  -moz-transition: 1.5s ease-in;
-  -webkit-transition: 1.5s ease-in;
 }
 
 .timeline.animate{
@@ -756,4 +765,10 @@ img{
 
 .timeline.animate-back{
   opacity: 1;
+}
+
+.blendover{
+  transition: 1.5s ease-in;
+  -moz-transition: 1.5s ease-in;
+  -webkit-transition: 1.5s ease-in;
 }

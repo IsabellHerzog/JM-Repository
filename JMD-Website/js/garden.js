@@ -1216,7 +1216,6 @@ function manipulateHTML(){
 	var total_padding = window.innerHeight-visibility_height
 	//--> selector, space top, space bot, EnteranimationClassName, leave_animationClassname
 	triggerClassAnimation('timeline-section', total_padding*0.5, total_padding*0.5, " animate", "animate-back")
-
 }
 
 //everything triggered when input-changes are happening

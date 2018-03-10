@@ -281,8 +281,6 @@ ul.loader{
                           margin-left: 28px;
                           }
 
-
-
 .timeline{
   position: fixed;
   font-family: 'UniversLTPro-55Roman', sans-serif;
@@ -306,35 +304,34 @@ ul.loader{
 .em {
   font-family: 'UniversLTPro-45Light', sans-serif;
   font-size: 15;
-  line-height: 33px;
-  letter-spacing: 5px;
-  text-transform: uppercase;
+  line-height: 29px;
+  /* letter-spacing: 5px; */
+  /* text-transform: uppercase; */
   /* max-width: 400px; */
-  text-align: center;
 }
 
 .em-left {
   padding-top: 250px;
   padding-bottom: 60px;
+  padding-left: 116px;
   grid-area: 1/4/2/6;
+  text-align: left;
 }
 
-.em-middle-left {
-  padding-top: 250px;
-  padding-bottom: 80px;
-  grid-area: 1/5/2/7;
-}
 .em-right {
   padding-top: 250px;
   padding-bottom: 60px;
-  grid-area: 1/2/2/4;
+  padding-right: 116px;
+  grid-area: 1/3/2/5;
+  text-align: right;
   /* grid-area: 1/5/2/5; */
 }
-.em-middle-right {
-  padding-top: 250px;
-  padding-bottom: 80px;
-  grid-area: 1/1/2/3;
+
+.emNumber {
+  opacity: 0.5;
+  line-height: 5px;
 }
+
 .content-block p{
   font-family: 'UniversLTPro-45Light', sans-serif;
   font-size: 15;
@@ -345,10 +342,14 @@ ul.loader{
   font-style: normal;
 }
 
+.content-block p span{
+  opacity: 0.5;
+}
+
 .metadata-middle-right p{
   padding-top: 10px;
   font-size: 15;
-  text-align: left;
+  text-align: right;
   opacity: 0.5;
   line-height: 29px;
 }
@@ -356,7 +357,7 @@ ul.loader{
 .metadata-middle-left p{
   padding-top: 10px;
   font-size: 15;
-  text-align: right;
+  text-align: left;
   opacity: 0.5;
   line-height: 29px;
 }
@@ -364,7 +365,7 @@ ul.loader{
 .metadata-right p{
   padding-top: 10px;
   font-size: 15;
-  text-align: left;
+  text-align: right;
   opacity: 0.5;
   line-height: 29px;
 }
@@ -372,7 +373,7 @@ ul.loader{
 .metadata-left p{
   padding-top: 10px;
   font-size: 15;
-  text-align: right;
+  text-align: left;
   opacity: 0.5;
   line-height: 29px;
 }
@@ -490,7 +491,8 @@ ul.loader{
   font-family: 'UniversLTPro-65Bold', sans-serif;
   font-size: 15px;
   line-height: 30px;
-  margin-top: 30;
+  margin-top: 25px;
+  margin-bottom: 50px;
   text-align: left;
 }
 
@@ -517,7 +519,6 @@ line-height: 28px;
   line-height: 28px;
 }
 
-
 h3{
   font-family: 'UniversLTPro-65Bold', sans-serif;
   font-size: 15px;
@@ -541,6 +542,7 @@ h4{
   vertical-align: middle;
   grid-area: quote1;
 }
+
 .info-text-quote2-left{
   text-align: center;
   vertical-align: middle;

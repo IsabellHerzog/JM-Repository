@@ -128,9 +128,9 @@ h2{
 
 #impressum-content{
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto;
-  grid-column-gap: 20px;
+  grid-column-gap: 7vw;
   grid-template-areas: "impressum-title"
   "impressum-content-left impressum-content-middle-left impressum-content-middle-right impressum-content-right";
   margin-top: 0px;
@@ -217,8 +217,8 @@ h2{
   "main_l3 main_r3";
   max-width: 1140px;
   margin: 0 auto;
-  padding-left: 11%;
-  padding-right: 11%;
+  padding-left: 193.688px;
+  padding-right: 183.688px;
   justify-content: center;
 }
 

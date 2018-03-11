@@ -935,7 +935,7 @@ function contentData(data){
 			emNumber.className += "emNumber"
 
 			var em = document.createElement("p");
-			em.innerHTML = "»"+this_content.em+"«"
+			em.innerHTML = this_content.em
 
 			var h2 = document.createElement("h2")
 			h2.innerHTML = this_content.name

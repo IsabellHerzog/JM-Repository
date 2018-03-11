@@ -1161,24 +1161,25 @@ function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animat
 	var section = document.getElementsByClassName(selectorClass)
 
 	var old_section_state = []
+	var old_section
 
-	for(i=0; i<section.length; i++){
-		old_section_state[i] = jQuery.extend(true, [], pillar.pointsSource);
-		section_states[i] = false
-		section_states[i] = div_visible(section[i], space_top, space_bot)
-	}
+	for(n=0; n<section.length; n++){
+		if(section_states[n]){
+			old_section = true
+		}else{
+			old_section = false
+		}
 
-	for(n=0; n<section_states.length; n++){
-		if(section_states[n] !== old_section_state[n]){
-			console.log(section_states[n]);
+		section_states[n] = false
+		section_states[n] = div_visible(section[n], space_top, space_bot)
+		if(section_states[n] !== old_section){
+			console.log(n);
 			if(section_states[n]){
 				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(leave_animation_state);
 				$( "."+selectorClass + ":eq("+ n +")" ).addClass(enter_animation_state);
-				console.log(n);
 			}else{
 				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(enter_animation_state);
 				$( "."+selectorClass + ":eq("+ n +")" ).addClass(leave_animation_state);
-				console.log("removed class: " + n);
 			}
 		}
 	}

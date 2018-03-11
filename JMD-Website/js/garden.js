@@ -1158,27 +1158,27 @@ function div_visible(divElement, space_top, space_bot){
 
 //triggers css-animation when element is reaching a specific position in the viewport (default = whole viewport)
 function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animation_state, leave_animation_state){
-	var timeline_sections = document.getElementsByClassName(selectorClass)
+	var section = document.getElementsByClassName(selectorClass)
 
 	var old_section_state = []
 
-	for(i=0; i<timeline_sections.length; i++){
-		old_section_state[i] = section_states[i]
+	for(i=0; i<section.length; i++){
+		old_section_state[i] = jQuery.extend(true, [], pillar.pointsSource);
 		section_states[i] = false
-	}
-
-	for(i=0; i<timeline_sections.length; i++){
-		section_states[i] = div_visible(timeline_sections[i], space_top, space_bot)
+		section_states[i] = div_visible(section[i], space_top, space_bot)
 	}
 
 	for(n=0; n<section_states.length; n++){
 		if(section_states[n] !== old_section_state[n]){
+			console.log(section_states[n]);
 			if(section_states[n]){
 				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(leave_animation_state);
 				$( "."+selectorClass + ":eq("+ n +")" ).addClass(enter_animation_state);
+				console.log(n);
 			}else{
 				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(enter_animation_state);
 				$( "."+selectorClass + ":eq("+ n +")" ).addClass(leave_animation_state);
+				console.log("removed class: " + n);
 			}
 		}
 	}
@@ -1215,7 +1215,8 @@ function manipulateHTML(){
 	var visibility_height = 200 + window.innerHeight*0.3;
 	var total_padding = window.innerHeight-visibility_height
 	//--> selector, space top, space bot, EnteranimationClassName, leave_animationClassname
-	triggerClassAnimation('timeline-section', total_padding*0.5, total_padding*0.5, " animate", "animate-back")
+	triggerClassAnimation('timeline-section', total_padding*0.2, total_padding*0.2, " animate", "animate-back")
+	triggerClassAnimation('author', total_padding*0.5, total_padding*0.5, "appear", "animate-back")
 }
 
 //everything triggered when input-changes are happening

@@ -27,7 +27,7 @@ var hundreds = "";
 
 var section_states = []
 var section_active
-var old_section_states = []
+var lightContentHeight
 
 // var data = require
 
@@ -83,7 +83,7 @@ var colorset = {
 //POSITIONS OF pillars
 var pillar = {
 	active: false, //determines wheather the pillars
-	size: 200, //sets the size of the pillars
+	size: 200, //sets the size of the
 	color: colorset.black,
 	pointsSource: [ //x,y coordinates for the pillars on the canvas
 		{x: -200, y: -200}, //first one is hidden
@@ -226,7 +226,6 @@ function getAnkers(){
 
 	if(!ankerSet){
 		// {s: 0, e: 600}, //white_1 (start + end)
-
 		//white_1
 		garden.sectionPoints.a[0].s = 0;
 		garden.sectionPoints.a[0].e = 0;
@@ -448,7 +447,6 @@ function calcX () {
 var Source = jQuery.extend(true, [], pillar.pointsSource);
 var spaceOutside = (window.innerWidth - $('#dark-content-wrapper').width())/2
 
-console.log(Source);
 	for (var i = 1; i < Source.length; i++){
 		 var xPos = Source[i].x
 		 var x
@@ -461,7 +459,6 @@ console.log(Source);
 		}else {
 			x = $('#dark-content-wrapper').width() + spaceOutside + (spaceOutside*0.3)
 		}
-		console.log(x);
 		pillar.points[i].x = x
 	}
 }
@@ -469,7 +466,7 @@ console.log(Source);
 //draws the shadows
 function drawPolygon(polygon,ctx,fillStyle){
 
-	ctx.rect(0,0,window.innerWidth,window.innerHeight);
+	ctx.rect(0,0,window.innerWidth, window.innerHeight);
 	ctx.fillStyle = fillStyle; //shadowsOpacity
 	ctx.fill();
 	ctx.save();
@@ -520,9 +517,12 @@ function resizeCanvas(){
 	lightShaft.x2 = lightShaft.x1
 	lightShaft.y1 = 0;
 	lightShaft.y2 = window.innerHeight;
+	lightContentHeight = document.getElementById('light-content-wrapper').clientHeight;
+	lightContentHeight = lightContentHeight-1950
 	calcX();
 	//console.log(pillar.points[1]);
-	drawLoop();
+	console.log('resize');
+	updateCanvas = true
 }
 
 //a function to map a number from one area to another (S = Source, T = Target)
@@ -776,7 +776,7 @@ function scrollLight(sectionAnkers){
 function draw(){
 	segments = []
 
-	calcSegments(1, pillar.points.length-1, pillar.size, garden.sectionPoints.a[4].s);
+	calcSegments(1, pillar.points.length-1, pillar.size, lightContentHeight);
 	calcSegments(0,1, 5000, windowOffset) //redefine, not calc -->write a different function
 
 	// Clear canvas
@@ -838,11 +838,12 @@ function draw(){
 			var spot = pillar.points[i];
 			if(windowOffset-200 < spot.y <=windowOffset+window.innerHeight){
 				ctxBg.beginPath();
-				ctxBg.moveTo(spot.x ,spot.y + garden.sectionPoints.a[4].s -windowOffset);//needed
-				ctxBg.lineTo(spot.x+pillar.size,spot.y + garden.sectionPoints.a[4].s - windowOffset);//needed
-				ctxBg.lineTo(spot.x+pillar.size,spot.y + pillar.size + garden.sectionPoints.a[4].s -windowOffset);//needed
-				ctxBg.lineTo(spot.x,spot.y+pillar.size + garden.sectionPoints.a[4].s-windowOffset);//needed
+				ctxBg.moveTo(spot.x ,spot.y +lightContentHeight -windowOffset);//needed
+				ctxBg.lineTo(spot.x+pillar.size,spot.y +lightContentHeight - windowOffset);//needed
+				ctxBg.lineTo(spot.x+pillar.size,spot.y +lightContentHeight + pillar.size -windowOffset);//needed
+				ctxBg.lineTo(spot.x,spot.y+pillar.size +lightContentHeight -windowOffset);//needed
 				ctxBg.fill();
+
 			}
 		}
 	}
@@ -1179,8 +1180,6 @@ function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animat
 				$( "."+selectorClass + ":eq("+ n +")" ).addClass(leave_animation_state);
 		}
 	}
-	console.log(section_states);
-	console.log(old_section_states);
 }
 
 //picks the nth element of a and analyses its y-position and returns in top and bot - if id input id into n
@@ -1244,6 +1243,7 @@ function pageload(t_value, a_value) {
 				$(".loader-wrapper:eq(0)").remove();
 			}, a_value);
 			dataLoaded = true;
+			resizeCanvas();
 		}else if(contentLoaded || infoLoaded){
 			//executes when half content loaded
 		}else{
@@ -1274,6 +1274,5 @@ window.onload = function(){
 canvasFg.onmousedown = function(event){
 	Mouse.x = event.clientX;
 	Mouse.y = event.clientY;
-	console.log("MouseX: " + Mouse.x + ", MouseY: " + (Mouse.y + windowOffset - garden.sectionPoints.a[4].s));
 	updateCanvas = true;
 };

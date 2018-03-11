@@ -27,6 +27,7 @@ var hundreds = "";
 
 var section_states = []
 var section_active
+var old_section_states = []
 
 // var data = require
 
@@ -1160,29 +1161,26 @@ function div_visible(divElement, space_top, space_bot){
 function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animation_state, leave_animation_state){
 	var section = document.getElementsByClassName(selectorClass)
 
-	var old_section_state = []
-	var old_section
+	// for(i=0; i<section.length; i++){
+	// 	old_section_states[i] = jQuery.extend(true, [], section_states[i]);
+	// }
 
-	for(n=0; n<section.length; n++){
-		if(section_states[n]){
-			old_section = true
-		}else{
-			old_section = false
-		}
+	for(i=0; i<section.length; i++){
+		section_states[i] = div_visible(section[i], space_top, space_bot)
+	}
 
-		section_states[n] = false
-		section_states[n] = div_visible(section[n], space_top, space_bot)
-		if(section_states[n] !== old_section){
-			console.log(n);
+	for(n=0; n<section_states.length; n++){
 			if(section_states[n]){
 				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(leave_animation_state);
 				$( "."+selectorClass + ":eq("+ n +")" ).addClass(enter_animation_state);
-			}else{
+				console.log("add item nr. " + n);
+			}else if(!section_states[n]){
 				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(enter_animation_state);
 				$( "."+selectorClass + ":eq("+ n +")" ).addClass(leave_animation_state);
-			}
 		}
 	}
+	console.log(section_states);
+	console.log(old_section_states);
 }
 
 //picks the nth element of a and analyses its y-position and returns in top and bot - if id input id into n
@@ -1216,7 +1214,7 @@ function manipulateHTML(){
 	var visibility_height = 200 + window.innerHeight*0.3;
 	var total_padding = window.innerHeight-visibility_height
 	//--> selector, space top, space bot, EnteranimationClassName, leave_animationClassname
-	triggerClassAnimation('timeline-section', total_padding*0.2, total_padding*0.2, " animate", "animate-back")
+	triggerClassAnimation('timeline-section', total_padding*0.5, total_padding*0.5, " animate", "animate-back")
 	triggerClassAnimation('author', total_padding*0.5, total_padding*0.5, "appear", "animate-back")
 }
 

@@ -612,15 +612,13 @@ h5{
 .info-text-quote1 span{
   display: block;
   font-family: 'UniversLTPro-45LightOblique', sans-serif;
-  font-size: 25;
-  padding-top: 23;
-  opacity: 1;
+  font-size: 23;
+  padding-top: 24;
 }
 
 .author{
-  opacity: 1;
   opacity: 0;
-  transform: translateY(-50px);
+  transform: translateY(-15px);
 }
 
 .author.appear {
@@ -632,25 +630,14 @@ h5{
 
 .author.animate-back {
   opacity: 0;
-  transform: translateY(-50px);
+  transform: translateY(-15px);
 }
 
 .appear{
-  transition: 3s ease-in-out;
-  -moz-transition: 3s ease-in-out;
-  -webkit-transition: 3s ease-in-out;
+  transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -webkit-transition: 1s ease-in-out;
   }
-
-@keyframes example {
-    0%{
-      transform: translateY(-50px);
-      opacity: 0;
-    }
-    100%{
-      transform: translateY(0px);
-      opacity: 1;
-    }
-}
 
 .info-text-quote2-left{
   text-align: center;
@@ -672,14 +659,14 @@ h5{
 .info-text-quote1 p{
   font-family: 'UniversLTPro-65Bold', sans-serif;
   font-size: 30;
-  line-height: 56px;
+  line-height: 50px;
   margin-top: 50px;
   margin-bottom: 125px;
 }
 .info-text-quote2 p{
   font-family: 'UniversLTPro-65Bold', sans-serif;
   font-size: 30;
-  line-height: 56px;
+  line-height: 50px;
   margin-top: 90px;
   margin-bottom: 95px;
 }

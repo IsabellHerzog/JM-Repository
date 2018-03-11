@@ -203,6 +203,16 @@ var segments = [];
 var shaftGrowing = true;
 var shaftShrinking = false;
 
+
+// init controller
+var controller = new ScrollMagic.Controller();
+
+// create a scene
+var timelineScene = new ScrollMagic.Scene({
+        triggerElement: '#dark-content-wrapper'
+    })
+    .addTo(controller); // assign the scene to the controller
+
 //relations
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
 
@@ -277,6 +287,20 @@ function getAnkers(){
 		// t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 		for(var i=0; i<t_years.tens.length; i++){
 			t_years.positions.push(get_boundaries("timeline-section", i).top)
+			var div_t = document.createElement("div");
+			var div_h = document.createElement("div");
+
+			div_t.setAttribute("id", "t-element-t" + i);
+			div_h.setAttribute("id", "t-element-h" + i);
+
+			div_t.className += "t-element-t";
+			div_h.className += "t-element-h";
+
+			div_t.innerHTML = t_years.tens[i];
+			div_h.innerHTML = t_years.hundreds[i]
+
+			document.getElementById("timeline").appendChild(div_t);
+			document.getElementById("timeline").appendChild(div_h);
 		}
 		timelineSet = true
 	}
@@ -877,6 +901,7 @@ function infoData(data){
 		}else if(this_content.section == "iWrapper2"){
 			var wrapper = "light-content-wrapper2"
 		}
+
 		document.getElementById(wrapper).appendChild(div);
 	}
 	infoLoaded = true

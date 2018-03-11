@@ -922,13 +922,13 @@ function contentData(data){
 				metadataDiv.className += "metadata-right";
 				subtitleDiv.className += "subtitle-right";
 			}else if (this_content.class === "content-block-middle-left"){
-				emDiv.className += "em-left"
+				emDiv.className += "em-right"
 				imageDiv.className += "image-middle-left"
 				metadataDiv.className += "metadata-middle-left";
 				subtitleDiv.className += "subtitle-middle-left";
 			}else {
 				imageDiv.className += "image-middle-right"
-				emDiv.className += "em-right"
+				emDiv.className += "em-left"
 				metadataDiv.className += "metadata-middle-right";
 				subtitleDiv.className += "subtitle-middle-right";
 			}
@@ -1039,6 +1039,13 @@ function contentData(data){
 	}
 	//breaks text on the right place
 	$('.content-block p').each(function(){
+		var string = $(this).html();
+		for (var i = 0; i < 2; i++){
+			string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
+		}
+		$(this).html(string);
+	});
+	$('.emBlock p').each(function(){
 		var string = $(this).html();
 		for (var i = 0; i < 2; i++){
 			string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');

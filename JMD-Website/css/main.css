@@ -27,9 +27,9 @@
 
 @font-face {
     font-family: 'UniversLTPro-45LightOblique';
-    src: url('../assets/fonts/UniversLTPro-45LightOblique_1.woff2') format('woff2'),
-        url('../assets/fonts/UniversLTPro-45LightOblique_1.woff') format('woff'),
-        url('../assets/fonts/UniversLTPro-45LightOblique_1.ttf') format('truetype');
+    src: url('../assets/fonts/UniversLTPro-45LightOblique.woff2') format('woff2'),
+        url('../assets/fonts/UniversLTPro-45LightOblique.woff') format('woff'),
+        url('../assets/fonts/UniversLTPro-45LightOblique.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }

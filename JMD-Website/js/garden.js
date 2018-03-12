@@ -526,8 +526,6 @@ function resizeCanvas(){
 	lightContentHeight = document.getElementById('light-content-wrapper').clientHeight;
 	lightContentHeight = lightContentHeight-1950
 	calcX();
-	//console.log(pillar.points[1]);
-	console.log('resize');
 	updateCanvas = true
 }
 
@@ -778,8 +776,11 @@ function scrollLight(sectionAnkers){
 	}
 }
 
+
 //Everything visible in the canvas
 function draw(){
+	drawLog +=1
+
 	segments = []
 
 	calcSegments(1, pillar.points.length-1, pillar.size, lightContentHeight);
@@ -1194,7 +1195,6 @@ function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animat
 			if(section_states[n]){
 				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(leave_animation_state);
 				$( "."+selectorClass + ":eq("+ n +")" ).addClass(enter_animation_state);
-				console.log("add item nr. " + n);
 			}else if(!section_states[n]){
 				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(enter_animation_state);
 				$( "."+selectorClass + ":eq("+ n +")" ).addClass(leave_animation_state);
@@ -1261,9 +1261,9 @@ function pageload(t_value, a_value) {
 			$(document.body).css({"overflow-y": "auto"})
 			setTimeout(function(){
 				$(".loader-wrapper:eq(0)").remove();
+				dataLoaded = true;
+				resizeCanvas();
 			}, a_value);
-			dataLoaded = true;
-			resizeCanvas();
 		}else if(contentLoaded || infoLoaded){
 			//executes when half content loaded
 		}else{
@@ -1287,12 +1287,5 @@ window.addEventListener('resize', resizeCanvas, false);
 window.onload = function(){
 	lightSpot.image.onload = function(){};
 	lightSpot.image.src = "assets/garden_lightShaftSpot.png";
-	resizeCanvas();
-};
-
-//everything happening when mouse is moved (reassign canvasto the top one if you wanna use again)
-canvasFg.onmousedown = function(event){
-	Mouse.x = event.clientX;
-	Mouse.y = event.clientY;
-	updateCanvas = true;
+	// resizeCanvas();
 };

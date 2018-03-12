@@ -1,16 +1,4 @@
 //######################SETUP##########################
-
-// importing Data from googleSpreadsheets CONTENT
-// document.addEventListener('DOMContentLoaded', function() {
-// 	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
-// 	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
-// })
-//importing Data from googleSpreadsheets INFORMATIONAL DATA
-// document.addEventListener('DOMContentLoaded', function() {
-// 	var URL = "https://docs.google.com/spreadsheets/d/112kX1SjyxW9D7rQ69ovMpJBAJluQoIbhlhMxlSrfSBw/edit?usp=sharing"
-// 	Tabletop.init( { key: URL, callback: infoData, simpleSheet: true } )
-// })
-
 document.addEventListener("DOMContentLoaded", function(event) {
 	contentData()
 	infoData()
@@ -197,15 +185,6 @@ var timelineScene = new ScrollMagic.Scene({
 
 //relations
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
-
-
-
-//sets the background color
-// canvasBg.style.background = colorset.concrete;
-
-// sets documents height to the gardens-size
-// garden.size = garden.sectionPoints.a[10].e
-// document.body.style.height = garden.size
 
 //#####################FUNCTIONS#######################
 
@@ -512,8 +491,6 @@ function drawShaft(x1,y1, x2, y2, shaftSize){
 
 //everything related to the canvas size
 function resizeCanvas(){
-	// var scaleFactor = window.innerWidth/garden.scaleW
-	// getGardenSections()
 	canvasBg.width = window.innerWidth;
 	canvasBg.height = window.innerHeight;
 	canvasFg.width = window.innerWidth;
@@ -779,6 +756,7 @@ function scrollLight(sectionAnkers){
 
 //Everything visible in the canvas
 function draw(){
+
 	segments = []
 
 	calcSegments(1, pillar.points.length-1, pillar.size, lightContentHeight);
@@ -817,12 +795,6 @@ function draw(){
 		};
 
 		drawPolygon(polygons[0], ctxFg, shadow.color);
-		// DRAW AS A GIANT POLYGON
-		// for(var i=1;i<polygons.length;i++){
-		// 	ctxBg.globalAlpha = shadow.intersections.opacity;
-		// 	drawPolygon(polygons[i],ctxBg, shadow.intersections.color);
-		// 	ctxBg.globalAlpha = 1;
-		// }
 	}
 
 	if(lightShaft.active){
@@ -843,10 +815,10 @@ function draw(){
 			var spot = pillar.points[i];
 			if(windowOffset-200 < spot.y <=windowOffset+window.innerHeight){
 				ctxBg.beginPath();
-				ctxBg.moveTo(spot.x ,spot.y +lightContentHeight -windowOffset);//needed
-				ctxBg.lineTo(spot.x+pillar.size,spot.y +lightContentHeight - windowOffset);//needed
-				ctxBg.lineTo(spot.x+pillar.size,spot.y +lightContentHeight + pillar.size -windowOffset);//needed
-				ctxBg.lineTo(spot.x,spot.y+pillar.size +lightContentHeight -windowOffset);//needed
+				ctxBg.moveTo(spot.x ,spot.y +lightContentHeight -windowOffset);
+				ctxBg.lineTo(spot.x+pillar.size,spot.y +lightContentHeight - windowOffset);
+				ctxBg.lineTo(spot.x+pillar.size,spot.y +lightContentHeight + pillar.size -windowOffset);
+				ctxBg.lineTo(spot.x,spot.y+pillar.size +lightContentHeight -windowOffset);
 				ctxBg.fill();
 
 			}
@@ -856,7 +828,6 @@ function draw(){
 
 //fills the content in the white info-area from a spreadsheet
 function infoData(){
-	//console.log(JSON.stringify(data));
 	for(i=0; i<dataInfo.length; i++){
 
 		var this_content = dataInfo[i];
@@ -887,12 +858,8 @@ function infoData(){
 	}
 	infoLoaded = true
 }
-//
-// var dataCSV  =
-// for(i=0; i<dataCSV.length; i++){
-// 	console.log(dataCSV[i].class);
-// }
-//fills the content in the dark content-area from a spreadsheet
+
+
 function contentData(){
 
 
@@ -1041,10 +1008,6 @@ function contentData(){
 
 			//hundreds
 			t_years.tens.push(this_content.year.substring(split_p, end_p));
-
-			//POSITIONS
-			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			// t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 		}
 	}
 	//breaks text on the right place
@@ -1067,28 +1030,6 @@ function contentData(){
 	drawLoop()
 }
 
-//makes Text of an ID align to the shaft
-function shaftText(textID){
-	// var gridWidth = $("#light-content-wrapper").width();
-	// var text_opacity
-	// var textWidth
-	// var textMargin
-	// if(lightShaft.width <= gridWidth && lightShaft.width >= 714){
-	// 	textWidth = lightShaft.width+"px"
-	// 	textMargin = ($(window).width()/2 - (lightShaft.width+1)/2 + 1)/2
-	// 	text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
-	// }else if(lightShaft.width >= gridWidth){
-	// 	textWidth = gridWidth
-	// 	textMargin = 0
-	// 	text_opacity = 1
-	// }else if(lightShaft.width <= 714){
-	// 	textWidth = 714
-	// 	text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
-	// }
-	// $(textID).css({"width":textWidth, "border-left": textMargin+"px"})
-	// $(textID).css({"width":textWidth, "border-right": textMargin+"px"})
-	// $(textID).css('opacity', text_opacity)
-}
 
 //aligns text left/right to the shaft
 function voidText(textID, left, right){
@@ -1235,9 +1176,6 @@ function manipulateHTML(){
 	//move + fill timeline
 	timeline();
 
-	//changes the width of the LIBESKIND-quote in relation to the lightShaft-width
-	shaftText("#quote1")
-
 	//changes margin of the left and righttext (voidText: "element_id, left (boolean), right(boolean)")
 	voidText("#quote2-left", true, false)
 	voidText("#quote2-right", false, true)
@@ -1277,11 +1215,7 @@ function pageload(t_value, a_value) {
 				dataLoaded = true;
 				resizeCanvas();
 			}, a_value);
-		}else if(contentLoaded || infoLoaded){
-			//executes when half content loaded
-		}else{
-			//executes when all contents are loading
-		}
+			}
 	}, t_value);
 }
 
@@ -1300,5 +1234,4 @@ window.addEventListener('resize', resizeCanvas, false);
 window.onload = function(){
 	lightSpot.image.onload = function(){};
 	lightSpot.image.src = "assets/garden_lightShaftSpot.png";
-	// resizeCanvas();
 };

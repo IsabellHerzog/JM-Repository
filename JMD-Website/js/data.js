@@ -59,7 +59,7 @@ var dataContent = [{
   "year": "-925",
   "year1": "",
   "metadata": "",
-  "text": "Nach dem Tod von König Salamon verfällt das Reich in das Südreich »Juda« und das Nordreich »Israel«.",
+  "text": "Nach dem Tod von König Salomon verfällt das Reich in das Südreich »Juda« und das Nordreich »Israel«.",
   "emNumber": "",
   "em": "",
   "subtitle": "",

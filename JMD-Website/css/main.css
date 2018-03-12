@@ -118,7 +118,7 @@ h2{
   margin: 0;
   padding: 0;
   z-index: 100;
-  pointer-events: none;
+  pointer-events:none;
 }
 
 #impressum-content{
@@ -384,16 +384,29 @@ ul.loader{
   font-size: 18;
   letter-spacing: 10;
   padding-left: 10;
+  z-index: 999
+}
+
+.t-element-t p{
+    transform: rotate(-90deg);
+    text-align: right;
 }
 
 .t-element-t{
   position: fixed;
-  transform: rotate(-90deg);
   position: fixed;
   z-index: 106;
-  top: 47vh;;
+  top: 45.8vh;;
   left: 28;
   float: left;
+  opacity: 0;
+  width: 50px;
+  height: 50px;
+}
+
+.t-element-h p{
+  transform: rotate(-90deg);
+  text-align: right;
 }
 
 .t-element-h{
@@ -403,6 +416,7 @@ ul.loader{
   z-index: 103;
   top: 50vh;
   float: right;
+  opacity: 0;
 }
 
 .tnumber{
@@ -829,11 +843,11 @@ img{
   -webkit-transform: translate(0, -3vh);
 }
 
-.timeline.animate{
+#timeline.animate{
   opacity: 0;
 }
 
-.timeline.animate-back{
+#timeline.animate-back{
   opacity: 1;
 }
 

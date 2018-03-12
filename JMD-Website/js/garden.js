@@ -1,16 +1,4 @@
 //######################SETUP##########################
-
-// importing Data from googleSpreadsheets CONTENT
-// document.addEventListener('DOMContentLoaded', function() {
-// 	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
-// 	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
-// })
-//importing Data from googleSpreadsheets INFORMATIONAL DATA
-// document.addEventListener('DOMContentLoaded', function() {
-// 	var URL = "https://docs.google.com/spreadsheets/d/112kX1SjyxW9D7rQ69ovMpJBAJluQoIbhlhMxlSrfSBw/edit?usp=sharing"
-// 	Tabletop.init( { key: URL, callback: infoData, simpleSheet: true } )
-// })
-
 document.addEventListener("DOMContentLoaded", function(event) {
 	contentData()
 	infoData()
@@ -198,15 +186,6 @@ var timelineScene = new ScrollMagic.Scene({
 //relations
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
 
-
-
-//sets the background color
-// canvasBg.style.background = colorset.concrete;
-
-// sets documents height to the gardens-size
-// garden.size = garden.sectionPoints.a[10].e
-// document.body.style.height = garden.size
-
 //#####################FUNCTIONS#######################
 
 
@@ -278,8 +257,8 @@ function getAnkers(){
 			div_t.className += "t-element-t";
 			div_h.className += "t-element-h";
 
-			div_t.innerHTML = t_years.tens[i];
-			div_h.innerHTML = t_years.hundreds[i]
+			div_t.innerHTML = "<p>" + t_years.tens[i] +"</p>";
+			div_h.innerHTML = "<p>" + t_years.hundreds[i] +"</p>";
 
 			document.getElementById("timeline").appendChild(div_t);
 			document.getElementById("timeline").appendChild(div_h);
@@ -512,8 +491,6 @@ function drawShaft(x1,y1, x2, y2, shaftSize){
 
 //everything related to the canvas size
 function resizeCanvas(){
-	// var scaleFactor = window.innerWidth/garden.scaleW
-	// getGardenSections()
 	canvasBg.width = window.innerWidth;
 	canvasBg.height = window.innerHeight;
 	canvasFg.width = window.innerWidth;
@@ -818,12 +795,6 @@ function draw(){
 		};
 
 		drawPolygon(polygons[0], ctxFg, shadow.color);
-		// DRAW AS A GIANT POLYGON
-		// for(var i=1;i<polygons.length;i++){
-		// 	ctxBg.globalAlpha = shadow.intersections.opacity;
-		// 	drawPolygon(polygons[i],ctxBg, shadow.intersections.color);
-		// 	ctxBg.globalAlpha = 1;
-		// }
 	}
 
 	if(lightShaft.active){
@@ -844,10 +815,10 @@ function draw(){
 			var spot = pillar.points[i];
 			if(windowOffset-200 < spot.y <=windowOffset+window.innerHeight){
 				ctxBg.beginPath();
-				ctxBg.moveTo(spot.x ,spot.y +lightContentHeight -windowOffset);//needed
-				ctxBg.lineTo(spot.x+pillar.size,spot.y +lightContentHeight - windowOffset);//needed
-				ctxBg.lineTo(spot.x+pillar.size,spot.y +lightContentHeight + pillar.size -windowOffset);//needed
-				ctxBg.lineTo(spot.x,spot.y+pillar.size +lightContentHeight -windowOffset);//needed
+				ctxBg.moveTo(spot.x ,spot.y +lightContentHeight -windowOffset);
+				ctxBg.lineTo(spot.x+pillar.size,spot.y +lightContentHeight - windowOffset);
+				ctxBg.lineTo(spot.x+pillar.size,spot.y +lightContentHeight + pillar.size -windowOffset);
+				ctxBg.lineTo(spot.x,spot.y+pillar.size +lightContentHeight -windowOffset);
 				ctxBg.fill();
 
 			}
@@ -857,7 +828,6 @@ function draw(){
 
 //fills the content in the white info-area from a spreadsheet
 function infoData(){
-	//console.log(JSON.stringify(data));
 	for(i=0; i<dataInfo.length; i++){
 
 		var this_content = dataInfo[i];
@@ -888,12 +858,8 @@ function infoData(){
 	}
 	infoLoaded = true
 }
-//
-// var dataCSV  =
-// for(i=0; i<dataCSV.length; i++){
-// 	console.log(dataCSV[i].class);
-// }
-//fills the content in the dark content-area from a spreadsheet
+
+
 function contentData(){
 
 
@@ -1042,10 +1008,6 @@ function contentData(){
 
 			//hundreds
 			t_years.tens.push(this_content.year.substring(split_p, end_p));
-
-			//POSITIONS
-			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			// t_years.positions.push(div.getBoundingClientRect().y+windowOffset);
 		}
 	}
 	//breaks text on the right place
@@ -1068,29 +1030,6 @@ function contentData(){
 	drawLoop()
 }
 
-//makes Text of an ID align to the shaft
-function shaftText(textID){
-	// var gridWidth = $("#light-content-wrapper").width();
-	// var text_opacity
-	// var textWidth
-	// var textMargin
-	// if(lightShaft.width <= gridWidth && lightShaft.width >= 714){
-	// 	console.log(lightShaft.width);
-	// 	textWidth = lightShaft.width+"px"
-	// 	textMargin = ($(window).width()/2 - (lightShaft.width+1)/2 + 1)/2
-	// 	text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
-	// }else if(lightShaft.width >= gridWidth){
-	// 	textWidth = gridWidth
-	// 	textMargin = 0
-	// 	text_opacity = 1
-	// }else if(lightShaft.width <= 714){
-	// 	textWidth = 714
-	// 	text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
-	// }
-	// $(textID).css({"width":textWidth, "border-left": textMargin+"px"})
-	// $(textID).css({"width":textWidth, "border-right": textMargin+"px"})
-	// $(textID).css('opacity', text_opacity)
-}
 
 //aligns text left/right to the shaft
 function voidText(textID, left, right){
@@ -1108,60 +1047,79 @@ function voidText(textID, left, right){
 //draws the timeline
 function timeline(){
 
-	if(windowOffset>get_boundaries('#light-content-wrapper2', 'id').top){
-		$('.timeline:eq(0)').addClass("animate")
-		$('.timeline:eq(0)').removeClass("animate-back")
-	// }else if(windowOffset<get_boundaries('#light-content-wrapper1', 'id').bot){
-	// 	console.log("hello");
+	//hides timeline if it is outside the dark-conten-wrapper UPDATE Necessary
+	if(windowOffset>get_boundaries('#light-content-wrapper2', 'id').top || windowOffset<get_boundaries('#light-content-wrapper', 'id').bot){
+		$('#timeline').addClass("animate")
+		$('#timeline').removeClass("animate-back")
 	}else{
-		$('.timeline:eq(0)').addClass("animate-back")
-		$('.timeline:eq(0)').removeClass("animate")
+		$('#timeline').addClass("animate-back")
+		$('#timeline').removeClass("animate")
 	}
+
+	var maxi
 
 	for(var i=0; i<t_years.positions.length; i++){
 
-		var time_position = t_years.positions[i]-windowOffset
+		$('.t-element-t:eq('+i+')').css({"opacity": 0});
+		$('.t-element-t:eq('+i+')').css({'transform' : 'translate(' + 0 +', ' + 0 + ')'});
 
-		if(time_position > window.innerHeight*0.47 && time_position<=window.innerHeight){
+		$('.t-element-h:eq('+i+')').css({"opacity": 0});
+		$('.t-element-h:eq('+i+')').css({'transform' : 'translate(' + 0 +', ' + 0 + ')'});
 
-			//moving stuff
-			var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
+		var time_position = t_years.positions[i] - windowOffset
 
-			//tens opacity + position
-			$('#t-moving').text(t_years.tens[i]);
-			$('#t-moving').css({"opacity": (opacitator)});
-			$('#t-moving').css({"top": time_position});
-
-			$('#t-fixed').css({"top": 47 - opacitator*15+ "vh"});
-			$('#t-fixed').css({"opacity": 1-opacitator});
-
-
-			//tens opacity + position
-			if(hundreds !== t_years.hundreds[i]){
-			$('#h-moving').text(t_years.hundreds[i]);
-			$('#h-moving').css({"opacity": opacitator*opacitator*opacitator});
-			$('#h-moving').css({"top": time_position + 0.03*window.innerHeight + (1-opacitator)*window.innerHeight*0.2});
-			$('#h-fixed').css({"top": 50 - opacitator*12 + "vh"});
-			$('#h-fixed').css({"opacity": 1-opacitator});
+		//case section is between middle and bottom of the screen
+		if(time_position <= window.innerHeight){
+			maxi = i
 			}
-
-	}else if(time_position<=window.innerHeight*0.47 && time_position >= 0){
-			$('#t-fixed').css({"top": 47 + "vh"});
-			$('#t-fixed').css({"opacity": 1});
-			$('#t-moving').css({"top": window.innerHeight});
-
-			$('#t-fixed').text(t_years.tens[i]);
-			$('#h-fixed').text(t_years.hundreds[i]);
-
-			$('#h-fixed').css({"top": 50 + "vh"});
-			$('#h-fixed').css({"opacity": 1});
-			$('#h-moving').css({"top": window.innerHeight});
 		}
 
-hundreds = t_years.hundreds[i];
-section_active = t_years.positions[i];
-	}
-}
+		var maxiPosition = t_years.positions[maxi]
+
+		if((maxiPosition - windowOffset)<=window.innerHeight*0.47 && maxi >= 0){
+			$('.t-element-t:eq('+maxi+')').css({"opacity": 1});
+			$('.t-element-h:eq('+maxi+')').css({"opacity": 1});
+		}else{
+
+			var sec_maxi = maxi-1
+			var opacitator = mapArea(maxiPosition - windowOffset, window.innerHeight, window.innerHeight*0.47,0,1)
+
+			//TENS opacity
+			$('.t-element-t:eq('+maxi+')').css({"opacity": opacitator*opacitator*opacitator});
+			if(sec_maxi>=0){
+			$('.t-element-t:eq('+sec_maxi+')').css({"opacity": 1-opacitator*opacitator});
+			}
+			//TENS transformation
+			var transformer = mapArea(opacitator, 0, 1, window.innerHeight/2.4, 0)
+				$('.t-element-t:eq('+maxi+')').css({'transform' : 'translate(' + 0 +', ' + transformer + 'px)'});
+				if(sec_maxi>=0){
+				$('.t-element-t:eq('+sec_maxi+')').css({'transform' : 'translate(' + 0 +', ' + (transformer-window.innerHeight/2.4)*0.15 + 'px)'});
+			}
+
+
+			if(t_years.hundreds[maxi-1] != t_years.hundreds[maxi]){
+				//HUNDS opacity
+				$('.t-element-h:eq('+maxi+')').css({"opacity": opacitator});
+				if(sec_maxi>=0){
+				$('.t-element-h:eq('+sec_maxi+')').css({"opacity": 1-opacitator});
+				}
+
+				//HUNS transformation
+				var transformer = mapArea(opacitator, 0, 1, window.innerHeight/4.8, 0)
+					$('.t-element-h:eq('+maxi+')').css({'transform' : 'translate(' + 0 +', ' + transformer + 'px)'});
+					if(sec_maxi>=0){
+					$('.t-element-h:eq('+sec_maxi+')').css({'transform' : 'translate(' + 0 +', ' + (transformer-window.innerHeight/4.8)*0.15 + 'px)'});
+				}
+			}else{
+				//HUNDS opacity
+				$('.t-element-h:eq('+maxi+')').css({"opacity": 1});
+			}
+
+
+
+		}
+				}
+
 
 //spots element, returns true if it is in viewport or false if not
 function div_visible(divElement, space_top, space_bot){
@@ -1182,9 +1140,6 @@ function div_visible(divElement, space_top, space_bot){
 function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animation_state, leave_animation_state){
 	var section = document.getElementsByClassName(selectorClass)
 
-	// for(i=0; i<section.length; i++){
-	// 	old_section_states[i] = jQuery.extend(true, [], section_states[i]);
-	// }
 
 	for(i=0; i<section.length; i++){
 		section_states[i] = div_visible(section[i], space_top, space_bot)
@@ -1220,9 +1175,6 @@ function manipulateHTML(){
 
 	//move + fill timeline
 	timeline();
-
-	//changes the width of the LIBESKIND-quote in relation to the lightShaft-width
-	shaftText("#quote1")
 
 	//changes margin of the left and righttext (voidText: "element_id, left (boolean), right(boolean)")
 	voidText("#quote2-left", true, false)
@@ -1263,11 +1215,7 @@ function pageload(t_value, a_value) {
 				dataLoaded = true;
 				resizeCanvas();
 			}, a_value);
-		}else if(contentLoaded || infoLoaded){
-			//executes when half content loaded
-		}else{
-			//executes when all contents are loading
-		}
+			}
 	}, t_value);
 }
 
@@ -1286,5 +1234,4 @@ window.addEventListener('resize', resizeCanvas, false);
 window.onload = function(){
 	lightSpot.image.onload = function(){};
 	lightSpot.image.src = "assets/garden_lightShaftSpot.png";
-	// resizeCanvas();
 };

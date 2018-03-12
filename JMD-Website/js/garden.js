@@ -1,15 +1,20 @@
 //######################SETUP##########################
 
 // importing Data from googleSpreadsheets CONTENT
-document.addEventListener('DOMContentLoaded', function() {
-	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
-	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
-})
+// document.addEventListener('DOMContentLoaded', function() {
+// 	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
+// 	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
+// })
 //importing Data from googleSpreadsheets INFORMATIONAL DATA
-document.addEventListener('DOMContentLoaded', function() {
-	var URL = "https://docs.google.com/spreadsheets/d/112kX1SjyxW9D7rQ69ovMpJBAJluQoIbhlhMxlSrfSBw/edit?usp=sharing"
-	Tabletop.init( { key: URL, callback: infoData, simpleSheet: true } )
-})
+// document.addEventListener('DOMContentLoaded', function() {
+// 	var URL = "https://docs.google.com/spreadsheets/d/112kX1SjyxW9D7rQ69ovMpJBAJluQoIbhlhMxlSrfSBw/edit?usp=sharing"
+// 	Tabletop.init( { key: URL, callback: infoData, simpleSheet: true } )
+// })
+
+document.addEventListener("DOMContentLoaded", function(event) {
+	contentData()
+	infoData()
+  });
 
 // linking & importing objects to the html
 var canvasBg = document.getElementById("background-canvas");
@@ -91,61 +96,38 @@ var pillar = {
 		{x: 5, y: 3200},
 		{x: 70, y: 3665},
 		{x: 100, y: 5070},
-		{x: 10, y: 5470},
+		{x: 10, y: 5470},//5
 		{x: 90, y: 6390},
-		{x: 10, y: 7670},
+		{x: 10, y: 7500},
 		{x: 100, y: 8200},
-		{x: 0, y: 9370},
-		{x: 40, y: 10670},
+		{x: 0, y: 9200},
+		{x: 40, y: 10500},//10
 		{x: 10, y: 12070},
-		{x: 100, y: 12570},
+		{x: 70, y: 12570},
 		{x: 0, y: 13570},
 		{x: 10, y: 14600},
-		{x: 90, y: 14770},
-		{x: 20, y: 16360},
+		{x: 90, y: 14650},//15
+		{x: 20, y: 16300},
 		{x: 0, y: 17260},
 		{x: 87, y: 17460},
-		{x: 34, y: 18360},
-		{x: 89, y: 18960},
-		{x: 80, y: 19860},
-		{x: 10, y: 20300},
-		{x: 50, y: 20800},
-		{x: 80, y: 21560},
-		{x: 100, y: 22860},
-		{x: 30, y: 23860},
-		{x: 70, y: 24500},
+		{x: 34, y: 18600},
+		{x: 89, y: 18960},//20
+		{x: 80, y: 19900},
+		{x: 10, y: 20550},
+		{x: 35, y: 21050},
+		{x: 80, y: 21760},
+		{x: 90, y: 22860},
+		{x: 30, y: 23600},
+		{x: 70, y: 24300},
 		{x: 5, y: 25240},
-		{x: 12, y: 26440},
+		{x: 12, y: 26500},
 		{x: 100, y: 27000},
 		{x: 40, y: 27800},
-		{x: 0, y: 28400},
-		{x: 65, y: 28700},
+		{x: 65, y: 28600},
+		{x: 0, y: 28800},
 		{x: 0, y: 30400},
-		{x: 80, y: 31400},
-		{x: 0, y: 32900},
-		// {x: 10, y: 9900},
-		// {x: 10, y: 1070},
-		// {x: 370, y: 5500},
-		// {x:1095, y: 6200},
-		// {x:1095, y: 6950},
-		// {x:370, y: 7400},
-		// {x:1000, y: 8300},
-		// {x:1095, y: 9100},
-		// {x:370, y: 9100},
-		// {x:565, y: 9800},
-		// {x:1095, y: 10130},
-		// {x:565, y: 10400},
-		// {x:370, y: 11000},
-		// {x:1095, y: 11800},
-		// {x:565, y: 11800},
-		// {x:370, y: 12300},
-		// {x:1200, y: 12900},
-		// {x:750, y: 13500},
-		// {x:370, y: 14400},
-		// {x:255, y: 15800},
-		// {x:1405, y: 16200},
-		// {x:1205, y: 16800},
-		// {x:370, y: 17000},
+		{x: 85, y: 31400},
+		{x: 0, y: 33100},
 		{x: 476, y: 1000000000099909877788}
 	],
 }
@@ -794,8 +776,11 @@ function scrollLight(sectionAnkers){
 	}
 }
 
+
 //Everything visible in the canvas
 function draw(){
+	drawLog +=1
+
 	segments = []
 
 	calcSegments(1, pillar.points.length-1, pillar.size, lightContentHeight);
@@ -872,11 +857,11 @@ function draw(){
 }
 
 //fills the content in the white info-area from a spreadsheet
-function infoData(data){
+function infoData(){
+	//console.log(JSON.stringify(data));
+	for(i=0; i<dataInfo.length; i++){
 
-	for(i=0; i<data.length; i++){
-
-		var this_content = data[i];
+		var this_content = dataInfo[i];
 
 		var div = document.createElement("div");
 		var h3 = document.createElement("h3");
@@ -904,13 +889,19 @@ function infoData(data){
 	}
 	infoLoaded = true
 }
-
+//
+// var dataCSV  =
+// for(i=0; i<dataCSV.length; i++){
+// 	console.log(dataCSV[i].class);
+// }
 //fills the content in the dark content-area from a spreadsheet
-function contentData(data){
+function contentData(){
 
-	for(i=0; i<data.length; i++){
 
-		var this_content = data[i];
+	for(i=0; i<dataContent.length; i++){
+
+
+		var this_content = dataContent[i];
 
 
 		if(this_content.type === "content"){
@@ -943,13 +934,13 @@ function contentData(data){
 				metadataDiv.className += "metadata-right";
 				subtitleDiv.className += "subtitle-right";
 			}else if (this_content.class === "content-block-middle-left"){
-				emDiv.className += "em-left"
+				emDiv.className += "em-right"
 				imageDiv.className += "image-middle-left"
 				metadataDiv.className += "metadata-middle-left";
 				subtitleDiv.className += "subtitle-middle-left";
 			}else {
 				imageDiv.className += "image-middle-right"
-				emDiv.className += "em-right"
+				emDiv.className += "em-left"
 				metadataDiv.className += "metadata-middle-right";
 				subtitleDiv.className += "subtitle-middle-right";
 			}
@@ -958,7 +949,7 @@ function contentData(data){
 			emNumber.className += "emNumber"
 
 			var em = document.createElement("p");
-			em.innerHTML = "»"+this_content.em+"«"
+			em.innerHTML = this_content.em
 
 			var h2 = document.createElement("h2")
 			h2.innerHTML = this_content.name
@@ -1060,6 +1051,13 @@ function contentData(data){
 	}
 	//breaks text on the right place
 	$('.content-block p').each(function(){
+		var string = $(this).html();
+		for (var i = 0; i < 2; i++){
+			string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
+		}
+		$(this).html(string);
+	});
+	$('.emBlock p').each(function(){
 		var string = $(this).html();
 		for (var i = 0; i < 2; i++){
 			string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
@@ -1271,9 +1269,9 @@ function pageload(t_value, a_value) {
 			$(document.body).css({"overflow-y": "auto"})
 			setTimeout(function(){
 				$(".loader-wrapper:eq(0)").remove();
+				dataLoaded = true;
+				resizeCanvas();
 			}, a_value);
-			dataLoaded = true;
-			resizeCanvas();
 		}else if(contentLoaded || infoLoaded){
 			//executes when half content loaded
 		}else{
@@ -1297,12 +1295,5 @@ window.addEventListener('resize', resizeCanvas, false);
 window.onload = function(){
 	lightSpot.image.onload = function(){};
 	lightSpot.image.src = "assets/garden_lightShaftSpot.png";
-	resizeCanvas();
-};
-
-//everything happening when mouse is moved (reassign canvasto the top one if you wanna use again)
-canvasFg.onmousedown = function(event){
-	Mouse.x = event.clientX;
-	Mouse.y = event.clientY;
-	updateCanvas = true;
+	// resizeCanvas();
 };

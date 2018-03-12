@@ -1144,9 +1144,9 @@ function timeline(){
 			var opacitator = mapArea(maxiPosition - windowOffset, window.innerHeight, window.innerHeight*0.47,0,1)
 
 			//TENS opacity
-			$('.t-element-t:eq('+maxi+')').css({"opacity": opacitator});
+			$('.t-element-t:eq('+maxi+')').css({"opacity": opacitator*opacitator*opacitator});
 			if(sec_maxi>=0){
-			$('.t-element-t:eq('+sec_maxi+')').css({"opacity": 1-opacitator});
+			$('.t-element-t:eq('+sec_maxi+')').css({"opacity": 1-opacitator*opacitator});
 			}
 			//TENS transformation
 			var transformer = mapArea(opacitator, 0, 1, window.innerHeight/2.4, 0)
@@ -1164,10 +1164,10 @@ function timeline(){
 				}
 
 				//HUNS transformation
-				var transformer = mapArea(opacitator, 0, 1, window.innerHeight/2.4, 0)
+				var transformer = mapArea(opacitator, 0, 1, window.innerHeight/4.8, 0)
 					$('.t-element-h:eq('+maxi+')').css({'transform' : 'translate(' + 0 +', ' + transformer + 'px)'});
 					if(sec_maxi>=0){
-					$('.t-element-h:eq('+sec_maxi+')').css({'transform' : 'translate(' + 0 +', ' + (transformer-window.innerHeight/2.4)*0.15 + 'px)'});
+					$('.t-element-h:eq('+sec_maxi+')').css({'transform' : 'translate(' + 0 +', ' + (transformer-window.innerHeight/4.8)*0.15 + 'px)'});
 				}
 			}else{
 				//HUNDS opacity

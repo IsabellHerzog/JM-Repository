@@ -457,10 +457,6 @@ ul.loader{
   font-style: normal;
 }
 
-.content-block p span{
-  opacity: 0.5;
-}
-
 .metadata-middle-right p{
   padding-top: 10px;
   font-size: 15;
@@ -536,6 +532,12 @@ ul.loader{
   font-weight: lighter;
   font-size: 34;
   line-height: 42px;
+}
+
+sup {
+   line-height: 0px;
+   opacity: 0.5;
+   font-size: 12;
 }
 
 /* ------- */

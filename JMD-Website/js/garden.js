@@ -779,7 +779,6 @@ function scrollLight(sectionAnkers){
 
 //Everything visible in the canvas
 function draw(){
-	drawLog +=1
 
 	segments = []
 

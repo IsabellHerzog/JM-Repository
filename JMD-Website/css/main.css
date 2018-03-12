@@ -166,7 +166,7 @@ h2{
   opacity: 0.42;
 }
 
-#impressum-link {
+.impressum-link {
   font-family: 'UniversLTPro-55Light', sans-serif;
   font-size: 12px;
   text-align: left;
@@ -174,28 +174,43 @@ h2{
   opacity: 0.42;
 }
 
-#impressum-link:hover {
-  opacity: 0.6;
-}
-
-#impressum-link:visited {
+a:link {
+  text-decoration: none;
   color: black;
   opacity: 0.42;
 }
 
+a:hover {
+  border-bottom: 2px solid black;
+  color: 0.42;
+}
+
+a:visited {
+  color: black;
+  opacity: 0.42;
+}
+
+a:active {
+  color: black;
+  opacity: 0.42;
+}
 
 #impressum-content-left {
   grid-area: 3/1/4/2;
 }
+
 #impressum-content-middle-left {
   grid-area: 3/2/4/3;
 }
+
 #impressum-content-middle-right {
   grid-area: 3/3/4/4;
 }
+
 #impressum-content-right {
   grid-area: 3/4/4/5;
 }
+
 #light-content-wrapper{
   display: grid;
   grid-template-columns: 1fr 1fr;

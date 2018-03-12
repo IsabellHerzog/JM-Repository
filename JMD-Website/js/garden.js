@@ -1,15 +1,20 @@
 //######################SETUP##########################
 
 // importing Data from googleSpreadsheets CONTENT
-document.addEventListener('DOMContentLoaded', function() {
-	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
-	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
-})
+// document.addEventListener('DOMContentLoaded', function() {
+// 	var URL = "https://docs.google.com/spreadsheets/d/1-gad7ZTDfeKgOinTzHE6wjAboieZLlPA-gpXOnQuz-I/edit?usp=sharing"
+// 	Tabletop.init( { key: URL, callback: contentData, simpleSheet: true } )
+// })
 //importing Data from googleSpreadsheets INFORMATIONAL DATA
-document.addEventListener('DOMContentLoaded', function() {
-	var URL = "https://docs.google.com/spreadsheets/d/112kX1SjyxW9D7rQ69ovMpJBAJluQoIbhlhMxlSrfSBw/edit?usp=sharing"
-	Tabletop.init( { key: URL, callback: infoData, simpleSheet: true } )
-})
+// document.addEventListener('DOMContentLoaded', function() {
+// 	var URL = "https://docs.google.com/spreadsheets/d/112kX1SjyxW9D7rQ69ovMpJBAJluQoIbhlhMxlSrfSBw/edit?usp=sharing"
+// 	Tabletop.init( { key: URL, callback: infoData, simpleSheet: true } )
+// })
+
+document.addEventListener("DOMContentLoaded", function(event) {
+	contentData()
+	infoData()
+  });
 
 // linking & importing objects to the html
 var canvasBg = document.getElementById("background-canvas");
@@ -851,11 +856,11 @@ function draw(){
 }
 
 //fills the content in the white info-area from a spreadsheet
-function infoData(data){
+function infoData(){
+	//console.log(JSON.stringify(data));
+	for(i=0; i<dataInfo.length; i++){
 
-	for(i=0; i<data.length; i++){
-
-		var this_content = data[i];
+		var this_content = dataInfo[i];
 
 		var div = document.createElement("div");
 		var h3 = document.createElement("h3");
@@ -883,13 +888,19 @@ function infoData(data){
 	}
 	infoLoaded = true
 }
-
+//
+// var dataCSV  =
+// for(i=0; i<dataCSV.length; i++){
+// 	console.log(dataCSV[i].class);
+// }
 //fills the content in the dark content-area from a spreadsheet
-function contentData(data){
+function contentData(){
 
-	for(i=0; i<data.length; i++){
 
-		var this_content = data[i];
+	for(i=0; i<dataContent.length; i++){
+
+
+		var this_content = dataContent[i];
 
 
 		if(this_content.type === "content"){

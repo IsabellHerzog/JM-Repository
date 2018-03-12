@@ -400,6 +400,10 @@ ul.loader{
     transform: rotate(-90deg);
 }
 
+.t-element-h p{
+  transform: rotate(-90deg);
+}
+
 .t-element-h{
   font-family: 'UniversLTPro-55Roman', sans-serif;
   transform: rotate(-90deg);
@@ -834,11 +838,11 @@ img{
   -webkit-transform: translate(0, -3vh);
 }
 
-.timeline.animate{
+#timeline.animate{
   opacity: 0;
 }
 
-.timeline.animate-back{
+#timeline.animate-back{
   opacity: 1;
 }
 

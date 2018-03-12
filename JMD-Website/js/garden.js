@@ -779,8 +779,6 @@ function scrollLight(sectionAnkers){
 
 //Everything visible in the canvas
 function draw(){
-	drawLog +=1
-
 	segments = []
 
 	calcSegments(1, pillar.points.length-1, pillar.size, lightContentHeight);
@@ -1110,70 +1108,77 @@ function timeline(){
 
 	//hides timeline if it is outside the dark-conten-wrapper UPDATE Necessary
 	if(windowOffset>get_boundaries('#light-content-wrapper2', 'id').top || windowOffset<get_boundaries('#light-content-wrapper', 'id').bot){
-		$('.timeline:eq(0)').addClass("animate")
-		$('.timeline:eq(0)').removeClass("animate-back")
+		$('#timeline').addClass("animate")
+		$('#timeline').removeClass("animate-back")
 	}else{
-		$('.timeline:eq(0)').addClass("animate-back")
-		$('.timeline:eq(0)').removeClass("animate")
+		$('#timeline').addClass("animate-back")
+		$('#timeline').removeClass("animate")
 	}
 
-	for(var i=0; i<6; i++){
+	var maxi
+
+	for(var i=0; i<t_years.positions.length; i++){
+
+		$('.t-element-t:eq('+i+')').css({"opacity": 0});
+		$('.t-element-t:eq('+i+')').css({'transform' : 'translate(' + 0 +', ' + 0 + ')'});
 
 		$('.t-element-h:eq('+i+')').css({"opacity": 0});
+		$('.t-element-h:eq('+i+')').css({'transform' : 'translate(' + 0 +', ' + 0 + ')'});
 
-		var top_ten = 0.34
-		var zero_ten = 0.47
-		var bottom_ten = window.innerHeight
-		var time_position = t_years.positions[i]-windowOffset
+		var time_position = t_years.positions[i] - windowOffset
 
 		//case section is between middle and bottom of the screen
-		if(time_position > window.innerHeight*zero_ten && time_position<=bottom_ten){
-
-			//moving stuff
-			var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*zero_ten,0,1)
-
-			//ten elements moves and opacity changes
-			var t_maxShiftBot = window.innerHeight/2
-			var elementTransformer = mapArea(opacitator, 0, 1, t_maxShiftBot, 0) + "px"
-			$('.t-element-t:eq('+i+')').css({'transform' : 'translate(' + 0 +', ' + elementTransformer + ')'});
-			$('.t-element-t:eq('+i+')').css({"opacity": opacitator*opacitator*opacitator});
-
-			if(i>0){
-			var negElTransformer = mapArea(opacitator, 1, 0, -t_maxShiftBot*0.1, 0) + "px"
-			$('.t-element-t:eq('+(i-1)+')').css({'transform' : 'translate(' + 0 +', ' + negElTransformer + ')'});
-			$('.t-element-t:eq('+(i-1)+')').css({"opacity": 1-opacitator});
+		if(time_position <= window.innerHeight){
+			maxi = i
 			}
+		}
 
-			//hundreds (same)!!!!!!!!!!!
+		var maxiPosition = t_years.positions[maxi]
 
-		//case section is above the middle of the screen
-	}else if(time_position<=window.innerHeight*47){
-
-			$('.t-element-t:eq('+i+')').css({'transform' : 'translate(' + 0 +', ' + 0 + ')'});
-			$('.t-element-t:eq('+i+')').css({"opacity": 1});
-
-			if(i>0){
-				$('.t-element-t:eq('+(i-1)+')').css({"opacity": 0});
-			}
-
-
-			//hundreds
-
-
-		//case section is below the bottom of the screen
+		if((maxiPosition - windowOffset)<=window.innerHeight*0.47 && maxi >= 0){
+			$('.t-element-t:eq('+maxi+')').css({"opacity": 1});
+			$('.t-element-h:eq('+maxi+')').css({"opacity": 1});
 		}else{
-			//tens
-			//remove anim-up
-			if(i === 1){
-			console.log("element 2 is now below bottom of the screen");
-		}
-			//hundreds
-		}
 
-hundreds = t_years.hundreds[i];
-section_active = t_years.positions[i];
-	}
-}
+			var sec_maxi = maxi-1
+			var opacitator = mapArea(maxiPosition - windowOffset, window.innerHeight, window.innerHeight*0.47,0,1)
+
+			//TENS opacity
+			$('.t-element-t:eq('+maxi+')').css({"opacity": opacitator});
+			if(sec_maxi>=0){
+			$('.t-element-t:eq('+sec_maxi+')').css({"opacity": 1-opacitator});
+			}
+			//TENS transformation
+			var transformer = mapArea(opacitator, 0, 1, window.innerHeight/2.4, 0)
+				$('.t-element-t:eq('+maxi+')').css({'transform' : 'translate(' + 0 +', ' + transformer + 'px)'});
+				if(sec_maxi>=0){
+				$('.t-element-t:eq('+sec_maxi+')').css({'transform' : 'translate(' + 0 +', ' + (transformer-window.innerHeight/2.4)*0.15 + 'px)'});
+			}
+
+
+			if(t_years.hundreds[maxi-1] != t_years.hundreds[maxi]){
+				//HUNDS opacity
+				$('.t-element-h:eq('+maxi+')').css({"opacity": opacitator});
+				if(sec_maxi>=0){
+				$('.t-element-h:eq('+sec_maxi+')').css({"opacity": 1-opacitator});
+				}
+
+				//HUNS transformation
+				var transformer = mapArea(opacitator, 0, 1, window.innerHeight/2.4, 0)
+					$('.t-element-h:eq('+maxi+')').css({'transform' : 'translate(' + 0 +', ' + transformer + 'px)'});
+					if(sec_maxi>=0){
+					$('.t-element-h:eq('+sec_maxi+')').css({'transform' : 'translate(' + 0 +', ' + (transformer-window.innerHeight/2.4)*0.15 + 'px)'});
+				}
+			}else{
+				//HUNDS opacity
+				$('.t-element-h:eq('+maxi+')').css({"opacity": 1});
+			}
+
+
+
+		}
+				}
+
 
 //spots element, returns true if it is in viewport or false if not
 function div_visible(divElement, space_top, space_bot){

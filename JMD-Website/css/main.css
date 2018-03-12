@@ -27,9 +27,9 @@
 
 @font-face {
     font-family: 'UniversLTPro-45LightOblique';
-    src: url('../assets/fonts/UniversLTPro-45LightOblique_1.woff2') format('woff2'),
-        url('../assets/fonts/UniversLTPro-45LightOblique_1.woff') format('woff'),
-        url('../assets/fonts/UniversLTPro-45LightOblique_1.ttf') format('truetype');
+    src: url('../assets/fonts/UniversLTPro-45LightOblique.woff2') format('woff2'),
+        url('../assets/fonts/UniversLTPro-45LightOblique.woff') format('woff'),
+        url('../assets/fonts/UniversLTPro-45LightOblique.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -122,6 +122,7 @@ h2{
   margin: 0;
   padding: 0;
   z-index: 100;
+  pointer-events:none;
 }
 
 
@@ -360,12 +361,16 @@ ul.loader{
 
 .t-element-t{
   position: fixed;
-  transform: rotate(-90deg);
   position: fixed;
   z-index: 106;
   top: 47vh;;
   left: 28;
   float: left;
+  opacity: 0;
+}
+
+.t-element-t p{
+    transform: rotate(-90deg);
 }
 
 .t-element-h{
@@ -375,6 +380,7 @@ ul.loader{
   z-index: 103;
   top: 50vh;
   float: right;
+  opacity: 0;
 }
 
 .tnumber{
@@ -807,4 +813,24 @@ img{
   transition: 1.5s ease-in;
   -moz-transition: 1.5s ease-in;
   -webkit-transition: 1.5s ease-in;
+}
+
+.anim-up{
+  transition: 0.3s ease-in;
+  -moz-transition: 0.3s ease-in;
+  -webkit-transition: 0.3s ease-in;
+}
+
+.anim-down{
+  transition: 0.3s ease-in;
+  -moz-transition: 0.3s ease-in;
+  -webkit-transition: 0.3s ease-in;
+}
+
+.t-element-t.anim-up{
+  transform: translate(12vw, 3vh);
+}
+
+.t-element-t.anim-down{
+  transform: translate(12vw, -3vh);
 }

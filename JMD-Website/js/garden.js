@@ -296,8 +296,8 @@ function getAnkers(){
 			div_t.className += "t-element-t";
 			div_h.className += "t-element-h";
 
-			div_t.innerHTML = t_years.tens[i];
-			div_h.innerHTML = t_years.hundreds[i]
+			div_t.innerHTML = "<p>" + t_years.tens[i] +"</p>";
+			div_h.innerHTML = "<p>" + t_years.hundreds[i] +"</p>";
 
 			document.getElementById("timeline").appendChild(div_t);
 			document.getElementById("timeline").appendChild(div_h);
@@ -544,8 +544,6 @@ function resizeCanvas(){
 	lightContentHeight = document.getElementById('light-content-wrapper').clientHeight;
 	lightContentHeight = lightContentHeight-1950
 	calcX();
-	//console.log(pillar.points[1]);
-	console.log('resize');
 	updateCanvas = true
 }
 
@@ -1080,7 +1078,6 @@ function shaftText(textID){
 	// var textWidth
 	// var textMargin
 	// if(lightShaft.width <= gridWidth && lightShaft.width >= 714){
-	// 	console.log(lightShaft.width);
 	// 	textWidth = lightShaft.width+"px"
 	// 	textMargin = ($(window).width()/2 - (lightShaft.width+1)/2 + 1)/2
 	// 	text_opacity = mapArea(lightShaft.width, 0.35*window.innerWidth, 0.01*window.innerWidth, 1, 0)
@@ -1113,54 +1110,66 @@ function voidText(textID, left, right){
 //draws the timeline
 function timeline(){
 
-	if(windowOffset>get_boundaries('#light-content-wrapper2', 'id').top){
+	//hides timeline if it is outside the dark-conten-wrapper UPDATE Necessary
+	if(windowOffset>get_boundaries('#light-content-wrapper2', 'id').top || windowOffset<get_boundaries('#light-content-wrapper', 'id').bot){
 		$('.timeline:eq(0)').addClass("animate")
 		$('.timeline:eq(0)').removeClass("animate-back")
-	// }else if(windowOffset<get_boundaries('#light-content-wrapper1', 'id').bot){
-	// 	console.log("hello");
 	}else{
 		$('.timeline:eq(0)').addClass("animate-back")
 		$('.timeline:eq(0)').removeClass("animate")
 	}
 
-	for(var i=0; i<t_years.positions.length; i++){
+	for(var i=0; i<6; i++){
 
+		$('.t-element-h:eq('+i+')').css({"opacity": 0});
+
+		var top_ten = 0.34
+		var zero_ten = 0.47
+		var bottom_ten = window.innerHeight
 		var time_position = t_years.positions[i]-windowOffset
 
-		if(time_position > window.innerHeight*0.47 && time_position<=window.innerHeight){
+		//case section is between middle and bottom of the screen
+		if(time_position > window.innerHeight*zero_ten && time_position<=bottom_ten){
 
 			//moving stuff
-			var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*0.47,0,1)
+			var opacitator = mapArea(time_position, window.innerHeight, window.innerHeight*zero_ten,0,1)
 
-			//tens opacity + position
-			$('#t-moving').text(t_years.tens[i]);
-			$('#t-moving').css({"opacity": (opacitator)});
-			$('#t-moving').css({"top": time_position});
+			//ten elements moves and opacity changes
+			var t_maxShiftBot = window.innerHeight/2
+			var elementTransformer = mapArea(opacitator, 0, 1, t_maxShiftBot, 0) + "px"
+			$('.t-element-t:eq('+i+')').css({'transform' : 'translate(' + 0 +', ' + elementTransformer + ')'});
+			$('.t-element-t:eq('+i+')').css({"opacity": opacitator*opacitator*opacitator});
 
-			$('#t-fixed').css({"top": 47 - opacitator*15+ "vh"});
-			$('#t-fixed').css({"opacity": 1-opacitator});
-
-
-			//tens opacity + position
-			if(hundreds !== t_years.hundreds[i]){
-			$('#h-moving').text(t_years.hundreds[i]);
-			$('#h-moving').css({"opacity": opacitator*opacitator*opacitator});
-			$('#h-moving').css({"top": time_position + 0.03*window.innerHeight + (1-opacitator)*window.innerHeight*0.2});
-			$('#h-fixed').css({"top": 50 - opacitator*12 + "vh"});
-			$('#h-fixed').css({"opacity": 1-opacitator});
+			if(i>0){
+			var negElTransformer = mapArea(opacitator, 1, 0, -t_maxShiftBot*0.1, 0) + "px"
+			$('.t-element-t:eq('+(i-1)+')').css({'transform' : 'translate(' + 0 +', ' + negElTransformer + ')'});
+			$('.t-element-t:eq('+(i-1)+')').css({"opacity": 1-opacitator});
 			}
 
-	}else if(time_position<=window.innerHeight*0.47 && time_position >= 0){
-			$('#t-fixed').css({"top": 47 + "vh"});
-			$('#t-fixed').css({"opacity": 1});
-			$('#t-moving').css({"top": window.innerHeight});
+			//hundreds (same)!!!!!!!!!!!
 
-			$('#t-fixed').text(t_years.tens[i]);
-			$('#h-fixed').text(t_years.hundreds[i]);
+		//case section is above the middle of the screen
+	}else if(time_position<=window.innerHeight*47){
 
-			$('#h-fixed').css({"top": 50 + "vh"});
-			$('#h-fixed').css({"opacity": 1});
-			$('#h-moving').css({"top": window.innerHeight});
+			$('.t-element-t:eq('+i+')').css({'transform' : 'translate(' + 0 +', ' + 0 + ')'});
+			$('.t-element-t:eq('+i+')').css({"opacity": 1});
+
+			if(i>0){
+				$('.t-element-t:eq('+(i-1)+')').css({"opacity": 0});
+			}
+
+
+			//hundreds
+
+
+		//case section is below the bottom of the screen
+		}else{
+			//tens
+			//remove anim-up
+			if(i === 1){
+			console.log("element 2 is now below bottom of the screen");
+		}
+			//hundreds
 		}
 
 hundreds = t_years.hundreds[i];
@@ -1187,9 +1196,6 @@ function div_visible(divElement, space_top, space_bot){
 function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animation_state, leave_animation_state){
 	var section = document.getElementsByClassName(selectorClass)
 
-	// for(i=0; i<section.length; i++){
-	// 	old_section_states[i] = jQuery.extend(true, [], section_states[i]);
-	// }
 
 	for(i=0; i<section.length; i++){
 		section_states[i] = div_visible(section[i], space_top, space_bot)
@@ -1199,7 +1205,6 @@ function triggerClassAnimation(selectorClass, space_top, space_bot, enter_animat
 			if(section_states[n]){
 				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(leave_animation_state);
 				$( "."+selectorClass + ":eq("+ n +")" ).addClass(enter_animation_state);
-				console.log("add item nr. " + n);
 			}else if(!section_states[n]){
 				$( "."+selectorClass + ":eq("+ n +")" ).removeClass(enter_animation_state);
 				$( "."+selectorClass + ":eq("+ n +")" ).addClass(leave_animation_state);
